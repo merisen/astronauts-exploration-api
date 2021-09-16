@@ -1,52 +1,28 @@
 #%RAML 1.0
 title: Astronauts Exploration API
-description: AE-API combines two external API - Astronauts Research API & Expedition API
- 
-  #types:
-  #astronauts: !include datatypes/astronautDataType.raml
-  #iss: !include datatypes/issDataType.raml
-  #iss-astronaut: !include datatypes/issAstronautsDataType.raml
-
+description: AE combine information from two external API - Astronauts Research & Expeditions
+  
 /exploration:
   get:
-    description: Combines interaction with all built-in API
+    description: Retrieve data from query types
     queryParameters:
-      astronauts:
+      # Use of 'data-count' is necessary in order to set the number of displayed requests
+      data-count:
         required: false
-      astronautName:
+      # Use of 'output-type' is necessary in order to set the type of returned data - json, file, link, html
+      output-type:
         required: false
-      issName:
-        required: false
-      nationality:
-        required: false
-      craft:
-        required: false
+      # Use of 'help' is necessary in order to call the page using the API, two options - web page or json text
       help:
         required: false
-    responses:
-      200:
-        body:
-          application/json:
-            type: array
-            #examples:
-              #output: !include example/astronautExample.raml
-  
-      
-/astronauts:
-  get:
-    description: Retrieve a collection of Astronauts
-    queryParameters:
+      # Use of 'astronauts' is necessary in order for the user to get astronauts with SpaceDevs & ISS - all, spacedevs, iss
       astronauts:
         required: false
-      astronautName:
+      # Use of 'iss' is needed to get the actual location of the ISS - raw, link
+      iss:
         required: false
-      issName:
-        required: false
-      nationality:
-        required: false
-      craft:
-        required: false
-      help:
+      # Use 'expedition' to get all space expeditions
+      expedition:
         required: false
     responses:
       200:
@@ -54,22 +30,4 @@ description: AE-API combines two external API - Astronauts Research API & Expedi
           application/json:
             type: array
             examples:
-              output: !include example/astronautExample.raml
- 
-/iss:
-  get:
-    description: Get current location of International Space Station in latitude & longitude
-    queryParameters:
-      link:
-        required: false
-      full:
-        required: false
-      info:
-        required: false
-    responses:
-      200:
-        body:
-          application/json:
-            type: array
-            examples:
-              output: !include example/googleIssExample.raml
+              output: !include api/examples/explorationExample.raml
