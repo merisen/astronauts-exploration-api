@@ -72,6 +72,12 @@
 			<artifactId>mongodb-driver-legacy</artifactId>
 			<version>4.0.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>1.5.2</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
 	</dependencies>
 
 	<repositories>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="con" path="MULE_LIB/org.mule.modules/mule-apikit-module/1.5.2"/>
 	<classpathentry kind="con" path="org.mule.tooling.MULE_PROJECT_LIB"/>
 	<classpathentry kind="con" path="MULE_LIB/org.mule.modules.googlemaps/mule-googlemaps-connector/1.0.0"/>
 	<classpathentry kind="con" path="MULE_LIB/com.mulesoft.connectors/mule-mongodb-connector/6.3.3"/>

@@ -11,6 +11,4 @@ http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/m
 	<sub-flow name="log-at-exit" doc:id="badcff71-ce8d-437e-bcbe-8066f7b51ba1" >
 		<logger level="INFO" doc:name="log-at-exit" doc:id="443885ff-9687-4824-a997-e22e5041a016" message="#[message]"/>
 	</sub-flow>
-	<sub-flow name="request-to-astronauts-research-api" doc:id="0f19bae7-56da-44f8-be64-4c0eed7878a5" />
-	<sub-flow name="request-to-expedition-api" doc:id="a1708733-5777-401b-9971-810438cd70b2" />
 </mule>
