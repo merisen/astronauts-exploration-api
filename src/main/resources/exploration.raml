@@ -1,45 +1,28 @@
 #%RAML 1.0
 title: Astronauts Exploration API
-description: Astronauts research API
- 
-  #types:
-  #astronauts: !include datatypes/astronautDataType.raml
-  #iss: !include datatypes/issDataType.raml
-  #iss-astronaut: !include datatypes/issAstronautsDataType.raml
+description: AE combine information from two external API - Astronauts Research & Expeditions
   
-/astronauts:
+/exploration:
   get:
-    description: Retrieve a collection of Astronauts
+    description: Retrieve data from query types
     queryParameters:
-      astronauts:
+      # Use of 'data-count' is necessary in order to set the number of displayed requests
+      data-count:
         required: false
-      astronautName:
+      # Use of 'output-type' is necessary in order to set the type of returned data - json, file, link, html
+      output-type:
         required: false
-      issName:
-        required: false
-      nationality:
-        required: false
-      craft:
-        required: false
+      # Use of 'help' is necessary in order to call the page using the API, two options - web page or json text
       help:
         required: false
-    responses:
-      200:
-        body:
-          application/json:
-            type: array
-            examples:
-              output: !include example/astronautExample.raml
- 
-/iss:
-  get:
-    description: Get current location of International Space Station in latitude & longitude
-    queryParameters:
-      link:
+      # Use of 'astronauts' is necessary in order for the user to get astronauts with SpaceDevs & ISS - all, spacedevs, iss
+      astronauts:
         required: false
-      full:
+      # Use of 'iss' is needed to get the actual location of the ISS - raw, link
+      iss:
         required: false
-      info:
+      # Use 'expedition' to get all space expeditions
+      expedition:
         required: false
     responses:
       200:
@@ -47,4 +30,4 @@ description: Astronauts research API
           application/json:
             type: array
             examples:
-              output: !include example/googleIssExample.raml
+              output: !include api/examples/explorationExample.raml
