@@ -1,0 +1,24 @@
+connection:
+  host: "localhost"
+  port: "8083"
+
+mongodb:
+  cluster: "astronauts.vzli9.mongodb.net"
+  user: "astros"
+  password: "F9wTbQ80m9cAsrmG"
+  database: "astronauts"
+  issdb: "iss"
+  
+astronauts-research:
+  host: "http://localhost:8081"
+  basepath: "/api/"
+  protocol: "HTTP"
+  
+expeditions:
+  host: "http://localhost:8082"
+  basepath: "/api/"
+  protocol: "HTTP"
+  
+validation:
+  collectionEmpty: "Collection of data empty, please retry!"
+  contactAdmin: "An error occured! Please contact administrator!"

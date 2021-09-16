@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd">
+	<sub-flow name="log-at-start" doc:id="2a742113-6bca-4d8c-abc8-d96996890f9c" >
+		<logger level="INFO" doc:name="log-at-start" doc:id="2bcd233f-984f-4cfd-8acc-8203bfbc2c1e" message="#[message]"/>
+	</sub-flow>
+	<sub-flow name="log-at-exit" doc:id="badcff71-ce8d-437e-bcbe-8066f7b51ba1" >
+		<logger level="INFO" doc:name="log-at-exit" doc:id="443885ff-9687-4824-a997-e22e5041a016" message="#[message]"/>
+	</sub-flow>
+</mule>
