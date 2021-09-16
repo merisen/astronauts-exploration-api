@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<mongo:config name="MongoDB_Config" doc:name="MongoDB Config" doc:id="639e0f47-6e65-4b7d-bb8d-6b82f97689db" >
-		<mongo:connection serverAddresses="astronauts.vzli9.mongodb.net" database="astronauts" username="astros" password="F9wTbQ80m9cAsrmG"/>
+	<mongo:config name="ASTRONAUTS_TABLE_CONNECTION" doc:name="MongoDB Config" doc:id="639e0f47-6e65-4b7d-bb8d-6b82f97689db" >
+		<mongo:connection-string-connection connectionString="${mongodb.astronauts_table}" />
 	</mongo:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="2854b5ce-89e6-4942-91c8-648bafbd338b" file="config.yaml" />
 	<http:request-config name="REQUEST_TO_ASTRONAUTS_RESEARCH_API" doc:name="HTTP Request configuration" doc:id="2d5d0af1-1270-441a-8a18-77dc970f4409" basePath="${astronauts-research.basepath}">
@@ -18,4 +20,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	<http:listener-config name="MAIN_LISTENER_CONFIG" doc:name="HTTP Listener config" doc:id="347c6af4-f99c-4fcf-af37-da69f33760e6" >
 		<http:listener-connection host="${connection.host}" port="${connection.port}" />
 	</http:listener-config>
+	<mongo:config name="ISS_TABLE_CONNECTION" doc:name="MongoDB Config" doc:id="ea808066-ca76-4216-99cd-4bf2ec8558da" >
+		<mongo:connection-string-connection connectionString="${mongodb.iss_table}" />
+	</mongo:config>
+	<apikit:config name="exploration-config" api="exploration.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 </mule>

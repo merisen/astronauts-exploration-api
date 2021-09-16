@@ -1,7 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="exploration" doc:id="976fd441-b4ce-4a12-b56a-21dc9dbd74bd" >
+		<flow-ref doc:name="log-at-start" doc:id="6e56d153-0407-4535-9879-a0f91db3c9c2" name="log-at-start"/>
+		<set-variable value='#[message.attributes.queryParams is ""]' doc:name="request-type" doc:id="77413eaf-1032-4479-98e6-2d25f63dc764" variableName="requestType"/>
+		<choice doc:name="Choice" doc:id="635f36ba-02bb-4714-aa10-5d3ab2bc305d" >
+			<when expression="#[vars.requestType is true]">
+				<flow-ref doc:name="exploration-vars" doc:id="85281843-e7a8-4f68-a506-8360db880c71" name="exploration-vars"/>
+				<ee:transform doc:name="test" doc:id="7ace41b7-ce21-4075-b9e5-8ecdc5e0e742" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	variables: "init"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
+			</when>
+			<otherwise >
+				<set-payload value='#["default"]' doc:name="default" doc:id="a854e88e-c121-4ed8-97ab-62f3e548ac35" />
+			</otherwise>
+		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="6711123b-eb85-4b44-aff1-7dff3d2433c6" name="log-at-exit"/>
+	</sub-flow>
+	<sub-flow name="astronauts-exploration" doc:id="05a1da36-ab69-4596-ba67-ff0c3862932f" >
+		<flow-ref doc:name="log-at-start" doc:id="67657759-6339-40c1-831c-2cc592c716e9" name="log-at-start"/>
+		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="103c176c-ad7b-4e3c-8556-cc7c155736b8" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
+		<choice doc:name="Choice" doc:id="d04ef314-95ce-480b-9d9a-e23ac501d3b5" >
+			<when expression='#[not vars."astronauts-collection"]'>
+				<mongo:create-collection doc:name="astronauts-collection" doc:id="5abbb674-f45a-4786-9457-e8de759962a1" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="collection-astronauts-exist" doc:id="8dee10cd-78be-4120-8c80-d8da860e2563" message="#[&quot;Collection 'astronauts' exist!&quot;]"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
 </mule>

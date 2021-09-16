@@ -11,4 +11,12 @@ http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/m
 	<sub-flow name="log-at-exit" doc:id="badcff71-ce8d-437e-bcbe-8066f7b51ba1" >
 		<logger level="INFO" doc:name="log-at-exit" doc:id="443885ff-9687-4824-a997-e22e5041a016" message="#[message]"/>
 	</sub-flow>
+	<sub-flow name="exploration-vars" doc:id="f3ef2b02-fc0f-46d2-8f3c-4ca4d3bdbed6" >
+		<set-variable value='#[message.attributes.queryParams."data-count"]' doc:name="data-count" doc:id="8a116ebe-6689-459b-8c39-adae6af012c8" variableName="data_count"/>
+		<set-variable value='#[message.attributes.queryParams."output-type"]' doc:name="output-type" doc:id="229c0dc9-7b18-43e7-8ae6-98b0052f81b6" variableName="output_type"/>
+		<set-variable value="#[message.attributes.queryParams.help]" doc:name="help" doc:id="def58981-f27d-4559-a603-cd1a15022263" variableName="help"/>
+		<set-variable value="#[message.attributes.queryParams.astronauts]" doc:name="astronauts" doc:id="71800c93-b7e6-46e5-9f31-03f1e9ae033d" variableName="astronauts"/>
+		<set-variable value="#[message.attributes.queryParams.iss]" doc:name="iss" doc:id="15e4d840-1260-4328-a327-09120ddad155" variableName="iss"/>
+		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="e79cfec3-103d-47ec-927e-799e84782b66" variableName="expedition"/>
+	</sub-flow>
 </mule>

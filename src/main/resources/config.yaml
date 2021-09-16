@@ -8,6 +8,8 @@ mongodb:
   password: "F9wTbQ80m9cAsrmG"
   database: "astronauts"
   issdb: "iss"
+  astronauts_table: "mongodb+srv://astros:F9wTbQ80m9cAsrmG@astronauts.vzli9.mongodb.net/astronauts"
+  iss_table: "mongodb+srv://astros:F9wTbQ80m9cAsrmG@astronauts.vzli9.mongodb.net/astronauts"
   
 astronauts-research:
   host: "http://localhost:8081"
