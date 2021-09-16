@@ -1,0 +1,50 @@
+#%RAML 1.0
+title: Astronauts Exploration API
+description: Astronauts research API
+ 
+  #types:
+  #astronauts: !include datatypes/astronautDataType.raml
+  #iss: !include datatypes/issDataType.raml
+  #iss-astronaut: !include datatypes/issAstronautsDataType.raml
+  
+/astronauts:
+  get:
+    description: Retrieve a collection of Astronauts
+    queryParameters:
+      astronauts:
+        required: false
+      astronautName:
+        required: false
+      issName:
+        required: false
+      nationality:
+        required: false
+      craft:
+        required: false
+      help:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            examples:
+              output: !include example/astronautExample.raml
+ 
+/iss:
+  get:
+    description: Get current location of International Space Station in latitude & longitude
+    queryParameters:
+      link:
+        required: false
+      full:
+        required: false
+      info:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            examples:
+              output: !include example/googleIssExample.raml
