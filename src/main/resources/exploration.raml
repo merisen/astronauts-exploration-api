@@ -1,12 +1,37 @@
 #%RAML 1.0
 title: Astronauts Exploration API
-description: Astronauts research API
+description: AE-API combines two external API - Astronauts Research API & Expedition API
  
   #types:
   #astronauts: !include datatypes/astronautDataType.raml
   #iss: !include datatypes/issDataType.raml
   #iss-astronaut: !include datatypes/issAstronautsDataType.raml
+
+/exploration:
+  get:
+    description: Combines interaction with all built-in API
+    queryParameters:
+      astronauts:
+        required: false
+      astronautName:
+        required: false
+      issName:
+        required: false
+      nationality:
+        required: false
+      craft:
+        required: false
+      help:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            #examples:
+              #output: !include example/astronautExample.raml
   
+      
 /astronauts:
   get:
     description: Retrieve a collection of Astronauts
