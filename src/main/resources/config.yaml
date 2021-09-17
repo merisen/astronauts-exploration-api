@@ -13,19 +13,9 @@ mongodb:
   
 astronauts-research:
   host: "http://localhost:8081/api/astronauts"
-  folder:
-    out: "/Volumes/Drive/AstronautsAPI/astronauts-exploration/src/main/resources/api/csv/"
-  filename:
-      prefix: "astronauts-research-spacedevs"
-      ext: ".csv"
   
 astronauts-research-iss:
   host: "http://localhost:8081/api/iss"
-  folder:
-    out: "/Volumes/Drive/AstronautsAPI/astronauts-exploration/src/main/resources/api/csv/"
-  filename:
-      prefix: "astronauts-research-iss"
-      ext: ".csv"
 
 expeditions:
   host: "http://localhost:8082/api/"

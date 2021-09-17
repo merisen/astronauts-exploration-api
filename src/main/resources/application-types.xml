@@ -348,13 +348,4 @@ type all_astronauts = Array<{|  results: Array<{|    id: Number {"typeId": "int"
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
-  <types:enrichment select="#0ea35e03-095c-4349-b4f6-61033429c1ff">
-    <types:processor-declaration>
-      <types:input-event>
-        <types:message>
-          <types:payload type="all-astronauts"/>
-        </types:message>
-      </types:input-event>
-    </types:processor-declaration>
-  </types:enrichment>
 </types:mule>

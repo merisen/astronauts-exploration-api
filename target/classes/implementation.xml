@@ -36,50 +36,51 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<choice doc:name="Choice" doc:id="d7d43eb0-3fb9-4497-91da-894cd6eea223" >
 			<when expression='#[vars.astronauts == "all"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="d00cd875-e1df-4b45-b219-fe4d3dbe2069" name="astronauts-request-transform-message"/>
-				<set-variable value="#[payload]" doc:name="get-payload-to-the-variable" doc:id="c7e81643-2e72-4ca2-b27e-6bb5f04f02c5" variableName="payload_var"/>
 				<ee:transform doc:name="json-array-to-the-json" doc:id="3826b6e3-8005-4961-9878-f44efe104101">
 					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
 output application/json
 ---
-{(payload)}]]></ee:set-payload>
-					</ee:message>
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
 				</ee:transform>
 				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="065346e8-ce01-46aa-8720-439ea7d4854a" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-				<set-variable value='#[Mule::p("astronauts-research.folder.out") ++&#10;Mule::p("astronauts-research.filename.prefix") ++ &#10;"-" ++ &#10;(random() * 10 as String) ++&#10;Mule::p("astronauts-research.filename.ext")]' doc:name="csv-file" doc:id="49b1c5ac-033b-4e6d-96a2-ac6f32390a23" variableName="csv_file"/>
-				<ee:transform doc:name="json-array-to-csv" doc:id="0ea35e03-095c-4349-b4f6-61033429c1ff">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/csv header = true
----
-flatten(payload.results) map ((results, index) -> {
-        astronaut_name: results.name,
-        date_of_birth: results.date_of_birth,
-        nationality: results.nationality,
-        wiki: results.wiki,
-        agency_name: results.agency.name,
-        last_flight: results.last_flight,
-        first_flight: results.first_flight,
-    }
-)]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<file:write doc:name="write-data-to-the-file" doc:id="b424116b-91c5-4693-9c5b-aa8871f1c5c2" path="#[vars.csv_file]" mode="CREATE_NEW">
-					<file:content ><![CDATA[#[output application/csv header=false
----
-payload]]]></file:content>
-				</file:write>
-				<file:read doc:name="read-csv-file" doc:id="3aa1b511-8db5-4605-82af-cc1038bd5294" path="#[vars.csv_file]"/>
-				<set-payload value="#[vars.payload_var]" doc:name="request-output" doc:id="4e7a5841-f905-420d-be4b-f759e16fb6ac" />
 			</when>
 			<when expression='#[vars.astronauts == "spacedevs"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="35764f57-c626-48d2-a3c7-1dd39d2306e2" name="astronauts-request-transform-message"/>
-				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="f94a9047-7045-4411-8806-325bff2b80e0" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+				<ee:transform doc:name="json-array-to-the-json" doc:id="86717ca9-65ea-420b-af2e-7a1bf142e148">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
+output application/json
+---
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="f94a9047-7045-4411-8806-325bff2b80e0" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
+				</mongo:insert-document>
 			</when>
 			<when expression='#[vars.astronauts == "iss"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="e69451ce-e355-4bb0-af3e-191f12e9b0b4" name="astronauts-request-transform-message"/>
-				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="44ccca16-5cdf-4e80-84a3-5f49084fed4c" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+				<ee:transform doc:name="json-array-to-the-json" doc:id="0f3f5d49-801c-4858-b0f7-03837a8e5847">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
+output application/json
+---
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="44ccca16-5cdf-4e80-84a3-5f49084fed4c" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
+				</mongo:insert-document>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="info-help-output" doc:id="e7c60863-a18b-4c02-85e2-4a8bb435b8d1" name="help-var"/>
