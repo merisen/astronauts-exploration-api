@@ -23,8 +23,8 @@ output application/json
 				</ee:transform>
 				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
 			</when>
-			<otherwise >
-				<set-payload value='#["default"]' doc:name="default" doc:id="a854e88e-c121-4ed8-97ab-62f3e548ac35" />
+			<otherwise>
+				<flow-ref doc:name="info-help-output" doc:id="770c8009-4fe7-4df3-a4f5-b75e4409f108" name="help-var"/>
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="6711123b-eb85-4b44-aff1-7dff3d2433c6" name="log-at-exit"/>

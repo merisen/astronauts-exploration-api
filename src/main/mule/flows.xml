@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
-http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd">
+http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="log-at-start" doc:id="2a742113-6bca-4d8c-abc8-d96996890f9c" >
 		<logger level="INFO" doc:name="log-at-start" doc:id="2bcd233f-984f-4cfd-8acc-8203bfbc2c1e" message="#[message]"/>
 	</sub-flow>
@@ -18,5 +19,30 @@ http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/m
 		<set-variable value="#[message.attributes.queryParams.astronauts]" doc:name="astronauts" doc:id="71800c93-b7e6-46e5-9f31-03f1e9ae033d" variableName="astronauts"/>
 		<set-variable value="#[message.attributes.queryParams.iss]" doc:name="iss" doc:id="15e4d840-1260-4328-a327-09120ddad155" variableName="iss"/>
 		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="e79cfec3-103d-47ec-927e-799e84782b66" variableName="expedition"/>
+	</sub-flow>
+	<sub-flow name="help-var" doc:id="08a46ee2-a24d-4558-a7d5-1c05f20eb9ae" >
+		<ee:transform doc:name="help-message" doc:id="09de8506-e323-41da-a8e6-3b41191fcd4f" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="help_var" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Transform output formats": "output-type : json, file, link, html",
+		"Get Astronauts": "astronauts : all, spacedevs, iss",
+		"Get International Space Station": "iss : raw, location",
+		"Get Astronauts Expedition": "expedition : sorted, full"
+	}
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
 	</sub-flow>
 </mule>
