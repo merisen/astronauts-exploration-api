@@ -11,12 +11,6 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<mongo:connection-string-connection connectionString="${mongodb.astronauts_table}" />
 	</mongo:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="2854b5ce-89e6-4942-91c8-648bafbd338b" file="config.yaml" />
-	<http:request-config name="REQUEST_TO_ASTRONAUTS_RESEARCH_API" doc:name="HTTP Request configuration" doc:id="2d5d0af1-1270-441a-8a18-77dc970f4409" basePath="${astronauts-research.basepath}">
-		<http:request-connection host="${astronauts-research.host}" />
-	</http:request-config>
-	<http:request-config name="REQUEST_TO_EXPEDITION_API" doc:name="HTTP Request configuration" doc:id="0bed1635-67f3-4b44-b009-dd14441214ce" basePath="${expeditions.basepath}" >
-		<http:request-connection host="${expeditions.host}" />
-	</http:request-config>
 	<http:listener-config name="MAIN_LISTENER_CONFIG" doc:name="HTTP Listener config" doc:id="347c6af4-f99c-4fcf-af37-da69f33760e6" >
 		<http:listener-connection host="${connection.host}" port="${connection.port}" />
 	</http:listener-config>

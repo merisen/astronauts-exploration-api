@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps"
-	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="log-at-start" doc:id="2a742113-6bca-4d8c-abc8-d96996890f9c" >
 		<logger level="INFO" doc:name="log-at-start" doc:id="2bcd233f-984f-4cfd-8acc-8203bfbc2c1e" message="#[message]"/>
 	</sub-flow>
@@ -44,5 +45,434 @@ output application/json
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+	</sub-flow>
+	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >
+		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
+		<http:request method="GET" doc:name="request-to-astronauts-research-api" doc:id="4015cea4-b186-4187-ad17-9ee3f345293d" url="${astronauts-research.host}">
+			<http:query-params ><![CDATA[#[{
+	astronauts: vars.astronauts
+}]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="c14a1b14-b602-41a6-b7ed-c90ecf485cf5" >
+			<when expression='#[vars.astronauts == "all"]'>
+				<ee:transform doc:name="all-astronauts" doc:id="89f37b55-906a-4b0b-b28d-a4d20232d671" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "results": [
+            {
+                "id": 276,
+                "name": "Franz Viehböck",
+                "date_of_birth": "1960-08-24",
+                "nationality": "Austrian",
+                "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+                "agency": {
+                    "name": "Austrian Space Agency"
+                },
+                "last_flight": "1991-10-02T05:59:38Z",
+                "first_flight": "1991-10-02T05:59:38Z"
+            },
+            {
+                "id": 225,
+                "name": "Marcos Pontes",
+                "date_of_birth": "1963-03-11",
+                "nationality": "Brazilian",
+                "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+                "agency": {
+                    "name": "Brazilian Space Agency"
+                },
+                "last_flight": "2006-03-30T02:30:00Z",
+                "first_flight": "2006-03-30T02:30:00Z"
+            },
+            {
+                "id": 59,
+                "name": "Aleksandr Panayotov Aleksandrov",
+                "date_of_birth": "1951-12-01",
+                "nationality": "Bulgarian",
+                "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+                "agency": {
+                    "name": "Bulgarian Space Agency"
+                },
+                "last_flight": "1988-06-07T14:03:13Z",
+                "first_flight": "1988-06-07T14:03:13Z"
+            },
+            {
+                "id": 112,
+                "name": "Marc Garneau",
+                "date_of_birth": "1949-02-23",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2000-12-01T03:06:00Z",
+                "first_flight": "1984-10-05T11:03:00Z"
+            },
+            {
+                "id": 125,
+                "name": "Jeremy Hansen",
+                "date_of_birth": "1976-01-27",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": null,
+                "first_flight": null
+            },
+            {
+                "id": 6,
+                "name": "David Saint-Jacques",
+                "date_of_birth": "1970-01-06",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2018-12-03T11:31:52Z",
+                "first_flight": "2018-12-03T11:31:52Z"
+            },
+            {
+                "id": 5,
+                "name": "Chris Hadfield",
+                "date_of_birth": "1959-08-29",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2012-12-19T12:12:35Z",
+                "first_flight": "1995-11-12T12:30:43Z"
+            },
+            {
+                "id": 188,
+                "name": "Steve MacLean",
+                "date_of_birth": "1954-12-14",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2006-09-09T15:14:55Z",
+                "first_flight": "1992-10-22T14:05:53Z"
+            },
+            {
+                "id": 220,
+                "name": "Julie Payette",
+                "date_of_birth": "1963-10-20",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2009-07-15T22:03:00Z",
+                "first_flight": "1999-05-27T10:49:42Z"
+            },
+            {
+                "id": 265,
+                "name": "Robert Thirsk",
+                "date_of_birth": "1953-08-17",
+                "nationality": "Canadian",
+                "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+                "agency": {
+                    "name": "Canadian Space Agency"
+                },
+                "last_flight": "2009-05-27T10:34:53Z",
+                "first_flight": "1996-06-20T14:49:00Z"
+            }
+        ]
+    },
+    {
+        "people": [
+            {
+                "name": "Mark Vande Hei",
+                "craft": "ISS"
+            },
+            {
+                "name": "Oleg Novitskiy",
+                "craft": "ISS"
+            },
+            {
+                "name": "Pyotr Dubrov",
+                "craft": "ISS"
+            },
+            {
+                "name": "Thomas Pesquet",
+                "craft": "ISS"
+            },
+            {
+                "name": "Megan McArthur",
+                "craft": "ISS"
+            },
+            {
+                "name": "Shane Kimbrough",
+                "craft": "ISS"
+            },
+            {
+                "name": "Akihiko Hoshide",
+                "craft": "ISS"
+            },
+            {
+                "name": "Nie Haisheng",
+                "craft": "Tiangong"
+            },
+            {
+                "name": "Liu Boming",
+                "craft": "Tiangong"
+            },
+            {
+                "name": "Tang Hongbo",
+                "craft": "Tiangong"
+            },
+            {
+                "name": "Chris Sembroski",
+                "craft": "Resilience"
+            },
+            {
+                "name": "Hayley Arceneaux",
+                "craft": "Resilience"
+            },
+            {
+                "name": "Sian Procto",
+                "craft": "Resilience"
+            },
+            {
+                "name": "Jared Isaacman",
+                "craft": "Resilience"
+            }
+        ]
+    }
+]]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression='#[vars.astronauts == "spacedevs"]'>
+				<ee:transform doc:name="spacedevs-astronauts" doc:id="6c846d17-d823-4276-8139-82f36ec838d3" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "results": [
+        {
+            "id": 276,
+            "name": "Franz Viehböck",
+            "date_of_birth": "1960-08-24",
+            "nationality": "Austrian",
+            "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+            "agency": {
+                "name": "Austrian Space Agency"
+            },
+            "last_flight": "1991-10-02T05:59:38Z",
+            "first_flight": "1991-10-02T05:59:38Z"
+        },
+        {
+            "id": 225,
+            "name": "Marcos Pontes",
+            "date_of_birth": "1963-03-11",
+            "nationality": "Brazilian",
+            "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+            "agency": {
+                "name": "Brazilian Space Agency"
+            },
+            "last_flight": "2006-03-30T02:30:00Z",
+            "first_flight": "2006-03-30T02:30:00Z"
+        },
+        {
+            "id": 59,
+            "name": "Aleksandr Panayotov Aleksandrov",
+            "date_of_birth": "1951-12-01",
+            "nationality": "Bulgarian",
+            "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+            "agency": {
+                "name": "Bulgarian Space Agency"
+            },
+            "last_flight": "1988-06-07T14:03:13Z",
+            "first_flight": "1988-06-07T14:03:13Z"
+        },
+        {
+            "id": 112,
+            "name": "Marc Garneau",
+            "date_of_birth": "1949-02-23",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2000-12-01T03:06:00Z",
+            "first_flight": "1984-10-05T11:03:00Z"
+        },
+        {
+            "id": 125,
+            "name": "Jeremy Hansen",
+            "date_of_birth": "1976-01-27",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": null,
+            "first_flight": null
+        },
+        {
+            "id": 6,
+            "name": "David Saint-Jacques",
+            "date_of_birth": "1970-01-06",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2018-12-03T11:31:52Z",
+            "first_flight": "2018-12-03T11:31:52Z"
+        },
+        {
+            "id": 5,
+            "name": "Chris Hadfield",
+            "date_of_birth": "1959-08-29",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2012-12-19T12:12:35Z",
+            "first_flight": "1995-11-12T12:30:43Z"
+        },
+        {
+            "id": 188,
+            "name": "Steve MacLean",
+            "date_of_birth": "1954-12-14",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2006-09-09T15:14:55Z",
+            "first_flight": "1992-10-22T14:05:53Z"
+        },
+        {
+            "id": 220,
+            "name": "Julie Payette",
+            "date_of_birth": "1963-10-20",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-07-15T22:03:00Z",
+            "first_flight": "1999-05-27T10:49:42Z"
+        },
+        {
+            "id": 265,
+            "name": "Robert Thirsk",
+            "date_of_birth": "1953-08-17",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-05-27T10:34:53Z",
+            "first_flight": "1996-06-20T14:49:00Z"
+        }
+    ]
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when expression='#[vars.astronauts == "iss"]'>
+				<ee:transform doc:name="iss-astronauts" doc:id="de34920d-3ec9-4d2e-82eb-ed083a408fdd" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "people": [
+        {
+            "name": "Mark Vande Hei",
+            "craft": "ISS"
+        },
+        {
+            "name": "Oleg Novitskiy",
+            "craft": "ISS"
+        },
+        {
+            "name": "Pyotr Dubrov",
+            "craft": "ISS"
+        },
+        {
+            "name": "Thomas Pesquet",
+            "craft": "ISS"
+        },
+        {
+            "name": "Megan McArthur",
+            "craft": "ISS"
+        },
+        {
+            "name": "Shane Kimbrough",
+            "craft": "ISS"
+        },
+        {
+            "name": "Akihiko Hoshide",
+            "craft": "ISS"
+        },
+        {
+            "name": "Nie Haisheng",
+            "craft": "Tiangong"
+        },
+        {
+            "name": "Liu Boming",
+            "craft": "Tiangong"
+        },
+        {
+            "name": "Tang Hongbo",
+            "craft": "Tiangong"
+        },
+        {
+            "name": "Chris Sembroski",
+            "craft": "Resilience"
+        },
+        {
+            "name": "Hayley Arceneaux",
+            "craft": "Resilience"
+        },
+        {
+            "name": "Sian Procto",
+            "craft": "Resilience"
+        },
+        {
+            "name": "Jared Isaacman",
+            "craft": "Resilience"
+        }
+    ]
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="astronauts-research-api-help-message" doc:id="a5ac0cdf-fe50-410f-8b38-c5383d6779df" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "GitHub": "All updated information and API you cand find here: https://github.com/merisen/astronaut-research-api",
+    "QueryList": {
+        "GetAllAstronauts": "astronauts : all",
+        "GetAstronautsOnlyFromTheSpaceDevs": "astronauts : spacedevs",
+        "GetAstronautsOnlyFromISS": "astronauts : iss",
+        "FilterSpaceDevsAstronautsByName": "astronautName : Marc+Garneau",
+        "FilterSpaceDevsAstronautsByNationality": "nationality : Canadian",
+        "FilterISSAstronautsByName": "issName : Pyotr+Dubrov",
+        "FilterISSAstronautsByCraft": "craft : Tiangong",
+        "GetThisHelpPage": "help : info"
+    }
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
 	</sub-flow>
 </mule>
