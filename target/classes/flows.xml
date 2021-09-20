@@ -7,46 +7,6 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<sub-flow name="log-at-start" doc:id="2a742113-6bca-4d8c-abc8-d96996890f9c" >
-		<logger level="INFO" doc:name="log-at-start" doc:id="2bcd233f-984f-4cfd-8acc-8203bfbc2c1e" message="#[message]"/>
-	</sub-flow>
-	<sub-flow name="log-at-exit" doc:id="badcff71-ce8d-437e-bcbe-8066f7b51ba1" >
-		<logger level="INFO" doc:name="log-at-exit" doc:id="443885ff-9687-4824-a997-e22e5041a016" message="#[message]"/>
-	</sub-flow>
-	<sub-flow name="exploration-vars" doc:id="f3ef2b02-fc0f-46d2-8f3c-4ca4d3bdbed6" >
-		<set-variable value='#[message.attributes.queryParams."data-count"]' doc:name="data-count" doc:id="8a116ebe-6689-459b-8c39-adae6af012c8" variableName="data_count"/>
-		<set-variable value='#[message.attributes.queryParams."output-type"]' doc:name="output-type" doc:id="229c0dc9-7b18-43e7-8ae6-98b0052f81b6" variableName="output_type"/>
-		<set-variable value="#[message.attributes.queryParams.help]" doc:name="help" doc:id="def58981-f27d-4559-a603-cd1a15022263" variableName="help"/>
-		<set-variable value="#[message.attributes.queryParams.astronauts]" doc:name="astronauts" doc:id="71800c93-b7e6-46e5-9f31-03f1e9ae033d" variableName="astronauts"/>
-		<set-variable value="#[message.attributes.queryParams.iss]" doc:name="iss" doc:id="15e4d840-1260-4328-a327-09120ddad155" variableName="iss"/>
-		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="e79cfec3-103d-47ec-927e-799e84782b66" variableName="expedition"/>
-	</sub-flow>
-	<sub-flow name="help-var" doc:id="08a46ee2-a24d-4558-a7d5-1c05f20eb9ae" >
-		<ee:transform doc:name="help-message" doc:id="09de8506-e323-41da-a8e6-3b41191fcd4f" >
-			<ee:message >
-			</ee:message>
-			<ee:variables >
-				<ee:set-variable variableName="help_var" ><![CDATA[%dw 2.0
-output application/json
----
-{
-	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
-	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
-	Authors: "Viktor Duda, Roman Skaskiv",
-	"Available query endpoints for /exploration":
-	{
-		"Get Help page": "help : info",
-		"Display number of requests": "data-count : 12",
-		"Transform output formats": "output-type : json, file, link, html",
-		"Get Astronauts": "astronauts : all, spacedevs, iss",
-		"Get International Space Station": "iss : raw, location",
-		"Get Astronauts Expedition": "expedition : sorted, full"
-	}
-}]]></ee:set-variable>
-			</ee:variables>
-		</ee:transform>
-		<set-payload value="#[vars.help_var]" doc:name="help-output" doc:id="5c467555-c65f-437f-b220-936919964309" />
-	</sub-flow>
 	<sub-flow name="create-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
 		<flow-ref doc:name="log-at-start" doc:id="e0eaa579-11a5-47f6-a52d-e4dd524f9bc7" name="log-at-start"/>
 		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="f1406926-fd41-46a1-85d6-f3ee2cce3942" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
