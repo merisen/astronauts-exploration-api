@@ -120,30 +120,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\exploration:exploration-config">
-        <flow-ref doc:name="exploration-main-subflow" doc:id="8a9968b4-dfef-4af4-8705-898c9e67d7b5" name="exploration" />
+        <flow-ref doc:name="exploration-get-subflow" doc:id="8a9968b4-dfef-4af4-8705-898c9e67d7b5" name="exploration-get" />
     </flow>
     <flow name="post:\exploration:exploration-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-[
-  {
-    "GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
-    "GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
-    Authors: "Viktor Duda, Roman Skaskiv",
-    "Available query endpoints for /exploration": {
-      "Get Help page": "help : info",
-      "Display number of requests": "data-count : 12",
-      "Transform output formats": "output-type : json, file, link, html",
-      "Get Astronauts": "astronauts : all, spacedevs, iss",
-      "Get International Space Station": "iss : raw, location",
-      "Get Astronauts Expedition": "expedition : sorted, full"
-    }
-  }
-]]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="exploration-post-subflow" doc:id="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" name="exploration-post"/>
     </flow>
 </mule>

@@ -516,4 +516,62 @@ output application/json
 			</otherwise>
 		</choice>
 	</sub-flow>
+	<sub-flow name="astronauts-exploration" doc:id="c50e0df4-7926-4a6b-b703-e5a5bff16d6a" >
+		<flow-ref doc:name="log-at-start" doc:id="4565cddd-b28d-4046-9b14-43ff2ff69e2f" name="log-at-start"/>
+		<flow-ref doc:name="check-astronauts-collection" doc:id="a2799af5-7d3a-43b7-87f1-d4bbe31eded5" name="create-astronauts-collection"/>
+		<flow-ref doc:name="exploration-vars" doc:id="ece77920-6aeb-485b-9cb7-fdb2117ad561" name="exploration-vars"/>
+		<choice doc:name="Choice" doc:id="a271af23-1c16-46c6-b11d-67faa79d7c68" >
+			<when expression='#[vars.astronauts == "all"]'>
+				<flow-ref doc:name="astronauts-request-transform-message" doc:id="32c85a18-a3f9-44b7-a878-8471b1bf57a5" name="astronauts-request-transform-message"/>
+				<ee:transform doc:name="json-array-to-the-json" doc:id="493f1a56-35b1-4222-9acd-38bb78aeb1db">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
+output application/json
+---
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="e333b6dd-6b1d-4260-a047-0b3ab1d4a48f" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
+				</mongo:insert-document>
+			</when>
+			<when expression='#[vars.astronauts == "spacedevs"]'>
+				<flow-ref doc:name="astronauts-request-transform-message" doc:id="3842ddc9-84db-4d7b-b988-2b1883340be5" name="astronauts-request-transform-message"/>
+				<ee:transform doc:name="json-array-to-the-json" doc:id="61f87b5d-d02e-4528-b532-e15d9333a5c4">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
+output application/json
+---
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="4e130673-134c-4e88-899c-caaa3a0dd448" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
+				</mongo:insert-document>
+			</when>
+			<when expression='#[vars.astronauts == "iss"]'>
+				<flow-ref doc:name="astronauts-request-transform-message" doc:id="9a55248c-c7f9-4d96-bcc7-958d51521986" name="astronauts-request-transform-message"/>
+				<ee:transform doc:name="json-array-to-the-json" doc:id="56b30ee2-0be6-4258-ba14-47c3a7d71e60">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
+output application/json
+---
+{(payload)}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="8c9cd032-3734-4d9e-be89-9e1150799b13" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
+				</mongo:insert-document>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="info-help-output" doc:id="cb1b24bc-4f70-48a3-b29c-0f6380109a50" name="help-var"/>
+			</otherwise>
+		</choice>
+	</sub-flow>
 </mule>

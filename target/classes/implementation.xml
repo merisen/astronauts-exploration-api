@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
-	<sub-flow name="exploration" doc:id="976fd441-b4ce-4a12-b56a-21dc9dbd74bd" >
+	<sub-flow name="exploration-get" doc:id="976fd441-b4ce-4a12-b56a-21dc9dbd74bd" >
 		<flow-ref doc:name="log-at-start" doc:id="6e56d153-0407-4535-9879-a0f91db3c9c2" name="log-at-start"/>
 		<set-variable value='#[message.attributes.queryParams is ""]' doc:name="request-type" doc:id="77413eaf-1032-4479-98e6-2d25f63dc764" variableName="requestType"/>
 		<choice doc:name="Choice" doc:id="635f36ba-02bb-4714-aa10-5d3ab2bc305d" >
@@ -20,62 +20,8 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="6711123b-eb85-4b44-aff1-7dff3d2433c6" name="log-at-exit"/>
 	</sub-flow>
-	<sub-flow name="astronauts-exploration" doc:id="05a1da36-ab69-4596-ba67-ff0c3862932f" >
-		<flow-ref doc:name="log-at-start" doc:id="67657759-6339-40c1-831c-2cc592c716e9" name="log-at-start"/>
-		<flow-ref doc:name="check-astronauts-collection" doc:id="4091416c-7332-4d43-aaf7-efd8d890af69" name="create-astronauts-collection"/>
-		<flow-ref doc:name="exploration-vars" doc:id="4a65dce5-f5a6-4fc2-bac8-b4338968eb62" name="exploration-vars"/>
-		<choice doc:name="Choice" doc:id="d7d43eb0-3fb9-4497-91da-894cd6eea223" >
-			<when expression='#[vars.astronauts == "all"]'>
-				<flow-ref doc:name="astronauts-request-transform-message" doc:id="d00cd875-e1df-4b45-b219-fe4d3dbe2069" name="astronauts-request-transform-message"/>
-				<ee:transform doc:name="json-array-to-the-json" doc:id="3826b6e3-8005-4961-9878-f44efe104101">
-					<ee:message>
-					</ee:message>
-					<ee:variables >
-						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
-output application/json
----
-{(payload)}]]></ee:set-variable>
-					</ee:variables>
-				</ee:transform>
-				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="065346e8-ce01-46aa-8720-439ea7d4854a" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
-					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
-				</mongo:insert-document>
-			</when>
-			<when expression='#[vars.astronauts == "spacedevs"]'>
-				<flow-ref doc:name="astronauts-request-transform-message" doc:id="35764f57-c626-48d2-a3c7-1dd39d2306e2" name="astronauts-request-transform-message"/>
-				<ee:transform doc:name="json-array-to-the-json" doc:id="86717ca9-65ea-420b-af2e-7a1bf142e148">
-					<ee:message>
-					</ee:message>
-					<ee:variables >
-						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
-output application/json
----
-{(payload)}]]></ee:set-variable>
-					</ee:variables>
-				</ee:transform>
-				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="f94a9047-7045-4411-8806-325bff2b80e0" config-ref="ASTRONAUTS_TABLE_CONNECTION">
-					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
-				</mongo:insert-document>
-			</when>
-			<when expression='#[vars.astronauts == "iss"]'>
-				<flow-ref doc:name="astronauts-request-transform-message" doc:id="e69451ce-e355-4bb0-af3e-191f12e9b0b4" name="astronauts-request-transform-message"/>
-				<ee:transform doc:name="json-array-to-the-json" doc:id="0f3f5d49-801c-4858-b0f7-03837a8e5847">
-					<ee:message>
-					</ee:message>
-					<ee:variables >
-						<ee:set-variable variableName="output" ><![CDATA[%dw 2.0
-output application/json
----
-{(payload)}]]></ee:set-variable>
-					</ee:variables>
-				</ee:transform>
-				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="44ccca16-5cdf-4e80-84a3-5f49084fed4c" config-ref="ASTRONAUTS_TABLE_CONNECTION">
-					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
-				</mongo:insert-document>
-			</when>
-			<otherwise >
-				<flow-ref doc:name="info-help-output" doc:id="e7c60863-a18b-4c02-85e2-4a8bb435b8d1" name="help-var"/>
-			</otherwise>
-		</choice>
+	<sub-flow name="exploration-post" doc:id="8f832f6d-7cea-4f8c-a5ce-dc2c3a83df17" >
+		<flow-ref doc:name="log-at-start" doc:id="b4ca7a34-d649-42ad-9c82-0c1e2d95c83c" name="log-at-start"/>
+		<set-variable value='#[message.attributes.queryParams is ""]' doc:name="request-type" doc:id="890156cf-fe48-48f2-a3a5-4b60750032cc" variableName="requestType"/>
 	</sub-flow>
 </mule>
