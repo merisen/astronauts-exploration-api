@@ -45,6 +45,7 @@ output application/json
 }]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
+		<set-payload value="#[vars.help_var]" doc:name="help-output" doc:id="5c467555-c65f-437f-b220-936919964309" />
 	</sub-flow>
 	<sub-flow name="create-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
 		<flow-ref doc:name="log-at-start" doc:id="e0eaa579-11a5-47f6-a52d-e4dd524f9bc7" name="log-at-start"/>
@@ -61,16 +62,29 @@ output application/json
 	</sub-flow>
 	<sub-flow name="delete-collection-and-data-from-database" doc:id="335df96e-b34e-47d2-a151-82643bd94ff6" >
 		<flow-ref doc:name="log-at-start" doc:id="ae520b79-d814-42da-adb3-bf2ee2b5b154" name="log-at-start"/>
-		<set-variable value="#[message.attributes.queryParams.delete]" doc:name="query-delete-request" doc:id="d77ecdf8-d4eb-4c8b-9632-d4e19cafc874" variableName="delete_request"/>
+		<set-variable value="#[message.attributes.queryParams.drop]" doc:name="query-drop-request" doc:id="d77ecdf8-d4eb-4c8b-9632-d4e19cafc874" variableName="drop_request"/>
 		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
-			<when expression='#[vars.delete_request == "database"]'/>
+			<when expression='#[vars.drop_request == "database"]'>
+				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+			</when>
+			<when expression='#[vars.drop_request == "collection"]'>
+				<mongo:drop-collection collectionName="astronauts" doc:name="delete-astronauts-collection" doc:id="d07b89a6-2c01-450d-bf15-766d74a05bc9" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="help-output-message" doc:id="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" name="help-var"/>
+			</otherwise>
 		</choice>
 	</sub-flow>
 	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
 		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="f2a19703-84cd-48bf-8903-df812c34069e" variableName="dump_request"/>
 		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
-			<when expression='#[vars.dump_request == "dump"]'/>
+			<when expression='#[vars.dump_request == "dump"]'>
+				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}"/>
+			</when>
+			<otherwise >
+				<flow-ref doc:name="help-output-message" doc:id="7ff42a85-9666-4f1f-afb0-e9a5d6ee03cd" name="help-var"/>
+			</otherwise>
 		</choice>
 	</sub-flow>
 	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >

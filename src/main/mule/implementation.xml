@@ -16,7 +16,6 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 			</when>
 			<otherwise>
 				<flow-ref doc:name="info-help-output" doc:id="770c8009-4fe7-4df3-a4f5-b75e4409f108" name="help-var"/>
-				<set-payload value="#[vars.help_var]" doc:name="call-help-variable" doc:id="445560ac-c410-48be-adb4-4a000eaa2763" />
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="6711123b-eb85-4b44-aff1-7dff3d2433c6" name="log-at-exit"/>
@@ -76,7 +75,6 @@ output application/json
 			</when>
 			<otherwise >
 				<flow-ref doc:name="info-help-output" doc:id="e7c60863-a18b-4c02-85e2-4a8bb435b8d1" name="help-var"/>
-				<set-payload value="#[vars.help_var]" doc:name="call-help-variable" doc:id="d97e95f8-5db7-4806-90df-c9ec3c6537dc" />
 			</otherwise>
 		</choice>
 	</sub-flow>

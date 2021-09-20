@@ -31,3 +31,19 @@ description: AE combine information from two external API - Astronauts Research 
             type: array
             examples:
               output: !include api/examples/explorationExample.raml
+  post:
+    description: Send data from query to the API
+    queryParameters:
+      # Use of 'drop' for any drop functions in the MongoDB - database, collection
+      drop:
+        required: false
+      # Use of 'create' for any create functions in the MongoDB - database, collection, user, file, index
+      create:
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: array
+            examples:
+              output: !include api/examples/explorationExample.raml
