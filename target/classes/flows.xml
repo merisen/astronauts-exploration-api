@@ -46,6 +46,33 @@ output application/json
 			</ee:variables>
 		</ee:transform>
 	</sub-flow>
+	<sub-flow name="create-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
+		<flow-ref doc:name="log-at-start" doc:id="e0eaa579-11a5-47f6-a52d-e4dd524f9bc7" name="log-at-start"/>
+		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="f1406926-fd41-46a1-85d6-f3ee2cce3942" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
+		<choice doc:name="Choice" doc:id="6c90fc05-61e1-4d95-b3b6-efb477717b30" >
+			<when expression='#[not vars."astronauts-collection"]'>
+				<mongo:create-collection doc:name="create-astronauts-collection" doc:id="d9fc60df-e164-4b39-8f1d-f28fa3d5502d" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="collection-astronauts-exist" doc:id="dccde4af-deb1-47ee-86a8-b76d346905ce" message="#[&quot;Collection 'astronauts' exist!&quot;]"/>
+			</otherwise>
+		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="ea5e892f-364e-40fc-a45b-5f61f1ae2ce4" name="log-at-exit"/>
+	</sub-flow>
+	<sub-flow name="delete-collection-and-data-from-database" doc:id="335df96e-b34e-47d2-a151-82643bd94ff6" >
+		<flow-ref doc:name="log-at-start" doc:id="ae520b79-d814-42da-adb3-bf2ee2b5b154" name="log-at-start"/>
+		<set-variable value="#[message.attributes.queryParams.delete]" doc:name="query-delete-request" doc:id="d77ecdf8-d4eb-4c8b-9632-d4e19cafc874" variableName="delete_request"/>
+		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
+			<when expression='#[vars.delete_request == "database"]'/>
+		</choice>
+	</sub-flow>
+	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
+		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
+		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="f2a19703-84cd-48bf-8903-df812c34069e" variableName="dump_request"/>
+		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
+			<when expression='#[vars.dump_request == "dump"]'/>
+		</choice>
+	</sub-flow>
 	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >
 		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
 		<http:request method="GET" doc:name="request-to-astronauts-research-api" doc:id="4015cea4-b186-4187-ad17-9ee3f345293d" url="${astronauts-research.host}">

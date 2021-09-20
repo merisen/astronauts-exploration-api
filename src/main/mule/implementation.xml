@@ -23,15 +23,7 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	</sub-flow>
 	<sub-flow name="astronauts-exploration" doc:id="05a1da36-ab69-4596-ba67-ff0c3862932f" >
 		<flow-ref doc:name="log-at-start" doc:id="67657759-6339-40c1-831c-2cc592c716e9" name="log-at-start"/>
-		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="103c176c-ad7b-4e3c-8556-cc7c155736b8" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
-		<choice doc:name="Choice" doc:id="d04ef314-95ce-480b-9d9a-e23ac501d3b5" >
-			<when expression='#[not vars."astronauts-collection"]'>
-				<mongo:create-collection doc:name="astronauts-collection" doc:id="5abbb674-f45a-4786-9457-e8de759962a1" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts"/>
-			</when>
-			<otherwise >
-				<logger level="INFO" doc:name="collection-astronauts-exist" doc:id="8dee10cd-78be-4120-8c80-d8da860e2563" message="#[&quot;Collection 'astronauts' exist!&quot;]"/>
-			</otherwise>
-		</choice>
+		<flow-ref doc:name="check-astronauts-collection" doc:id="4091416c-7332-4d43-aaf7-efd8d890af69" name="create-astronauts-collection"/>
 		<flow-ref doc:name="exploration-vars" doc:id="4a65dce5-f5a6-4fc2-bac8-b4338968eb62" name="exploration-vars"/>
 		<choice doc:name="Choice" doc:id="d7d43eb0-3fb9-4497-91da-894cd6eea223" >
 			<when expression='#[vars.astronauts == "all"]'>
