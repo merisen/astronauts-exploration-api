@@ -42,11 +42,15 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
 			<when expression='#[vars.drop_request == "database"]'>
 				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
-				<set-payload value="#[&quot;Drop database 'astronauts' success!&quot;]" doc:name="drop-database-astronauts-output" doc:id="c2783b2c-4fc2-48a7-b376-a5714d4c8845" />
+				<set-payload value="${validation.dropDatabaseSuccess}" doc:name="drop-database-astronauts-output" doc:id="c2783b2c-4fc2-48a7-b376-a5714d4c8845" />
 			</when>
 			<when expression='#[vars.drop_request == "collection"]'>
 				<mongo:drop-collection collectionName="astronauts" doc:name="delete-astronauts-collection" doc:id="d07b89a6-2c01-450d-bf15-766d74a05bc9" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
-				<set-payload value="#[&quot;Drop collection 'astronauts' success!&quot;]" doc:name="drop-collection-astronauts-output" doc:id="b286cee0-f934-4a27-a513-487ebf2e0f8d" />
+				<set-payload value="${validation.dropAstronautsCollectionSuccess}" doc:name="drop-collection-astronauts-output" doc:id="b286cee0-f934-4a27-a513-487ebf2e0f8d" />
+			</when>
+			<when expression="#[vars.drop_request != null]">
+				<mongo:drop-collection collectionName="#[vars.drop_request]" doc:name="drop-custom-collection" doc:id="a37f8656-853d-4e3f-a2b6-efc6b04802a8" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+				<set-payload value="${validation.dropCollectionSuccess}" doc:name="drop-custom-collection-success" doc:id="73770621-f643-45fa-b694-689cc7a5e2d1" />
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" name="help-var"/>

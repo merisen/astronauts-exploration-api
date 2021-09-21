@@ -37,3 +37,6 @@ validation:
   dumpFailed: "Dump failed! Please try again."
   createCollectionFailed: "Failed to create collection! Please type collection name or contact developers."
   createCollectionSuccess: "Collection created successful!"
+  dropDatabaseSuccess: "Database 'astronauts' deleted successful!"
+  dropAstronautsCollectionSuccess: "Collection 'astronauts' deleted successful!"
+  dropCollectionSuccess: "Collection was dropped successfully!"
