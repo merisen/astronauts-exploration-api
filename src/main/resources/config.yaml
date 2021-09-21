@@ -12,6 +12,15 @@ mongodb:
   iss_table: "mongodb+srv://astros:F9wTbQ80m9cAsrmG@astronauts.vzli9.mongodb.net/astronauts"
   dump: "/Volumes/Drive/AstronautsAPI/astronauts-exploration/src/main/resources/api/dump"
   
+ftp:
+  host: "ftp.wakeyouup.com.ua"
+  port: "21"
+  username: "aeapi@merisen.online"
+  path: "/astronauts"
+  spacedevs_path: "/astronauts/actual_spacedevs_astronauts.json"
+  iss_path: "/astronauts/actual_iss_astronauts.json"
+  all_path: "/astronauts/actual_all_astronauts.json"
+  
 astronauts-research:
   host: "http://localhost:8081/api/astronauts"
   

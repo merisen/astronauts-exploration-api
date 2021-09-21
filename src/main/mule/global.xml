@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns:telegram="http://www.mulesoft.org/schema/mule/telegram" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/telegram http://www.mulesoft.org/schema/mule/telegram/current/mule-telegram.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
 	<mongo:config name="ASTRONAUTS_TABLE_CONNECTION" doc:name="MongoDB Config" doc:id="639e0f47-6e65-4b7d-bb8d-6b82f97689db" >
 		<mongo:connection-string-connection connectionString="${mongodb.astronauts_table}" />
 	</mongo:config>
@@ -18,4 +20,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<mongo:connection-string-connection connectionString="${mongodb.iss_table}" />
 	</mongo:config>
 	<apikit:config name="exploration-config" api="exploration.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<ftp:config name="ASTRONAUTS_PATH_FTP_CONNECTOR" doc:name="FTP Config" doc:id="269fde79-6eb5-4ae6-9f06-fc1c749891a1" >
+		<ftp:connection workingDir="${ftp.path}" host="${ftp.host}" port="${ftp.port}" username="${ftp.username}" password="AKF6Sse2puUnUXHYKvnPLCSCz5cQ2RsMe8Wb6qa3"/>
+	</ftp:config>
 </mule>
