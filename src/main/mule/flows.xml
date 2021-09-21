@@ -10,7 +10,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/telegram http://www.mulesoft.org/schema/mule/telegram/current/mule-telegram.xsd
 http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
-	<sub-flow name="create-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
+	<sub-flow name="check-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
 		<flow-ref doc:name="log-at-start" doc:id="e0eaa579-11a5-47f6-a52d-e4dd524f9bc7" name="log-at-start"/>
 		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="f1406926-fd41-46a1-85d6-f3ee2cce3942" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
 		<choice doc:name="Choice" doc:id="6c90fc05-61e1-4d95-b3b6-efb477717b30" >
@@ -25,6 +25,16 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	</sub-flow>
 	<sub-flow name="create-custom-collection" doc:id="4e3482f6-291e-498e-84de-c060789390ce" >
 		<flow-ref doc:name="log-at-start" doc:id="0eb25cb6-3cec-4af1-b9f0-5fca089fde17" name="log-at-start"/>
+		<flow-ref doc:name="exploration-post-vars" doc:id="09a14234-d8c9-4f4e-a054-9444f5212ac9" name="exploration-post-vars"/>
+		<choice doc:name="Choice" doc:id="2a7d5e6a-4128-4b1e-9b42-0ce2f2af5314" >
+			<when expression="#[vars.create == null]">
+				<set-payload value="${validation.createCollectionFailed}" doc:name="send-help-message" doc:id="192b2678-bb84-4c44-afa1-ad45cb604468" />
+			</when>
+			<otherwise>
+				<mongo:create-collection doc:name="create-custom-collection" doc:id="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="#[vars.create]"/>
+				<set-payload value='${validation.createCollectionSuccess}' doc:name="collection-success-create" doc:id="24c08772-578b-469e-9c77-4d34a10fe95a" />
+			</otherwise>
+		</choice>
 	</sub-flow>
 	<sub-flow name="delete-collection-and-data-from-database" doc:id="335df96e-b34e-47d2-a151-82643bd94ff6" >
 		<flow-ref doc:name="log-at-start" doc:id="ae520b79-d814-42da-adb3-bf2ee2b5b154" name="log-at-start"/>
@@ -491,7 +501,7 @@ output application/json
 	</sub-flow>
 	<sub-flow name="astronauts-exploration" doc:id="c50e0df4-7926-4a6b-b703-e5a5bff16d6a" >
 		<flow-ref doc:name="log-at-start" doc:id="4565cddd-b28d-4046-9b14-43ff2ff69e2f" name="log-at-start"/>
-		<flow-ref doc:name="check-astronauts-collection" doc:id="a2799af5-7d3a-43b7-87f1-d4bbe31eded5" name="create-astronauts-collection"/>
+		<flow-ref doc:name="check-astronauts-collection" doc:id="a2799af5-7d3a-43b7-87f1-d4bbe31eded5" name="check-astronauts-collection"/>
 		<flow-ref doc:name="exploration-vars" doc:id="ece77920-6aeb-485b-9cb7-fdb2117ad561" name="exploration-vars"/>
 		<choice doc:name="Choice" doc:id="a271af23-1c16-46c6-b11d-67faa79d7c68" >
 			<when expression='#[vars.astronauts == "all"]'>
@@ -506,18 +516,12 @@ output application/json
 {(payload)}]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<scatter-gather doc:name="Scatter-Gather" doc:id="fc86f4fe-63e8-41e0-9912-50578fb5a814" >
-					<route >
-						<mongo:insert-document doc:name="add-data-to-the-database" doc:id="e333b6dd-6b1d-4260-a047-0b3ab1d4a48f" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
+				<ftp:write doc:name="set-actual-astronauts-data" doc:id="6e925cd1-a84d-447f-bdd5-6d80f983eb22" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.all_path}">
+							<ftp:content><![CDATA[#[vars."output"]]]></ftp:content>
+						</ftp:write>
+				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="e333b6dd-6b1d-4260-a047-0b3ab1d4a48f" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-					</route>
-					<route >
-						<ftp:write doc:name="set-actual-astronauts-data" doc:id="6e925cd1-a84d-447f-bdd5-6d80f983eb22" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.all_path}">
-							<ftp:content ><![CDATA[#[vars."output"]]]></ftp:content>
-						</ftp:write>
-					</route>
-				</scatter-gather>
 			</when>
 			<when expression='#[vars.astronauts == "spacedevs"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="3842ddc9-84db-4d7b-b988-2b1883340be5" name="astronauts-request-transform-message"/>
@@ -531,18 +535,12 @@ output application/json
 {(payload)}]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<scatter-gather doc:name="Scatter-Gather" doc:id="4a6aeaeb-7cf2-489e-a595-1f758ca07e2a" >
-					<route >
-						<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="4e130673-134c-4e88-899c-caaa3a0dd448" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+				<ftp:write doc:name="set-actual-spacedevs-data" doc:id="b65bc1b3-8340-47be-a237-e73c1b88f6bc" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}">
+							<ftp:content><![CDATA[#[vars."output"]]]></ftp:content>
+						</ftp:write>
+				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="4e130673-134c-4e88-899c-caaa3a0dd448" config-ref="ASTRONAUTS_TABLE_CONNECTION">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-					</route>
-					<route >
-						<ftp:write doc:name="set-actual-spacedevs-data" doc:id="b65bc1b3-8340-47be-a237-e73c1b88f6bc" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}">
-							<ftp:content ><![CDATA[#[vars."output"]]]></ftp:content>
-						</ftp:write>
-					</route>
-				</scatter-gather>
 			</when>
 			<when expression='#[vars.astronauts == "iss"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="9a55248c-c7f9-4d96-bcc7-958d51521986" name="astronauts-request-transform-message"/>
@@ -556,18 +554,12 @@ output application/json
 {(payload)}]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<scatter-gather doc:name="Scatter-Gather" doc:id="b9ce277c-2247-49e8-b6fd-0e4a2f8486d4" >
-					<route >
-						<mongo:insert-document doc:name="add-data-to-the-database" doc:id="3e9f8486-fd73-4865-8697-f1bbeaf827af" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
+				<ftp:write doc:name="set-actual-iss-data" doc:id="0ff40af9-469c-4690-8456-8c217f7494ed" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}">
+							<ftp:content><![CDATA[#[vars."output"]]]></ftp:content>
+						</ftp:write>
+				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="3e9f8486-fd73-4865-8697-f1bbeaf827af" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-					</route>
-					<route >
-						<ftp:write doc:name="set-actual-iss-data" doc:id="0ff40af9-469c-4690-8456-8c217f7494ed" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}">
-							<ftp:content ><![CDATA[#[vars."output"]]]></ftp:content>
-						</ftp:write>
-					</route>
-				</scatter-gather>
 			</when>
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<flow-ref doc:name="dump-collection-from-mongodb" doc:id="31a1e978-7ac1-4ac3-b372-95e4850961d5" name="dump-collection-from-mongodb"/>

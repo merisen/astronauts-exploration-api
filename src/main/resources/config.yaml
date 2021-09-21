@@ -35,3 +35,5 @@ validation:
   contactAdmin: "An error occured! Please contact administrator!"
   dumpSuccess: "Dump success! Check out dump path in config.yaml."
   dumpFailed: "Dump failed! Please try again."
+  createCollectionFailed: "Failed to create collection! Please type collection name or contact developers."
+  createCollectionSuccess: "Collection created successful!"
