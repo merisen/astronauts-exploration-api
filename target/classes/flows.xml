@@ -47,14 +47,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}" target="dump-data"/>
-				<choice doc:name="Choice" doc:id="8b2061e8-3722-4ce2-89a4-c2f1cb6340cd" >
-					<when expression='#[not vars."dump-data"]'>
-						<set-payload value='${validation.dumpFailed}' doc:name="dump-failed" doc:id="5b360307-d976-4faf-ba0a-df1f758d12d3" />
-					</when>
-					<otherwise >
-						<set-payload value="${validation.dumpSuccess}" doc:name="dump-success" doc:id="e8523f85-718e-4d3e-af23-e2faf6210299" />
-					</otherwise>
-				</choice>
+				<set-payload value="${validation.dumpSuccess}" doc:name="dump-success" doc:id="e8523f85-718e-4d3e-af23-e2faf6210299" />
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="7ff42a85-9666-4f1f-afb0-e9a5d6ee03cd" name="help-var"/>
@@ -545,7 +538,7 @@ output application/json
 					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
 			</when>
-			<when expression='#[vars.astronauts == "dump"]'>
+			<when expression='#[vars.dump_request == "astronauts"]'>
 				<flow-ref doc:name="dump-collection-from-mongodb" doc:id="31a1e978-7ac1-4ac3-b372-95e4850961d5" name="dump-collection-from-mongodb"/>
 			</when>
 			<otherwise >
