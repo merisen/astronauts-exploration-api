@@ -26,9 +26,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
 			<when expression='#[vars.drop_request == "database"]'>
 				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+				<set-payload value="#[&quot;Drop database 'astronauts' success!&quot;]" doc:name="drop-database-astronauts-output" doc:id="c2783b2c-4fc2-48a7-b376-a5714d4c8845" />
 			</when>
 			<when expression='#[vars.drop_request == "collection"]'>
 				<mongo:drop-collection collectionName="astronauts" doc:name="delete-astronauts-collection" doc:id="d07b89a6-2c01-450d-bf15-766d74a05bc9" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
+				<set-payload value="#[&quot;Drop collection 'astronauts' success!&quot;]" doc:name="drop-collection-astronauts-output" doc:id="b286cee0-f934-4a27-a513-487ebf2e0f8d" />
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" name="help-var"/>
@@ -39,8 +41,16 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
 		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="f2a19703-84cd-48bf-8903-df812c34069e" variableName="dump_request"/>
 		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
-			<when expression='#[vars.dump_request == "dump"]'>
-				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}"/>
+			<when expression='#[vars.dump_request == "astronauts"]'>
+				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}" target="dump-data"/>
+				<choice doc:name="Choice" doc:id="8b2061e8-3722-4ce2-89a4-c2f1cb6340cd" >
+					<when expression='#[not vars."dump-data"]'>
+						<set-payload value='${validation.dumpFailed}' doc:name="dump-failed" doc:id="5b360307-d976-4faf-ba0a-df1f758d12d3" />
+					</when>
+					<otherwise >
+						<set-payload value="${validation.dumpSuccess}" doc:name="dump-success" doc:id="e8523f85-718e-4d3e-af23-e2faf6210299" />
+					</otherwise>
+				</choice>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="7ff42a85-9666-4f1f-afb0-e9a5d6ee03cd" name="help-var"/>
@@ -51,6 +61,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
 		<http:request method="GET" doc:name="request-to-astronauts-research-api" doc:id="4015cea4-b186-4187-ad17-9ee3f345293d" url="${astronauts-research.host}">
 			<http:query-params ><![CDATA[#[{
+	limit: vars.limit,
+	offset: vars.offset,
 	astronauts: vars.astronauts
 }]]]></http:query-params>
 		</http:request>
@@ -525,9 +537,12 @@ output application/json
 {(payload)}]]></ee:set-variable>
 					</ee:variables>
 				</ee:transform>
-				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="8c9cd032-3734-4d9e-be89-9e1150799b13" config-ref="ASTRONAUTS_TABLE_CONNECTION">
+				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="3e9f8486-fd73-4865-8697-f1bbeaf827af" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
 					<mongo:document ><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
+			</when>
+			<when expression='#[vars.astronauts == "dump"]'>
+				<flow-ref doc:name="dump-collection-from-mongodb" doc:id="31a1e978-7ac1-4ac3-b372-95e4850961d5" name="dump-collection-from-mongodb"/>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="info-help-output" doc:id="cb1b24bc-4f70-48a3-b29c-0f6380109a50" name="help-var"/>

@@ -24,3 +24,5 @@ expeditions:
 validation:
   collectionEmpty: "Collection of data empty, please retry!"
   contactAdmin: "An error occured! Please contact administrator!"
+  dumpSuccess: "Dump success! Check out dump path in config.yaml."
+  dumpFailed: "Dump failed! Please try again."

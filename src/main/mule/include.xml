@@ -18,6 +18,8 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<set-variable value="#[message.attributes.queryParams.astronauts]" doc:name="astronauts" doc:id="d6a3d30c-bc8e-4af4-a384-c68dccf33e55" variableName="astronauts"/>
 		<set-variable value="#[message.attributes.queryParams.iss]" doc:name="iss" doc:id="421f5637-b3b7-4c37-8026-e87cbc0b1df8" variableName="iss"/>
 		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="fed38e09-4b81-4bc0-867e-bf594d45a6e1" variableName="expedition"/>
+		<set-variable value="#[message.attributes.queryParams.limit]" doc:name="limit" doc:id="3d382511-0232-41fe-a09c-6513c932a0bd" variableName="limit"/>
+		<set-variable value="#[message.attributes.queryParams.offset]" doc:name="offset" doc:id="de976bca-e8fa-4757-a144-451f0ad53375" variableName="offset"/>
 	</sub-flow>
 	<sub-flow name="help-var" doc:id="63af6c1d-1f57-4567-a7a9-56590d313fb4" >
 		<ee:transform doc:name="help-message" doc:id="aef02c94-ff42-4c5f-bbfe-6834ad16a1ea" >
@@ -36,7 +38,7 @@ output application/json
 		"Get Help page": "help : info",
 		"Display number of requests": "data-count : 12",
 		"Transform output formats": "output-type : json, file, link, html",
-		"Get Astronauts": "astronauts : all, spacedevs, iss",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump",
 		"Get International Space Station": "iss : raw, location",
 		"Get Astronauts Expedition": "expedition : sorted, full"
 	}
