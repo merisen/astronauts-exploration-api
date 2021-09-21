@@ -20,6 +20,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="fed38e09-4b81-4bc0-867e-bf594d45a6e1" variableName="expedition"/>
 		<set-variable value="#[message.attributes.queryParams.limit]" doc:name="limit" doc:id="3d382511-0232-41fe-a09c-6513c932a0bd" variableName="limit"/>
 		<set-variable value="#[message.attributes.queryParams.offset]" doc:name="offset" doc:id="de976bca-e8fa-4757-a144-451f0ad53375" variableName="offset"/>
+		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="231328ef-a6ea-4764-a797-cb567d7bfa22" variableName="dump_request" />
+	</sub-flow>
+	<sub-flow name="exploration-post-vars" doc:id="0fefc300-2d36-45a0-b247-c888c91df6fc" >
+		<set-variable value="#[message.attributes.queryParams.drop]" doc:name="query-drop-request" doc:id="cae3acfd-6783-4cbc-a684-3340741df879" variableName="drop_request"/>
+		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-create-request" doc:id="3ceea539-aa1e-4bfe-a4f3-b3bed942254f" variableName="create"/>
 	</sub-flow>
 	<sub-flow name="help-var" doc:id="63af6c1d-1f57-4567-a7a9-56590d313fb4" >
 		<ee:transform doc:name="help-message" doc:id="aef02c94-ff42-4c5f-bbfe-6834ad16a1ea" >

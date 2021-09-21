@@ -20,9 +20,12 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="ea5e892f-364e-40fc-a45b-5f61f1ae2ce4" name="log-at-exit"/>
 	</sub-flow>
+	<sub-flow name="create-custom-collection" doc:id="4e3482f6-291e-498e-84de-c060789390ce" >
+		<flow-ref doc:name="log-at-start" doc:id="0eb25cb6-3cec-4af1-b9f0-5fca089fde17" name="log-at-start"/>
+	</sub-flow>
 	<sub-flow name="delete-collection-and-data-from-database" doc:id="335df96e-b34e-47d2-a151-82643bd94ff6" >
 		<flow-ref doc:name="log-at-start" doc:id="ae520b79-d814-42da-adb3-bf2ee2b5b154" name="log-at-start"/>
-		<set-variable value="#[message.attributes.queryParams.drop]" doc:name="query-drop-request" doc:id="d77ecdf8-d4eb-4c8b-9632-d4e19cafc874" variableName="drop_request"/>
+		<flow-ref doc:name="exploration-post-vars" doc:id="d2e6fe5d-38a7-4485-8146-3abcebc375d6" name="exploration-post-vars"/>
 		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
 			<when expression='#[vars.drop_request == "database"]'>
 				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
@@ -36,10 +39,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 				<flow-ref doc:name="help-output-message" doc:id="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" name="help-var"/>
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="58154353-212a-4ea8-adbd-92a457c3cc86" name="log-at-exit"/>
 	</sub-flow>
 	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
-		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="f2a19703-84cd-48bf-8903-df812c34069e" variableName="dump_request"/>
+		<flow-ref doc:name="exploration-post-vars" doc:id="2fe8b63e-c26d-4d82-a629-118010dd78e2" name="exploration-post-vars"/>
 		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}" target="dump-data"/>
