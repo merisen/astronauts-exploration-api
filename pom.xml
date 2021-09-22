@@ -85,15 +85,21 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule4-gmail-connector</artifactId>
-			<version>1.0.0</version>
+			<groupId>org.mule.connectors</groupId>
+			<artifactId>mule-ftp-connector</artifactId>
+			<version>1.5.4</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-ftp-connector</artifactId>
-			<version>1.5.4</version>
+			<artifactId>mule-email-connector</artifactId>
+			<version>1.4.1</version>
+			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule-salesforce-connector</artifactId>
+			<version>10.12.1</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>

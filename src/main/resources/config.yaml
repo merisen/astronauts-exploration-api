@@ -21,6 +21,14 @@ ftp:
   iss_path: "/astronauts/actual_iss_astronauts.json"
   all_path: "/astronauts/actual_all_astronauts.json"
   
+mail:
+  host: "smtp.gmail.com"
+  port: "465"
+  user: "viktor.duda.it@gmail.com"
+  from: "Astronauts Exploration API - SMTP"
+  subject: "Astronauts Exploration API - SMTP"
+  
+  
 astronauts-research:
   host: "http://localhost:8081/api/astronauts"
   

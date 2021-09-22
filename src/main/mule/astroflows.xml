@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:gmail="http://www.mulesoft.org/schema/mule/gmail" xmlns:file="http://www.mulesoft.org/schema/mule/file"
-	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
-	xmlns:telegram="http://www.mulesoft.org/schema/mule/telegram" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:gmail="http://www.mulesoft.org/schema/mule/gmail"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:telegram="http://www.mulesoft.org/schema/mule/telegram" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-maps="http://www.mulesoft.org/schema/mule/google-maps" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/google-maps http://www.mulesoft.org/schema/mule/google-maps/current/mule-google-maps.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
@@ -10,7 +10,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/telegram http://www.mulesoft.org/schema/mule/telegram/current/mule-telegram.xsd
 http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gmail/current/mule-gmail.xsd">
+http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gmail/current/mule-gmail.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
 	<sub-flow name="check-astronauts-collection" doc:id="4b17b2e3-f3bc-43ac-9c0c-34ac5ded9a08" >
 		<flow-ref doc:name="log-at-start" doc:id="e0eaa579-11a5-47f6-a52d-e4dd524f9bc7" name="log-at-start"/>
 		<mongo:collection-exists collectionName="astronauts" doc:name="astronauts-collection" doc:id="f1406926-fd41-46a1-85d6-f3ee2cce3942" config-ref="ASTRONAUTS_TABLE_CONNECTION" target="astronauts-collection"/>
@@ -72,6 +73,43 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="62299b56-c061-4c82-96c7-08c64618392c" name="log-at-exit"/>
+	</sub-flow>
+	<sub-flow name="actual-data-from-ftp-send-by-email" doc:id="b783097a-5565-4e5c-8cd6-8c7c1b3a377a" >
+		<flow-ref doc:name="log-at-start" doc:id="8b8959bf-c819-4244-90e7-44d47198cd7f" name="log-at-start"/>
+		<flow-ref doc:name="exploration-post-vars" doc:id="c2568a35-e974-4e08-a111-800a29db5596" name="exploration-post-vars"/>
+		<choice doc:name="Choice" doc:id="525a7fe5-cfd0-4cd4-ab4d-cf9281d38c87" >
+			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="741cef47-32fd-49f0-bc0c-aa09eb8b3815" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.all_path}"/>
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="e19e62b2-5708-4dad-a35f-b851c8b19902" fromAddress="${mail.user}" subject="${mail.subject}" config-ref="Email_SMTP">
+					<email:to-addresses>
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+					<email:attachments ><![CDATA[#[payload]]]></email:attachments>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
+			</when>
+			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}"/>
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="86dbc191-9bae-4ea2-89c8-f36fd2761dba" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
+					<email:to-addresses >
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
+			</when>
+			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="29e643a7-c95e-4e37-a229-f5f64065a82b" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}"/>
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="3a71ab63-712f-48f3-87a8-74d4e0ee74b5" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
+					<email:to-addresses >
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="6124c51f-f29b-42ab-a921-df8584c8b28a" />
+			</when>
+			<otherwise >
+				<flow-ref doc:name="help-output-message" doc:id="0c506444-4bdd-4d10-9056-627254482ae0" name="help-var"/>
+			</otherwise>
+		</choice>
 	</sub-flow>
 	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >
 		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
