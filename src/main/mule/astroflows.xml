@@ -88,7 +88,7 @@ http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/em
 				</email:send>
 				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
 			</when>
-			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+			<when expression='#[vars.email != null and vars.file == "actual_spacedevs_astronauts"]'>
 				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}"/>
 				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="86dbc191-9bae-4ea2-89c8-f36fd2761dba" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
 					<email:to-addresses >
@@ -97,7 +97,7 @@ http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/em
 				</email:send>
 				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
 			</when>
-			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+			<when expression='#[vars.email != null and vars.file == "actual_iss_astronauts"]'>
 				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="29e643a7-c95e-4e37-a229-f5f64065a82b" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}"/>
 				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="3a71ab63-712f-48f3-87a8-74d4e0ee74b5" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
 					<email:to-addresses >
