@@ -116,5 +116,257 @@
 			<munit-tools:assert-that doc:name="Assert that" doc:id="f3ae6344-8fe2-4f65-a3f0-58b7e11905d6" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="all-astronauts-mail-empty-collection-error-test" doc:id="f9369c07-9e19-4232-8330-1574f1cf70d6" expectedErrorType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="535a054f-e0ba-41d7-b4e4-6b3d46eaeb2b" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="841837e9-b113-4431-b042-04dbeef36219" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="fa4d5862-6231-4674-b480-7eb9adaa4f09" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="spacedevs-astronauts-mail-empty-collection-error-test" doc:id="eed7730d-2f93-4f4f-b9cd-8afdd3bd55a9" expectedErrorType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ff57f841-521a-4524-92d7-32857fa2f20b" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="10e3b8e8-4268-407b-b979-89850fb8df18" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="eea8779c-92b7-4a0c-a682-07ed896bbbe4" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iss-astionauts-mail-empty-collection-error-test" doc:id="e3369287-1b27-4258-b1aa-07ce27fd42f2" expectedErrorType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="40e93552-b6a7-4f71-8714-ccc22e02d310" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="fa670ecb-b1ef-47c7-a3d3-303135a6dbab" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="773616af-4c03-4d9d-b776-80d80d93b59f" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="dump-empty-collection-error-test" doc:id="56b180d3-31f8-4f51-a743-8dd3f75a5dc5" expectedErrorType="APP:DUMP_EMPTY_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="8a01c73c-43bf-481c-a14b-0620156f234c" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:DUMP_EMPTY_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="ac575f04-118d-4091-af16-5f380291cd61" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="665618ca-2dbe-4b2b-aa4a-2ed6bbafe86f" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="create-custom-collection-error-test" doc:id="e18ab8dc-6cd9-4dec-b0ba-e992dc70259c" expectedErrorType="APP:CREATE_CUSTOM_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ab927d97-4ae3-436b-b09e-452f458421f6" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:CREATE_CUSTOM_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="078f87d1-c33c-4828-b501-82e217df2fa9" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="b3e4cb44-b049-4010-8bb7-2c476c54153b" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="delete-astronauts-database-error-test" doc:id="1bbfafd3-1030-4e56-a7f3-dfc286ab64e9" expectedErrorType="APP:DELETE_ASTRONAUTS_DATABASE">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9a6c6e89-2ec2-4184-bfc8-8bc6a1de8e6c" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:DELETE_ASTRONAUTS_DATABASE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="eb446e43-4dd6-4eca-a25f-cf9e1889fd49" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="55ba5e20-7a87-4316-9ca0-1728cd3fc576" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="delete-astronauts-collection-error-test" doc:id="4ebaafba-bc09-45c2-87f4-ab43f1785d3d" expectedErrorType="APP:DELETE_ASTRONAUTS_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d922f97a-a43a-41fa-bca8-79c32191b317" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:DELETE_ASTRONAUTS_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="cfb9ca84-205b-48e1-9eb2-b0dd81c34c56" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="056cd01f-6d4e-48da-add8-1d9679e15327" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="delete-custom-collection-error-test" doc:id="49501310-db4d-4525-8aac-d74830663f27" expectedErrorType="APP:DELETE_CUSTOM_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="24a2cbf5-be5c-4c1a-8bec-1ed93164c17c" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:DELETE_CUSTOM_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="ba7f0e2f-006c-409b-a13f-5ef0b22953bb" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="ffea8e4b-f910-4bee-9a8a-812e0f68e1d9" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-astronauts-exp-flow-error-test" doc:id="0dca17d2-67cb-4bdf-a44e-c50ede13e66a" expectedErrorType="APP:GET_ASTRONAUTS_EXP_FLOW">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="6033ab5e-38a2-4177-a03f-5b0610cccc35" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:GET_ASTRONAUTS_EXP_FLOW" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="ebf0f1f0-554a-45b8-9906-0306e2627842" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="196b923f-7e96-4aa8-a498-0de3f32fe2be" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-help-message-flow-error-test" doc:id="e408ef86-89c3-4055-afda-3f602905d73e" expectedErrorType="APP:GET_HELP_MESSAGE_FLOW">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5529a742-ac68-42ab-90ec-8e1405e0975e" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:GET_HELP_MESSAGE_FLOW" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="6082334f-8f64-4291-a0f6-3bccccae84b1" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c56ce7be-eb7f-4fcd-996c-f1e5743f22ce" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="post-delete-collection-error-test" doc:id="6739dc13-fd27-4d37-b0e6-a3fca32cd3ee" expectedErrorType="APP:POST_DELETE_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="749f5787-9b92-4b40-b585-b9bf3c07f59e" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:POST_DELETE_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="d09af2a7-3bfe-493b-b8d4-00b30605211a" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="4f39338c-1880-4413-aa79-e17a157b45a8" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="post-create-collection-error-test" doc:id="212a5045-bf08-4812-94a6-a930d4bedf5b" expectedErrorType="APP:POST_CREATE_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5bf705e2-05b4-438b-8437-ca3390ae4f95" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:POST_CREATE_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="fa88637c-5bf6-4ed3-8a09-2f8b30c5855a" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="c4745219-3c76-4031-aebb-67be0099705f" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="post-email-send-error-test" doc:id="8c9be9ce-2c41-4956-b666-fc7cd7210c36" expectedErrorType="APP:POST_EMAIL_SEND">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7bfa5e5b-3a7d-4909-bd71-6376c530a52c" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:POST_EMAIL_SEND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="5f2ee082-989a-4098-9a5f-14fdd0a5fd10" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0fd0c670-eda3-4d45-9be9-74b16d1c84fc" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="post-help-information-error-test" doc:id="a6f1e948-a627-47d1-9a26-4324ec496664" expectedErrorType="APP:POST_HELP_INFORMATION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d2f13e4d-3534-4277-96a7-456d4061d1aa" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:POST_HELP_INFORMATION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="87d02d4a-9ac6-4fd7-b7ef-e9078ded1f9c" name="post:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="eaf2850f-5174-4945-a68c-34c309741c9e" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
 
 </mule>

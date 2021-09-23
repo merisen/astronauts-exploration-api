@@ -121,8 +121,10 @@ output application/json
     </flow>
     <flow name="get:\exploration:exploration-config">
         <flow-ref doc:name="exploration-get-subflow" doc:id="8a9968b4-dfef-4af4-8705-898c9e67d7b5" name="exploration-get" />
+		<error-handler ref="exploration-error-handling" />
     </flow>
     <flow name="post:\exploration:exploration-config">
 		<flow-ref doc:name="exploration-post-subflow" doc:id="c8bcd49f-aeab-4fe5-b79b-d91212ab54ad" name="exploration-post"/>
+		<error-handler ref="exploration-error-handling" />
     </flow>
 </mule>

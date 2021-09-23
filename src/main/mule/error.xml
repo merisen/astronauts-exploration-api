@@ -83,5 +83,187 @@ output application/json
 			</ee:transform>
 			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="d6a4bda3-861d-40ed-8d72-c1d60eb54c95" variableName="httpStatus"/>
 		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="d444b599-af35-40d8-940c-fa9222df1d5a" type="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="d8a31f57-e2eb-4d41-92fd-803b6503185e" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="668870b2-8834-476c-bc95-b07cbc2a60b2" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="fe15fdef-c80d-4cb5-b8fe-7217cace8797" type="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="1ca0560d-2f57-4e53-8bf2-e67e76b4bdb5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="33a697da-e2f8-4f9b-9024-4e895d153701" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="98b4881e-693c-48a8-88d3-a8c6a8ee1091" type="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="37933a70-0d6c-464b-a1e3-39f6db2f8b38" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="ad3ef273-e7f0-47cc-ac91-254dec93f8b5" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="9a3e3583-5a46-44ec-bf3f-420518bc244c" type="APP:DUMP_EMPTY_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="258034e7-7127-40f9-8fb5-8e64fb981321" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="3351b7fb-806c-46df-a634-4cf214f305cc" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8fbf1077-e9f7-473d-8683-117d23bbe34d" type="APP:CREATE_CUSTOM_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="bab3960b-6ffd-48f6-b55a-aa2c2a5e02cb" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="93da0ea0-adcb-4309-9846-6058cb24d01f" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="44fe1f57-d0f9-4032-b0a1-75d2d6bd4177" type="APP:DELETE_ASTRONAUTS_DATABASE">
+			<ee:transform doc:name="error-desc" doc:id="8451ab78-91a1-4268-a171-1ec9764da52b" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="1452846f-8c25-4ebf-9210-9c0d70cfc4d0" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b0df8aad-9246-49c6-a9bd-395ac97070cd" type="APP:DELETE_ASTRONAUTS_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="a6f7205c-da8b-43a1-90ef-7025772a0f6a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="82390094-dd2e-49ca-b5b3-e9a4d3b0ce2a" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a6f5d186-b9b6-4d11-967d-d5bf6ccd9e53" type="APP:DELETE_CUSTOM_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="8ddc6676-dee4-4451-a308-483e1db8ee6a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="1944d554-eeef-4e7b-aed8-cc3994c7ffc7" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="2f73ad1e-31c0-406d-9b4a-704b5c034429" type="APP:GET_ASTRONAUTS_EXP_FLOW">
+			<ee:transform doc:name="error-desc" doc:id="5c2ef44b-9cc6-459d-a774-850df1378644" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="dc79c876-cd64-4c85-b41b-3c55bf3fd5bc" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="04b41466-5465-492c-b77c-d02710a21222" type="APP:GET_HELP_MESSAGE_FLOW">
+			<ee:transform doc:name="error-desc" doc:id="956197fd-b02c-44e1-b6fc-c6f2abde4aeb" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="016abede-d187-40bd-8531-4b2006413efe" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8ccbb94c-18b5-44e9-9871-8b9aa60a04a2" type="APP:POST_DELETE_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="058d5a13-9a15-445b-8235-453be2257cf0" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="96642256-f134-4f6e-832a-9cb3f5298ccc" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a05d1e9b-ebcc-4c30-8072-8f5e15f90810" type="APP:POST_CREATE_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="e098cac9-fbbe-4fe4-b9c0-3e896d1f11c3" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="4d8e13de-69ca-495f-b0d3-488adb714d8f" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="bdbe55c2-0655-410a-98b3-31d8047dabae" type="APP:POST_EMAIL_SEND">
+			<ee:transform doc:name="error-desc" doc:id="bdcf5c6e-0287-475d-91d8-0aae36a01af3" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="104f15c8-a624-4317-9764-2b9a77ad766e" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="bb632f5e-29aa-49ec-9016-925351c46e54" type="APP:POST_HELP_INFORMATION">
+			<ee:transform doc:name="error-desc" doc:id="f7a0e2ea-d7f8-4732-92d5-5f21d276d8e5" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="78e5a2ba-dc59-4171-8705-9be21d0aa98e" variableName="httpStatus"/>
+		</on-error-propagate>
 	</error-handler>
 </mule>

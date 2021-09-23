@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:file="http://www.mulesoft.org/schema/mule/file"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
-http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<sub-flow name="exploration-get" doc:id="976fd441-b4ce-4a12-b56a-21dc9dbd74bd" >
 		<flow-ref doc:name="log-at-start" doc:id="6e56d153-0407-4535-9879-a0f91db3c9c2" name="log-at-start"/>
 		<set-variable value='#[message.attributes.queryParams is ""]' doc:name="request-type" doc:id="77413eaf-1032-4479-98e6-2d25f63dc764" variableName="requestType"/>
@@ -14,9 +15,15 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			<when expression='#[vars.requestType != null]'>
 				<flow-ref doc:name="exploration-vars" doc:id="85281843-e7a8-4f68-a506-8360db880c71" name="exploration-vars"/>
 				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
+				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="3d4d358a-2fd6-4b7b-a96c-72cc5d03ac06" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:GET_ASTRONAUTS_EXP_FLOW" />
+				</validation:is-not-empty-collection>
 			</when>
 			<otherwise>
 				<flow-ref doc:name="info-help-output" doc:id="770c8009-4fe7-4df3-a4f5-b75e4409f108" name="help-var"/>
+				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="e6280d00-79d3-4fe1-9ba3-f80f7662014c" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:GET_HELP_MESSAGE_FLOW" />
+				</validation:is-not-empty-collection>
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="6711123b-eb85-4b44-aff1-7dff3d2433c6" name="log-at-exit"/>
@@ -30,12 +37,21 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 				<choice doc:name="Choice" doc:id="76f01689-6ac6-4764-b2ed-0049bb829a52" >
 					<when expression="#[vars.drop_request != null]">
 						<flow-ref doc:name="delete-collection-and-data-from-database" doc:id="13b66d3d-2aef-4b5c-847f-f78deaee30d6" name="delete-collection-and-data-from-database"/>
+						<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="ec3683af-eeb1-4a0a-b0ea-eb39df7a39c8" message="${validation.collectionEmpty}">
+							<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:POST_DELETE_COLLECTION" />
+						</validation:is-not-empty-collection>
 					</when>
 					<when expression="#[vars.create != null]">
 						<flow-ref doc:name="create-custom-collection" doc:id="839a9761-accb-4f7a-89c7-9b858a2336cc" name="create-custom-collection"/>
+						<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="9ab556c6-ced5-40e0-83f7-4c7332510943" message="${validation.collectionEmpty}">
+							<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:POST_CREATE_COLLECTION" />
+						</validation:is-not-empty-collection>
 					</when>
 					<when expression="#[vars.email != null and vars.file != null]">
 						<flow-ref doc:name="data-from-collection-send-by-email" doc:id="90ae653e-a19f-4987-b5d0-91c1de3a86bd" name="actual-data-from-ftp-send-by-email"/>
+						<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="d0339c67-6449-4c46-af08-0d62b638aa83" message="${validation.collectionEmpty}">
+							<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:POST_EMAIL_SEND" />
+						</validation:is-not-empty-collection>
 					</when>
 					<otherwise >
 						<flow-ref doc:name="info-help-output" doc:id="37bb2753-c3b0-4ce5-b7ae-46dba27bf125" name="help-var"/>
@@ -44,6 +60,9 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			</when>
 			<otherwise >
 				<flow-ref doc:name="info-help-output" doc:id="dc6d90a8-7ff5-40f5-8cd6-e59fe2f77aa3" name="help-var"/>
+				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="95868c75-1c1d-45e9-b86d-c23f1967da91" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:POST_HELP_INFORMATION" />
+				</validation:is-not-empty-collection>
 			</otherwise>
 		</choice>
 	</sub-flow>
