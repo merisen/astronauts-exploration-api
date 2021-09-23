@@ -9,9 +9,6 @@ description: AE combine information from two external API - Astronauts Research 
       # Use of 'data-count' is necessary in order to set the number of displayed requests
       data-count:
         required: false
-      # Use of 'output-type' is necessary in order to set the type of returned data - json, file, link, html
-      output-type:
-        required: false
       # Use of 'help' is necessary in order to call the page using the API, two options - web page or json text
       help:
         required: false
@@ -39,6 +36,12 @@ description: AE combine information from two external API - Astronauts Research 
         required: false
       # Use of 'create' for any create functions in the MongoDB - database, collection, user, file, index
       create:
+        required: false
+      # Use of 'email' for Email send data from FTP Server
+      email:
+        required: false
+      # Use of 'file' for point file in the FTP Server while we send data using email
+      file:
         required: false
     responses:
       200:
