@@ -44,7 +44,6 @@ output application/json
 	{
 		"Get Help page": "help : info",
 		"Display number of requests": "data-count : 12",
-		"Transform output formats": "output-type : json, file, link, html",
 		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
 		"Get International Space Station": "iss : raw, location"
 	},
