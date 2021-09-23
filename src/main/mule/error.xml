@@ -1,5 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="exploration-error-handling" doc:id="66dbb4a3-ccd5-4260-8f81-c6565514401b" >
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="cf4a7690-00ab-4e3b-9d2f-5c2b5ff721ff" type="APP:ALL_ASTROS_COLLECTION_EMPTY">
+			<ee:transform doc:name="error-desc" doc:id="11272532-4642-4f0f-8cf5-603d4f7625dc" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="056f86fa-6865-445b-93e9-36f1eec1b059" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="04f9f655-e218-4beb-89ba-0c49325b8bf4" type="APP:SPACEDEVS_COLLECTION_EMPTY">
+			<ee:transform doc:name="error-desc" doc:id="2220bc1d-54b5-4301-b8c3-be78f25db9e2" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="5cfcc35b-535b-4009-a15a-566ba5996317" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5e306e54-52a6-40c4-b112-4fa830d66275" type="APP:ISS_COLLECTION_EMPTY">
+			<ee:transform doc:name="error-desc" doc:id="248488af-0eb7-4e01-834d-8f43e74c582a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="679250cc-8852-4cda-8e28-47295a158533" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="cae97fa0-8e55-427c-8822-c4faf5c3978d" type="APP:EMPTY_ISS_REQUEST_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="eaffd399-b725-4dfe-9583-41bd99bd78d0" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="d6134756-c760-428b-8348-dafb195a790e" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a25d3e36-bd5a-4851-9550-924a148276fb" type="APP:EMPTY_SPACEDEVS_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="609f034d-fbdd-402a-840e-365fdb612411" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="655c7054-ee63-4994-ad16-66580a972ce4" variableName="httpStatus"/>
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a63636eb-259d-4d08-9241-2b8ac965cac4" type="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION">
+			<ee:transform doc:name="error-desc" doc:id="e43434cd-7d17-4076-8976-1c60c0e614b1" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="d6a4bda3-861d-40ed-8d72-c1d60eb54c95" variableName="httpStatus"/>
+		</on-error-propagate>
+	</error-handler>
+</mule>

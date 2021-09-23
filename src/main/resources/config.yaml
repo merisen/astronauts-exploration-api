@@ -49,3 +49,6 @@ validation:
   dropDatabaseSuccess: "Database 'astronauts' deleted successful!"
   dropAstronautsCollectionSuccess: "Collection 'astronauts' deleted successful!"
   dropCollectionSuccess: "Collection was dropped successfully!"
+
+httpStatus:
+  notFound: "404"

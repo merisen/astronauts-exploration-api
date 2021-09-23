@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="test-suite.xml" />
+	<munit:test name="all-astronauts-empty-collection-error-test" doc:id="0920c0f7-52b8-4d92-8687-376317c3cdf7" expectedErrorType="APP:ALL_ASTROS_COLLECTION_EMPTY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4ce848ee-4c38-4cd1-93cb-c1e0f23152de" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:ALL_ASTROS_COLLECTION_EMPTY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="a7363e33-8fc1-45fe-ae05-274cb613ba70" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="acb6703b-7ce3-47f5-bc4f-20b05fc275cb" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="spacedevs-astronauts-empty-collection-error-test" doc:id="bd62ac07-b53e-4745-b0ba-7e2801f5e99b" expectedErrorType="APP:SPACEDEVS_COLLECTION_EMPTY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="307c3b17-86cc-4870-bb57-c4f9b158116e" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:SPACEDEVS_COLLECTION_EMPTY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="e62bd07d-7f5b-43b2-b0a5-e4f915f88cf8" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="76e7dcb8-6aa7-445e-b8ec-8f11d32546d0" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iss-astronauts-empty-collection-error-test" doc:id="7d7d56c9-ff82-4041-b05d-7ef357c76657" expectedErrorType="APP:ISS_COLLECTION_EMPTY">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fd06aa30-2048-4398-8583-231664040447" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:ISS_COLLECTION_EMPTY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="fc32b567-a082-4287-a7ce-d92b6796dd5f" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="77d16df0-4fbe-4207-90ec-0f3bdcb23e35" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iss-request-empty-collection-error-test" doc:id="e5a22517-3d1b-46bc-8f36-8d54ca6da845" expectedErrorType="APP:EMPTY_ISS_REQUEST_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="61f42e99-eedf-4b67-9a94-6e14e31b6f1a" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:EMPTY_ISS_REQUEST_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="113ade43-bc98-4e51-bade-73ede61211f4" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="bed12fed-f31c-4f2e-a418-3f3ff8a227f7" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="spacedevs-request-empty-collection-error-test" doc:id="eaac341c-e3bc-455d-86da-737921ff54e3" expectedErrorType="APP:EMPTY_SPACEDEVS_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="8a21e27e-3cea-4878-a5f7-7eb5af54cd93" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:EMPTY_SPACEDEVS_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="52e60286-449b-4fc0-996c-328d5c0ca55d" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="48f8db50-2873-4aaa-9f57-278f0dc96f97" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="all-astronauts-request-empty-collection-error-test" doc:id="9ef76541-c598-4f42-a37f-692d96897ccf" expectedErrorType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b06ed17f-31a4-47f3-9dd0-10055eacbd7b" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow Reference" doc:id="21ef04df-d8e1-4300-8378-ed8cd04d6ee9" name="get:\exploration:exploration-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="f3ae6344-8fe2-4f65-a3f0-58b7e11905d6" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
+		</munit:validation>
+	</munit:test>
+
+</mule>
