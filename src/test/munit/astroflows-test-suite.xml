@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="astroflows-test-suite.xml" />
+	<munit:test name="default-astronauts-exploration-help-output-test" doc:id="c48b4069-1376-4740-9fb2-0f96ea302ce8" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="b134fb7c-9e04-4f93-bf0a-2c8457e9a11d" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="request" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="97f530af-9545-472a-91d2-34751144a3c7" processor="sub-flow">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="c50e0df4-7926-4a6b-b703-e5a5bff16d6a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.request]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to astronauts-exploration" doc:id="bc4c5f11-cc0a-40c2-90c0-a2c784718568" name="astronauts-exploration"/>
+			<ee:transform doc:name="Transform Message" doc:id="53b4c103-8fe2-42ed-8065-e166f15a3001" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="out" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="a7ebfc0e-fb50-40b0-b2a1-80550aa2a2c9" is="#[MunitTools::equalTo(vars.out)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+
+</mule>
