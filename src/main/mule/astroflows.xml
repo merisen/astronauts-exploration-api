@@ -85,7 +85,16 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					</email:to-addresses>
 					<email:attachments><![CDATA[#[payload]]]></email:attachments>
 				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
+				<ee:transform doc:name="message-sent-success" doc:id="687de3e3-45c9-452d-bbe0-b7d2bd94d807">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="47a9b53b-810c-4ecc-9ea5-5b84f8583ade" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
 				</validation:is-not-null>
@@ -97,7 +106,16 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 						<email:to-address value="#[vars.email]" />
 					</email:to-addresses>
 				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
+				<ee:transform doc:name="message-sent-success" doc:id="ccac2e03-f2e0-4aee-ab89-aba328e2a644">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="08a3b45f-1d50-4b06-8f4e-66b3fc7d0ced" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
 				</validation:is-not-null>
@@ -109,7 +127,16 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 						<email:to-address value="#[vars.email]" />
 					</email:to-addresses>
 				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="6124c51f-f29b-42ab-a921-df8584c8b28a" />
+				<ee:transform doc:name="message-sent-success" doc:id="30c12f53-c764-48cd-a8d5-80af8a2ef79d">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="8bab2064-8919-46a1-9af0-8f2636fb28b9" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
 				</validation:is-not-null>
@@ -121,11 +148,20 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 	</sub-flow>
 	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
-		<flow-ref doc:name="exploration-post-vars" doc:id="2fe8b63e-c26d-4d82-a629-118010dd78e2" name="exploration-post-vars"/>
+		<flow-ref doc:name="exploration-vars" doc:id="2fe8b63e-c26d-4d82-a629-118010dd78e2" name="exploration-vars"/>
 		<choice doc:name="Choice" doc:id="7cc8e69b-245a-4aa7-8c33-681a8a43bf71" >
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}" target="dump-data"/>
-				<set-payload value="${validation.dumpSuccess}" doc:name="dump-success" doc:id="e8523f85-718e-4d3e-af23-e2faf6210299" />
+				<ee:transform doc:name="dump-success" doc:id="cd47b235-a7c4-4138-ac4b-63a78b9bdf61">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="dc1104ce-cde8-4e39-a01c-dc8ca9ba70f3" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DUMP_EMPTY_COLLECTION" />
 				</validation:is-not-null>
@@ -135,32 +171,6 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="62299b56-c061-4c82-96c7-08c64618392c" name="log-at-exit"/>
-	</sub-flow>
-	<sub-flow name="flatten-requests-to-the-astronauts" doc:id="3a98db2b-f583-44be-9ba6-0500daea6025" >
-		<scatter-gather doc:name="Scatter-Gather" doc:id="639e83f0-455d-40c0-92a4-a553281e7181">
-					<route>
-						<http:request method="GET" doc:name="request-to-astronauts" doc:id="d1f96d28-6926-46bf-86e4-0b7d0da8440f" url="${astronauts-research.host}">
-							<http:query-params><![CDATA[#[{
-	limit: vars.data_count,
-	astronauts: vars.astronauts
-}]]]></http:query-params>
-						</http:request>
-					</route>
-					<route>
-						<http:request method="GET" doc:name="request-to-iss-astronauts" doc:id="66fffb1c-c9e4-49a0-b8d7-15c68b896054" url="${astronauts-research.iss-host}" />
-					</route>
-				</scatter-gather>
-		<ee:transform doc:name="flatten-output" doc:id="6453788f-cbd2-4607-b0f6-85791f87b042">
-					<ee:message>
-						<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-flatten(payload..*payload)]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-		<validation:is-not-null doc:name="Is not null" doc:id="8c8f63eb-aa8d-4301-a1e5-49f6f5915681" value="#[payload]" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
-				</validation:is-not-null>
 	</sub-flow>
 	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >
 		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
@@ -214,7 +224,15 @@ output application/json
 				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.astronauts == "all"]'>
-				<flow-ref doc:name="flatten-requests-to-the-astronauts" doc:id="d2a3da82-0791-4495-a520-329c2e19c441" name="flatten-requests-to-the-astronauts"/>
+				<http:request method="GET" doc:name="request-to-astronauts" doc:id="d1f96d28-6926-46bf-86e4-0b7d0da8440f" url="${astronauts-research.host}">
+							<http:query-params><![CDATA[#[{
+	limit: vars.data_count,
+	astronauts: vars.astronauts
+}]]]></http:query-params>
+						</http:request>
+				<validation:is-not-null doc:name="Is not null" doc:id="8c8f63eb-aa8d-4301-a1e5-49f6f5915681" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<otherwise >
 				<ee:transform doc:name="astronauts-research-api-help-message" doc:id="a5ac0cdf-fe50-410f-8b38-c5383d6779df" >

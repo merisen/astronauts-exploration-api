@@ -1435,13 +1435,18 @@ output application/json
 }]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<munit-tools:mock-when doc:name="Mock when" doc:id="e9eeaed1-ceb5-4121-948c-ef7a1ce222ce" processor="flow-ref">
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e9eeaed1-ceb5-4121-948c-ef7a1ce222ce" processor="http:request">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="d2a3da82-0791-4495-a520-329c2e19c441" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="4015cea4-b186-4187-ad17-9ee3f345293d" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
 				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="11523fb8-3d59-4a19-b159-0508cf964ccf" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d1f96d28-6926-46bf-86e4-0b7d0da8440f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
@@ -1699,6 +1704,234 @@ output application/json
 output application/json
 ---
 {
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f14f68f7-2675-4a28-b429-cb05d64045e0" processor="mongo:dump">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0d09094c-eb26-4d6e-934b-0c3220f045d3" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="fed6e56a-e19a-4379-ad93-515d9dafbb12" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{dump:"astronauts"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to dump-collection-from-mongodb" doc:id="0c1b33f0-f88e-457a-9d5f-44c43a4876d8" name="dump-collection-from-mongodb"/>
+			<ee:transform doc:name="Transform Message" doc:id="e83948cc-eec7-4885-a423-60ca54b1d9f5" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="9daf08a5-6bb3-4283-af9f-93806d78a0f4" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="reference-param-dump-collection-from-mongodb-test" doc:id="16b36acf-c0dc-4a84-94d1-1d8c45aa583a" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="91c9d728-5158-499f-a900-e05847d9c508" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="4d8ca797-8881-470a-b7da-8348a9a8025c" processor="mongo:dump">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0d09094c-eb26-4d6e-934b-0c3220f045d3" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="b3f39b0b-de42-45e8-bd29-3ff3458531c9" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{dump:"astronauts"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to astronauts-exploration" doc:id="83d909f2-c1d3-4c15-b38f-7efb8b58a596" name="astronauts-exploration"/>
+			<ee:transform doc:name="Transform Message" doc:id="251f537a-1ce1-4a32-bec7-b0f9da442841" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="245d2cf4-752a-477b-951f-81dea23f455d" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="all-astronauts-actual-data-from-ftp-send-by-email-test" doc:id="52ef534a-c90f-4768-92aa-3c400f6bacfb" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="b4bc93e7-68fe-47a9-a602-482ea7427a03" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="044e2ff7-860a-41ea-85b9-8a32be1d54bf" processor="ftp:read">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="741cef47-32fd-49f0-bc0c-aa09eb8b3815" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d9103c03-9a38-4173-b40e-b8958fcaa4ac" processor="email:send">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e19e62b2-5708-4dad-a35f-b851c8b19902" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="a7e59ac8-68ac-45d7-9a32-916201dd900f" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{email: "viktor.duda.it@icloud.com",file:"actual_all_astronauts"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to actual-data-from-ftp-send-by-email" doc:id="19a9399b-e2bb-452d-911d-fc4c2f96aa8a" name="actual-data-from-ftp-send-by-email"/>
+			<ee:transform doc:name="Transform Message" doc:id="a5645c54-a272-4a11-8306-9700b1fefe3f" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="96013f41-aeb7-48ec-8673-51af36926be4" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="spacedevs-astronauts-actual-data-from-ftp-send-by-email-test" doc:id="e6d4002b-e011-4b28-8905-909c04c2912c" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="481695a7-bf32-4742-bd61-0ab2de9930c7" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="54febbd7-ce1c-469d-b846-d2f60007edc2" processor="ftp:read">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e4cc1995-a0c8-4f4c-938a-d0cc6681bebc" processor="email:send">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="86dbc191-9bae-4ea2-89c8-f36fd2761dba" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="9f87306f-a7bc-4d78-b8fa-922f9d0e9dfe" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{email: "viktor.duda.it@icloud.com",file:"actual_spacedevs_astronauts"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to actual-data-from-ftp-send-by-email" doc:id="6cb592f1-3808-4573-9ead-7cebf6760140" name="actual-data-from-ftp-send-by-email"/>
+			<ee:transform doc:name="Transform Message" doc:id="49694865-d584-40bf-a691-2c2c2cfb9ce2" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d093308e-54b5-465e-a43b-ae55c977700b" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iss-astronauts-actual-data-from-ftp-send-by-email-test" doc:id="e4d2deac-b50d-4d4d-a92c-15d4eda37549" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="e39bf1f7-c6e7-4ffe-bd95-c9f51dd470bf" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c5af80f1-b20d-48b9-a178-d6a6d3021fbd" processor="ftp:read">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="29e643a7-c95e-4e37-a229-f5f64065a82b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d0004fb7-2d41-4a20-8bf1-d0396e34446e" processor="email:send">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3a71ab63-712f-48f3-87a8-74d4e0ee74b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="f233fc79-019a-4cfb-aa38-abf8235aea09" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{email: "viktor.duda.it@icloud.com",file:"actual_iss_astronauts"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to actual-data-from-ftp-send-by-email" doc:id="4d666f90-8a2a-42a3-9482-f637917017b4" name="actual-data-from-ftp-send-by-email"/>
+			<ee:transform doc:name="Transform Message" doc:id="cf57a1d3-84fb-4b28-8996-32531dc18f59" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="6fa7419f-a59c-4db1-8f70-d37bc5cfe9c6" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="help-astronauts-actual-data-from-ftp-send-by-email-test" doc:id="88f978ca-60ac-464e-abb7-8ab238cf7c4e" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="f56de04d-09f6-488f-a215-707c4c1431c2" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
 	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
 	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
 	Authors: "Viktor Duda, Roman Skaskiv",
@@ -1718,9 +1951,9 @@ output application/json
 }]]></ee:set-variable>
 				</ee:variables>
 			</ee:transform>
-			<munit-tools:mock-when doc:name="Mock when" doc:id="f14f68f7-2675-4a28-b429-cb05d64045e0" processor="set-payload">
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c6a2d68a-e5b1-427e-8e66-87cd2a11a8fe" processor="flow-ref">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="e8523f85-718e-4d3e-af23-e2faf6210299" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="0c506444-4bdd-4d10-9056-627254482ae0" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
@@ -1728,11 +1961,8 @@ output application/json
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<munit:set-event doc:name="Set Event" doc:id="fed6e56a-e19a-4379-ad93-515d9dafbb12" cloneOriginalEvent="true">
-				<munit:attributes value='#[queryParams:{dump_request:"astronauts"}]' />
-			</munit:set-event>
-			<flow-ref doc:name="Flow-ref to dump-collection-from-mongodb" doc:id="0c1b33f0-f88e-457a-9d5f-44c43a4876d8" name="dump-collection-from-mongodb"/>
-			<ee:transform doc:name="Transform Message" doc:id="e83948cc-eec7-4885-a423-60ca54b1d9f5" >
+			<flow-ref doc:name="Flow-ref to actual-data-from-ftp-send-by-email" doc:id="8daa3963-118b-48fd-9775-302166af663c" name="actual-data-from-ftp-send-by-email"/>
+			<ee:transform doc:name="Transform Message" doc:id="429a8782-80fd-4660-98cd-9cd7fef3022c" >
 				<ee:message >
 				</ee:message>
 				<ee:variables >
@@ -1761,7 +1991,7 @@ output application/json
 			</ee:transform>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="Assert that" doc:id="9daf08a5-6bb3-4283-af9f-93806d78a0f4" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="74efa3e7-c43d-4178-88ed-5265dfa28b44" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
 
