@@ -4,3 +4,9 @@ src/main/.DS_Store
 /target/
 *.meta
 *.data
+.project
+.classpath
+/reports
+.settings
+.mule
+.git
