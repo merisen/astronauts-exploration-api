@@ -73,6 +73,52 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="58154353-212a-4ea8-adbd-92a457c3cc86" name="log-at-exit"/>
 	</sub-flow>
+	<sub-flow name="actual-data-from-ftp-send-by-email" doc:id="b783097a-5565-4e5c-8cd6-8c7c1b3a377a">
+		<flow-ref doc:name="log-at-start" doc:id="8b8959bf-c819-4244-90e7-44d47198cd7f" name="log-at-start" />
+		<flow-ref doc:name="exploration-post-vars" doc:id="c2568a35-e974-4e08-a111-800a29db5596" name="exploration-post-vars" />
+		<choice doc:name="Choice" doc:id="525a7fe5-cfd0-4cd4-ab4d-cf9281d38c87">
+			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="741cef47-32fd-49f0-bc0c-aa09eb8b3815" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.all_path}" />
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="e19e62b2-5708-4dad-a35f-b851c8b19902" fromAddress="${mail.user}" subject="${mail.subject}" config-ref="Email_SMTP">
+					<email:to-addresses>
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+					<email:attachments><![CDATA[#[payload]]]></email:attachments>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
+				<validation:is-not-null doc:name="Is not null" doc:id="47a9b53b-810c-4ecc-9ea5-5b84f8583ade" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
+			</when>
+			<when expression='#[vars.email != null and vars.file == "actual_spacedevs_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}" />
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="86dbc191-9bae-4ea2-89c8-f36fd2761dba" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
+					<email:to-addresses>
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
+				<validation:is-not-null doc:name="Is not null" doc:id="08a3b45f-1d50-4b06-8f4e-66b3fc7d0ced" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
+			</when>
+			<when expression='#[vars.email != null and vars.file == "actual_iss_astronauts"]'>
+				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="29e643a7-c95e-4e37-a229-f5f64065a82b" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}" />
+				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="3a71ab63-712f-48f3-87a8-74d4e0ee74b5" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
+					<email:to-addresses>
+						<email:to-address value="#[vars.email]" />
+					</email:to-addresses>
+				</email:send>
+				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="6124c51f-f29b-42ab-a921-df8584c8b28a" />
+				<validation:is-not-null doc:name="Is not null" doc:id="8bab2064-8919-46a1-9af0-8f2636fb28b9" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
+			</when>
+			<otherwise>
+				<flow-ref doc:name="help-output-message" doc:id="0c506444-4bdd-4d10-9056-627254482ae0" name="help-var" />
+			</otherwise>
+		</choice>
+	</sub-flow>
 	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
 		<flow-ref doc:name="exploration-post-vars" doc:id="2fe8b63e-c26d-4d82-a629-118010dd78e2" name="exploration-post-vars"/>
@@ -90,51 +136,31 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="62299b56-c061-4c82-96c7-08c64618392c" name="log-at-exit"/>
 	</sub-flow>
-	<sub-flow name="actual-data-from-ftp-send-by-email" doc:id="b783097a-5565-4e5c-8cd6-8c7c1b3a377a" >
-		<flow-ref doc:name="log-at-start" doc:id="8b8959bf-c819-4244-90e7-44d47198cd7f" name="log-at-start"/>
-		<flow-ref doc:name="exploration-post-vars" doc:id="c2568a35-e974-4e08-a111-800a29db5596" name="exploration-post-vars"/>
-		<choice doc:name="Choice" doc:id="525a7fe5-cfd0-4cd4-ab4d-cf9281d38c87" >
-			<when expression='#[vars.email != null and vars.file == "actual_all_astronauts"]'>
-				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="741cef47-32fd-49f0-bc0c-aa09eb8b3815" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.all_path}"/>
-				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="e19e62b2-5708-4dad-a35f-b851c8b19902" fromAddress="${mail.user}" subject="${mail.subject}" config-ref="Email_SMTP">
-					<email:to-addresses>
-						<email:to-address value="#[vars.email]" />
-					</email:to-addresses>
-					<email:attachments ><![CDATA[#[payload]]]></email:attachments>
-				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
-				<validation:is-not-null doc:name="Is not null" doc:id="47a9b53b-810c-4ecc-9ea5-5b84f8583ade" value="#[payload]" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+	<sub-flow name="flatten-requests-to-the-astronauts" doc:id="3a98db2b-f583-44be-9ba6-0500daea6025" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="639e83f0-455d-40c0-92a4-a553281e7181">
+					<route>
+						<http:request method="GET" doc:name="request-to-astronauts" doc:id="d1f96d28-6926-46bf-86e4-0b7d0da8440f" url="${astronauts-research.host}">
+							<http:query-params><![CDATA[#[{
+	limit: vars.data_count,
+	astronauts: vars.astronauts
+}]]]></http:query-params>
+						</http:request>
+					</route>
+					<route>
+						<http:request method="GET" doc:name="request-to-iss-astronauts" doc:id="66fffb1c-c9e4-49a0-b8d7-15c68b896054" url="${astronauts-research.iss-host}" />
+					</route>
+				</scatter-gather>
+		<ee:transform doc:name="flatten-output" doc:id="6453788f-cbd2-4607-b0f6-85791f87b042">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+flatten(payload..*payload)]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+		<validation:is-not-null doc:name="Is not null" doc:id="8c8f63eb-aa8d-4301-a1e5-49f6f5915681" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
 				</validation:is-not-null>
-			</when>
-			<when expression='#[vars.email != null and vars.file == "actual_spacedevs_astronauts"]'>
-				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}"/>
-				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="86dbc191-9bae-4ea2-89c8-f36fd2761dba" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
-					<email:to-addresses >
-						<email:to-address value="#[vars.email]" />
-					</email:to-addresses>
-				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
-				<validation:is-not-null doc:name="Is not null" doc:id="08a3b45f-1d50-4b06-8f4e-66b3fc7d0ced" value="#[payload]" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
-				</validation:is-not-null>
-			</when>
-			<when expression='#[vars.email != null and vars.file == "actual_iss_astronauts"]'>
-				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="29e643a7-c95e-4e37-a229-f5f64065a82b" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}"/>
-				<email:send doc:name="send-payload-to-the-email-if-user-want" doc:id="3a71ab63-712f-48f3-87a8-74d4e0ee74b5" config-ref="Email_SMTP" fromAddress="${mail.user}" subject="${mail.subject}">
-					<email:to-addresses >
-						<email:to-address value="#[vars.email]" />
-					</email:to-addresses>
-				</email:send>
-				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="6124c51f-f29b-42ab-a921-df8584c8b28a" />
-				<validation:is-not-null doc:name="Is not null" doc:id="8bab2064-8919-46a1-9af0-8f2636fb28b9" value="#[payload]" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
-				</validation:is-not-null>
-			</when>
-			<otherwise >
-				<flow-ref doc:name="help-output-message" doc:id="0c506444-4bdd-4d10-9056-627254482ae0" name="help-var"/>
-			</otherwise>
-		</choice>
 	</sub-flow>
 	<sub-flow name="astronauts-request-transform-message" doc:id="9c07ceee-d3b0-4bf8-91fa-2c638ddb1ee6" >
 		<flow-ref doc:name="exploration-vars" doc:id="2fc0a685-873f-4dc0-ad04-b72fcd421eb6" name="exploration-vars"/>
@@ -188,30 +214,7 @@ output application/json
 				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.astronauts == "all"]'>
-				<scatter-gather doc:name="Scatter-Gather" doc:id="639e83f0-455d-40c0-92a4-a553281e7181" >
-					<route >
-						<http:request method="GET" doc:name="request-to-astronauts" doc:id="d1f96d28-6926-46bf-86e4-0b7d0da8440f" url="${astronauts-research.host}">
-							<http:query-params ><![CDATA[#[{
-	limit: vars.data_count,
-	astronauts: vars.astronauts
-}]]]></http:query-params>
-						</http:request>
-					</route>
-					<route >
-						<http:request method="GET" doc:name="request-to-iss-astronauts" doc:id="66fffb1c-c9e4-49a0-b8d7-15c68b896054" url="${astronauts-research.iss-host}"/>
-					</route>
-				</scatter-gather>
-				<ee:transform doc:name="flatten-output" doc:id="6453788f-cbd2-4607-b0f6-85791f87b042" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-flatten(payload..*payload)]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<validation:is-not-null doc:name="Is not null" doc:id="8c8f63eb-aa8d-4301-a1e5-49f6f5915681" value="#[payload]" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
-				</validation:is-not-null>
+				<flow-ref doc:name="flatten-requests-to-the-astronauts" doc:id="d2a3da82-0791-4495-a520-329c2e19c441" name="flatten-requests-to-the-astronauts"/>
 			</when>
 			<otherwise >
 				<ee:transform doc:name="astronauts-research-api-help-message" doc:id="a5ac0cdf-fe50-410f-8b38-c5383d6779df" >
