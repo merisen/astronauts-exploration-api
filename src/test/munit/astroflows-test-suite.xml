@@ -1994,5 +1994,207 @@ output application/json
 			<munit-tools:assert-that doc:name="Assert that" doc:id="74efa3e7-c43d-4178-88ed-5265dfa28b44" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="astronauts-database-delete-collection-and-data-from-database-test" doc:id="d2d5dfec-d7a6-4178-83db-77f0a9420b66" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="d8b0a3e9-50cb-400e-a30d-2166681909ee" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="af9987a7-5972-42c4-970c-a43003a4d8dc" processor="mongo:drop-database">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="fee1b832-9ceb-4d42-abb5-bc67dd29e281" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{drop:"database"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to delete-collection-and-data-from-database" doc:id="acc83aa6-7f69-45a6-b36c-0b70e901fc0d" name="delete-collection-and-data-from-database"/>
+			<ee:transform doc:name="Transform Message" doc:id="c3688c3f-556a-415f-a321-b2143e008bcd" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="42a27687-bd70-4032-a968-75beac1a974b" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="astronauts-collection-delete-collection-and-data-from-database-test" doc:id="54b3ac33-59d9-44c1-becd-89ed63817b81" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="93170347-54b3-4168-a33d-76a7d3401dad" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="5f3fee8c-6bbf-46fe-89f0-ae9ea08e48af" processor="mongo:drop-collection">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d07b89a6-2c01-450d-bf15-766d74a05bc9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="c9b832d9-83fc-4677-b404-ff3bcb324197" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{drop:"collection"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to delete-collection-and-data-from-database" doc:id="d1d2cb0d-1505-4a6d-a9f7-7af3e7e6da62" name="delete-collection-and-data-from-database"/>
+			<ee:transform doc:name="Transform Message" doc:id="dcd12a55-2d9f-40eb-a661-acc2d6e8d2c6" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="361c88de-95da-447f-942c-ca25bbf04f94" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="custom-collection-delete-collection-and-data-from-database-test" doc:id="018ca655-8286-448c-a74a-fd87aa338026" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="61f68f1c-8e90-42f3-be17-b46ccb0422d4" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="34ec0090-c905-4876-b4c8-1366565dda55" processor="mongo:drop-collection">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="#[vars.drop_request]" attributeName="collectionName" />
+					<munit-tools:with-attribute whereValue="a37f8656-853d-4e3f-a2b6-efc6b04802a8" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="08336826-b5cf-4650-a5ae-c1d45068c7c1" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{drop:"testCollection"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to delete-collection-and-data-from-database" doc:id="989b2f47-c9f8-4f12-88b8-25872df9810f" name="delete-collection-and-data-from-database"/>
+			<ee:transform doc:name="Transform Message" doc:id="804f17e8-8ce0-43bf-a312-408da57ea0de" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="5afac30f-65e7-4668-8139-ba729b01ddb5" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="default-collection-delete-collection-and-data-from-database-test" doc:id="36051a86-c3c0-4ce0-a56e-3b4f49f29125" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="4df87abe-b0e7-4144-bbe3-da3cc39d409b" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1d50c490-8784-4446-a881-2caad25fa8e3" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete-collection-and-data-from-database" doc:id="ad1f6549-c840-4abe-92dd-af26f9d9d49b" name="delete-collection-and-data-from-database"/>
+			<ee:transform doc:name="Transform Message" doc:id="c2a32dc6-0519-41b8-9d9c-d4dce18a61b1" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="0c3646a4-16bb-450d-aa0b-9e2d071ecc12" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
 
 </mule>

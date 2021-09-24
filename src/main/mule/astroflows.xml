@@ -31,11 +31,29 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<flow-ref doc:name="exploration-post-vars" doc:id="09a14234-d8c9-4f4e-a054-9444f5212ac9" name="exploration-post-vars"/>
 		<choice doc:name="Choice" doc:id="2a7d5e6a-4128-4b1e-9b42-0ce2f2af5314" >
 			<when expression="#[vars.create == null]">
-				<set-payload value="${validation.createCollectionFailed}" doc:name="send-help-message" doc:id="192b2678-bb84-4c44-afa1-ad45cb604468" />
+				<ee:transform doc:name="message-sent-success" doc:id="cab34168-059f-4774-8b06-46651027bcf5" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Failed to create collection! Please read our Wiki page."
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</when>
 			<otherwise>
 				<mongo:create-collection doc:name="create-custom-collection" doc:id="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="#[vars.create]"/>
-				<set-payload value='${validation.createCollectionSuccess}' doc:name="collection-success-create" doc:id="24c08772-578b-469e-9c77-4d34a10fe95a" />
+				<ee:transform doc:name="message-sent-success" doc:id="830466de-6241-4f66-a5d0-22e8553c2836">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="ab949e62-5545-487a-a629-8ba1c9593349" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:CREATE_CUSTOM_COLLECTION" />
 				</validation:is-not-null>
@@ -48,21 +66,48 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<choice doc:name="Choice" doc:id="17c5d676-07cc-420d-a091-dfba8a807ed1" >
 			<when expression='#[vars.drop_request == "database"]'>
 				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
-				<set-payload value="${validation.dropDatabaseSuccess}" doc:name="drop-database-astronauts-output" doc:id="c2783b2c-4fc2-48a7-b376-a5714d4c8845" />
+				<ee:transform doc:name="message-sent-success" doc:id="22970772-7699-41a0-887b-109e93f5839f">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="24c1084b-b8b8-4af8-b24f-3232ed198ef0" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_ASTRONAUTS_DATABASE" />
 				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.drop_request == "collection"]'>
 				<mongo:drop-collection collectionName="astronauts" doc:name="delete-astronauts-collection" doc:id="d07b89a6-2c01-450d-bf15-766d74a05bc9" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
-				<set-payload value="${validation.dropAstronautsCollectionSuccess}" doc:name="drop-collection-astronauts-output" doc:id="b286cee0-f934-4a27-a513-487ebf2e0f8d" />
+				<ee:transform doc:name="message-sent-success" doc:id="e5c16d7b-096b-4901-bd4a-4ec476dce349">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="c2dfd276-55b4-4778-9d05-0df08eb2b247" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_ASTRONAUTS_COLLECTION" />
 				</validation:is-not-null>
 			</when>
 			<when expression="#[vars.drop_request != null]">
 				<mongo:drop-collection collectionName="#[vars.drop_request]" doc:name="drop-custom-collection" doc:id="a37f8656-853d-4e3f-a2b6-efc6b04802a8" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
-				<set-payload value="${validation.dropCollectionSuccess}" doc:name="drop-custom-collection-success" doc:id="73770621-f643-45fa-b694-689cc7a5e2d1" />
+				<ee:transform doc:name="message-sent-success" doc:id="f845bfa2-030a-4320-95cb-0939d4dfde56">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 				<validation:is-not-null doc:name="Is not null" doc:id="7fa6df91-bf4f-47f5-8b66-d31b83efe0c3" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_CUSTOM_COLLECTION" />
 				</validation:is-not-null>
