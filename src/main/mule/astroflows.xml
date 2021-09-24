@@ -30,20 +30,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<flow-ref doc:name="log-at-start" doc:id="0eb25cb6-3cec-4af1-b9f0-5fca089fde17" name="log-at-start"/>
 		<flow-ref doc:name="exploration-post-vars" doc:id="09a14234-d8c9-4f4e-a054-9444f5212ac9" name="exploration-post-vars"/>
 		<choice doc:name="Choice" doc:id="2a7d5e6a-4128-4b1e-9b42-0ce2f2af5314" >
-			<when expression="#[vars.create == null]">
-				<ee:transform doc:name="message-sent-success" doc:id="cab34168-059f-4774-8b06-46651027bcf5" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	Status: "Failed to create collection! Please read our Wiki page."
-}]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</when>
-			<otherwise>
-				<mongo:create-collection doc:name="create-custom-collection" doc:id="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="#[vars.create]"/>
+			<when expression="#[vars.create != null]">
+				<mongo:create-collection doc:name="create-custom-collection" doc:id="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="#[vars.create]" />
 				<ee:transform doc:name="message-sent-success" doc:id="830466de-6241-4f66-a5d0-22e8553c2836">
 					<ee:message>
 						<ee:set-payload><![CDATA[%dw 2.0
@@ -57,6 +45,9 @@ output application/json
 				<validation:is-not-null doc:name="Is not null" doc:id="ab949e62-5545-487a-a629-8ba1c9593349" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:CREATE_CUSTOM_COLLECTION" />
 				</validation:is-not-null>
+			</when>
+			<otherwise>
+				<flow-ref doc:name="send-help-variable-name" doc:id="a9fba0e5-3433-45b7-b142-fb849fe3a17b" name="help-var" />
 			</otherwise>
 		</choice>
 	</sub-flow>

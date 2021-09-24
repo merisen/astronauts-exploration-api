@@ -2196,5 +2196,123 @@ output application/json
 			<munit-tools:assert-that doc:name="Assert that" doc:id="0c3646a4-16bb-450d-aa0b-9e2d071ecc12" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="create-custom-collection-test" doc:id="937d2e6c-155e-43a1-be94-b827f5214191" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="4094c416-a9b0-4ccb-b996-0fa0289431d7" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2b888722-543e-43c6-a389-2e8cf5dc358c" processor="mongo:create-collection">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="#[vars.create]" attributeName="collectionName" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="1d189ee3-dc6d-453c-9da6-50c9f3fff8a8" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{create:"test1"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to create-custom-collection" doc:id="5186ffac-7a50-486f-b3cf-e643fc640206" name="create-custom-collection"/>
+			<ee:transform doc:name="Transform Message" doc:id="f611ca73-1c91-4365-b70f-89087f64214d" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	Status: "Success!"
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="76409c22-013d-43bd-a1be-0fe0f3deb757" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="null-create-custom-collection-test" doc:id="d09dd0ad-6613-4547-9a0c-95d1c57d4db0" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="359b2496-7fa5-4f9d-9268-760dcc5aca87" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="r" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="cab8e358-15b4-4201-a15b-37cf97494c7b" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="a9fba0e5-3433-45b7-b142-fb849fe3a17b" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.r]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to create-custom-collection" doc:id="280eca77-46de-4fdf-8c02-66323d0b5134" name="create-custom-collection"/>
+			<ee:transform doc:name="Transform Message" doc:id="cbf895ae-528b-4a58-a422-6d9128279391" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="o" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"GitHub Project": "https://github.com/merisen/astronauts-exploration-api",
+	"GitHub Wiki": "https://github.com/merisen/astronauts-exploration-api/wiki",
+	Authors: "Viktor Duda, Roman Skaskiv",
+	"Available query endpoints for /exploration in use Astronauts Research API":
+	{
+		"Get Help page": "help : info",
+		"Display number of requests": "data-count : 12",
+		"Get Astronauts": "astronauts : all, spacedevs, iss, dump(change path in the config.yaml)",
+		"Get International Space Station": "iss : raw, location"
+	},
+	"Available query POST endpoints for /exploration in use Astronauts Research API":
+	{
+		"Create custom collection": "create : collection name",
+		"Drop custom collection": "drop : collection name",
+		"Get actual data from the FTP-Server": "email : test@test.com & file : actual_all_astronauts, actual_iss_astronauts, actual_spacedevs_astronauts"
+	}
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="07d7228c-b8fc-41d2-9d19-2ea869834142" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
 
 </mule>
