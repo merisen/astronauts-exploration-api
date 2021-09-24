@@ -36,9 +36,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<otherwise>
 				<mongo:create-collection doc:name="create-custom-collection" doc:id="4b0c32d0-9ace-4028-a4b2-ac3e0cfb780c" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="#[vars.create]"/>
 				<set-payload value='${validation.createCollectionSuccess}' doc:name="collection-success-create" doc:id="24c08772-578b-469e-9c77-4d34a10fe95a" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="85ac9008-6f95-40ec-9804-21528798face" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:CREATE_CUSTOM_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="ab949e62-5545-487a-a629-8ba1c9593349" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:CREATE_CUSTOM_COLLECTION" />
+				</validation:is-not-null>
 			</otherwise>
 		</choice>
 	</sub-flow>
@@ -49,23 +49,23 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<when expression='#[vars.drop_request == "database"]'>
 				<mongo:drop-database databaseName="astronauts" doc:name="delete-astronauts-database" doc:id="2f3c9a4c-a195-48d4-8027-7dfa85fb3720" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
 				<set-payload value="${validation.dropDatabaseSuccess}" doc:name="drop-database-astronauts-output" doc:id="c2783b2c-4fc2-48a7-b376-a5714d4c8845" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="02cb78fc-f22a-462a-ac11-1abe7122263f" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:DELETE_ASTRONAUTS_DATABASE" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="24c1084b-b8b8-4af8-b24f-3232ed198ef0" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_ASTRONAUTS_DATABASE" />
+				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.drop_request == "collection"]'>
 				<mongo:drop-collection collectionName="astronauts" doc:name="delete-astronauts-collection" doc:id="d07b89a6-2c01-450d-bf15-766d74a05bc9" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
 				<set-payload value="${validation.dropAstronautsCollectionSuccess}" doc:name="drop-collection-astronauts-output" doc:id="b286cee0-f934-4a27-a513-487ebf2e0f8d" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="85b4aaa2-04cd-4a7e-9bf7-e029edf3d861" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:DELETE_ASTRONAUTS_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="c2dfd276-55b4-4778-9d05-0df08eb2b247" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_ASTRONAUTS_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<when expression="#[vars.drop_request != null]">
 				<mongo:drop-collection collectionName="#[vars.drop_request]" doc:name="drop-custom-collection" doc:id="a37f8656-853d-4e3f-a2b6-efc6b04802a8" config-ref="ASTRONAUTS_TABLE_CONNECTION"/>
 				<set-payload value="${validation.dropCollectionSuccess}" doc:name="drop-custom-collection-success" doc:id="73770621-f643-45fa-b694-689cc7a5e2d1" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="8c8a9c6d-ede2-4ffa-848b-c3be6e4e15dd" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:DELETE_CUSTOM_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="7fa6df91-bf4f-47f5-8b66-d31b83efe0c3" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DELETE_CUSTOM_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="b5406f5a-4c81-42ae-9628-1aaf4ac8665a" name="help-var"/>
@@ -80,9 +80,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<mongo:dump doc:name="dump-all-data-from-astronauts-table" doc:id="0d09094c-eb26-4d6e-934b-0c3220f045d3" config-ref="ASTRONAUTS_TABLE_CONNECTION" outputDirectory="${mongodb.dump}" target="dump-data"/>
 				<set-payload value="${validation.dumpSuccess}" doc:name="dump-success" doc:id="e8523f85-718e-4d3e-af23-e2faf6210299" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="f73f3b5a-7a43-45cc-b28d-a5566678b4a8" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:DUMP_EMPTY_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="dc1104ce-cde8-4e39-a01c-dc8ca9ba70f3" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:DUMP_EMPTY_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="7ff42a85-9666-4f1f-afb0-e9a5d6ee03cd" name="help-var"/>
@@ -103,9 +103,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					<email:attachments ><![CDATA[#[payload]]]></email:attachments>
 				</email:send>
 				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="014547fb-1740-4b60-a58d-24a17207b83f" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="fa2b32b4-3542-4e21-9500-6448eea9c199" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="47a9b53b-810c-4ecc-9ea5-5b84f8583ade" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ALL_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.email != null and vars.file == "actual_spacedevs_astronauts"]'>
 				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="2d89f8a6-9e17-41d8-a62e-53f2a538cdc6" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.spacedevs_path}"/>
@@ -115,9 +115,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					</email:to-addresses>
 				</email:send>
 				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="fc712b15-1647-48bf-9ac2-3c0c5980a755" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="57886b6d-0acc-4ca2-9348-7d01d5724612" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="08a3b45f-1d50-4b06-8f4e-66b3fc7d0ced" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:SPACEDEVS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.email != null and vars.file == "actual_iss_astronauts"]'>
 				<ftp:read doc:name="read-data-from-file-in-the-ftp-server" doc:id="29e643a7-c95e-4e37-a229-f5f64065a82b" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.iss_path}"/>
@@ -127,9 +127,9 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 					</email:to-addresses>
 				</email:send>
 				<set-payload value='#["Success!"]' doc:name="message-sent-success" doc:id="6124c51f-f29b-42ab-a921-df8584c8b28a" />
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="524588c7-f6a9-416a-8f27-e4f72fca1dc0" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="8bab2064-8919-46a1-9af0-8f2636fb28b9" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:ISS_ASTRONAUTS_EMAIL_EMPTY_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<otherwise >
 				<flow-ref doc:name="help-output-message" doc:id="0c506444-4bdd-4d10-9056-627254482ae0" name="help-var"/>
@@ -157,9 +157,9 @@ people: payload.people map ( person , indexOfPerson ) -> {
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="33d467b0-f3ae-4220-a22e-2de5636a8940" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:EMPTY_ISS_REQUEST_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="92eee85f-c014-4ed4-93ee-95c53c70c855" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ISS_REQUEST_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.astronauts == "spacedevs"]'>
 				<ee:transform doc:name="spacedevs-astronauts" doc:id="7ba44d6e-d0e6-4e2e-9de3-8d1a2b2587d8" >
@@ -183,9 +183,9 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="a1fead67-a368-4d36-803f-15f72ac988a7" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:EMPTY_SPACEDEVS_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="7f8d80f4-719c-47b1-8fe0-ad0a3db10a50" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_SPACEDEVS_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.astronauts == "all"]'>
 				<scatter-gather doc:name="Scatter-Gather" doc:id="639e83f0-455d-40c0-92a4-a553281e7181" >
@@ -209,9 +209,9 @@ output application/json
 flatten(payload..*payload)]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="41015985-6e9c-4605-a35a-ce55e5d22f48" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
-				</validation:is-not-empty-collection>
+				<validation:is-not-null doc:name="Is not null" doc:id="8c8f63eb-aa8d-4301-a1e5-49f6f5915681" value="#[payload]" message="${validation.collectionEmpty}">
+					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_ALL_ASTRONAUTS_COLLECTION" />
+				</validation:is-not-null>
 			</when>
 			<otherwise >
 				<ee:transform doc:name="astronauts-research-api-help-message" doc:id="a5ac0cdf-fe50-410f-8b38-c5383d6779df" >
@@ -260,9 +260,29 @@ output application/json
 				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="e333b6dd-6b1d-4260-a047-0b3ab1d4a48f" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="5b08425a-7484-49ae-aae8-4fea933c592b" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:ALL_ASTROS_COLLECTION_EMPTY" />
-				</validation:is-not-empty-collection>
+				<ee:transform doc:name="transform-output" doc:id="a889119e-7e3e-464d-8395-d414d91bcad5">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	results: payload.results map ( result , indexOfResult ) -> {
+		id: result.id,
+		name: result.name,
+		date_of_birth: result.date_of_birth,
+		nationality: result.nationality,
+		wiki: result.wiki,
+		agency: result.agency,
+		last_flight: result.last_flight,
+		first_flight: result.first_flight
+	},
+	people: payload.people map ( person , indexOfPerson ) -> {
+		craft: person.craft,
+		name: person.name
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</when>
 			<when expression='#[vars.astronauts == "spacedevs"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="3842ddc9-84db-4d7b-b988-2b1883340be5" name="astronauts-request-transform-message"/>
@@ -282,9 +302,27 @@ output application/json
 				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="4e130673-134c-4e88-899c-caaa3a0dd448" config-ref="ASTRONAUTS_TABLE_CONNECTION">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="e320b6fd-760d-4fb4-a9a5-38ac50cbb731" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:SPACEDEVS_COLLECTION_EMPTY" />
-				</validation:is-not-empty-collection>
+				<ee:transform doc:name="transform-output" doc:id="1e34278f-d706-487a-9253-063db58c5448" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	results: payload.results map ( result , indexOfResult ) -> {
+		id: result.id,
+		name: result.name,
+		date_of_birth: result.date_of_birth,
+		nationality: result.nationality,
+		wiki: result.wiki,
+		agency: {
+			name: result.agency.name
+		},
+		last_flight: result.last_flight,
+		first_flight: result.first_flight
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</when>
 			<when expression='#[vars.astronauts == "iss"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="9a55248c-c7f9-4d96-bcc7-958d51521986" name="astronauts-request-transform-message"/>
@@ -304,9 +342,17 @@ output application/json
 				<mongo:insert-document doc:name="add-data-to-the-database" doc:id="3e9f8486-fd73-4865-8697-f1bbeaf827af" config-ref="ASTRONAUTS_TABLE_CONNECTION" collectionName="astronauts">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-				<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="048e2230-e2c7-44bf-95ed-1026dd1b257d" message="${validation.collectionEmpty}">
-					<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:ISS_COLLECTION_EMPTY" />
-				</validation:is-not-empty-collection>
+				<ee:transform doc:name="transform-output" doc:id="5a8eda9c-4742-4014-b2ff-2ae4b915f1ba" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+people: payload.people map ( person , indexOfPerson ) -> {
+	name: person.name,
+	craft: person.craft
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
 			</when>
 			<when expression='#[vars.dump_request == "astronauts"]'>
 				<flow-ref doc:name="dump-collection-from-mongodb" doc:id="31a1e978-7ac1-4ac3-b372-95e4850961d5" name="dump-collection-from-mongodb"/>

@@ -81,5 +81,742 @@ output application/json
 			<munit-tools:assert-that doc:name="Assert that" doc:id="a7ebfc0e-fb50-40b0-b2a1-80550aa2a2c9" is="#[MunitTools::equalTo(vars.out)]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="all-astronauts-exploration-request-output-test" doc:id="c8ada135-f441-4f29-9efe-8844361744f8" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="170fbe7d-06ca-4445-828e-1b2eee8eb42e" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="request" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "results": [
+        {
+            "id": 276,
+            "name": "Franz Viehböck",
+            "date_of_birth": "1960-08-24",
+            "nationality": "Austrian",
+            "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+            "agency": {
+                "name": "Austrian Space Agency"
+            },
+            "last_flight": "1991-10-02T05:59:38Z",
+            "first_flight": "1991-10-02T05:59:38Z"
+        },
+        {
+            "id": 225,
+            "name": "Marcos Pontes",
+            "date_of_birth": "1963-03-11",
+            "nationality": "Brazilian",
+            "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+            "agency": {
+                "name": "Brazilian Space Agency"
+            },
+            "last_flight": "2006-03-30T02:30:00Z",
+            "first_flight": "2006-03-30T02:30:00Z"
+        },
+        {
+            "id": 59,
+            "name": "Aleksandr Panayotov Aleksandrov",
+            "date_of_birth": "1951-12-01",
+            "nationality": "Bulgarian",
+            "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+            "agency": {
+                "name": "Bulgarian Space Agency"
+            },
+            "last_flight": "1988-06-07T14:03:13Z",
+            "first_flight": "1988-06-07T14:03:13Z"
+        },
+        {
+            "id": 112,
+            "name": "Marc Garneau",
+            "date_of_birth": "1949-02-23",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2000-12-01T03:06:00Z",
+            "first_flight": "1984-10-05T11:03:00Z"
+        },
+        {
+            "id": 125,
+            "name": "Jeremy Hansen",
+            "date_of_birth": "1976-01-27",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": null,
+            "first_flight": null
+        },
+        {
+            "id": 6,
+            "name": "David Saint-Jacques",
+            "date_of_birth": "1970-01-06",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2018-12-03T11:31:52Z",
+            "first_flight": "2018-12-03T11:31:52Z"
+        },
+        {
+            "id": 5,
+            "name": "Chris Hadfield",
+            "date_of_birth": "1959-08-29",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2012-12-19T12:12:35Z",
+            "first_flight": "1995-11-12T12:30:43Z"
+        },
+        {
+            "id": 188,
+            "name": "Steve MacLean",
+            "date_of_birth": "1954-12-14",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2006-09-09T15:14:55Z",
+            "first_flight": "1992-10-22T14:05:53Z"
+        },
+        {
+            "id": 220,
+            "name": "Julie Payette",
+            "date_of_birth": "1963-10-20",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-07-15T22:03:00Z",
+            "first_flight": "1999-05-27T10:49:42Z"
+        },
+        {
+            "id": 265,
+            "name": "Robert Thirsk",
+            "date_of_birth": "1953-08-17",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-05-27T10:34:53Z",
+            "first_flight": "1996-06-20T14:49:00Z"
+        }
+    ],
+    "people": [
+        {
+            "craft": "ISS",
+            "name": "Mark Vande Hei"
+        },
+        {
+            "craft": "ISS",
+            "name": "Oleg Novitskiy"
+        },
+        {
+            "craft": "ISS",
+            "name": "Pyotr Dubrov"
+        },
+        {
+            "craft": "ISS",
+            "name": "Thomas Pesquet"
+        },
+        {
+            "craft": "ISS",
+            "name": "Megan McArthur"
+        },
+        {
+            "craft": "ISS",
+            "name": "Shane Kimbrough"
+        },
+        {
+            "craft": "ISS",
+            "name": "Akihiko Hoshide"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="e5529019-da69-446d-9afe-5c4b9285ccae" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="32c85a18-a3f9-44b7-a878-8471b1bf57a5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.request]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="6c731cb3-1df3-4f1a-b72f-45932c11d783" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{astronauts:"all"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to astronauts-exploration" doc:id="b490b567-5b95-4945-9125-cc534e62c3ed" name="astronauts-exploration"/>
+			<ee:transform doc:name="Transform Message" doc:id="7a2dd54a-2c19-495a-adad-f48971a48e29" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="out" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "results": [
+        {
+            "id": 276,
+            "name": "Franz Viehböck",
+            "date_of_birth": "1960-08-24",
+            "nationality": "Austrian",
+            "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+            "agency": {
+                "name": "Austrian Space Agency"
+            },
+            "last_flight": "1991-10-02T05:59:38Z",
+            "first_flight": "1991-10-02T05:59:38Z"
+        },
+        {
+            "id": 225,
+            "name": "Marcos Pontes",
+            "date_of_birth": "1963-03-11",
+            "nationality": "Brazilian",
+            "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+            "agency": {
+                "name": "Brazilian Space Agency"
+            },
+            "last_flight": "2006-03-30T02:30:00Z",
+            "first_flight": "2006-03-30T02:30:00Z"
+        },
+        {
+            "id": 59,
+            "name": "Aleksandr Panayotov Aleksandrov",
+            "date_of_birth": "1951-12-01",
+            "nationality": "Bulgarian",
+            "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+            "agency": {
+                "name": "Bulgarian Space Agency"
+            },
+            "last_flight": "1988-06-07T14:03:13Z",
+            "first_flight": "1988-06-07T14:03:13Z"
+        },
+        {
+            "id": 112,
+            "name": "Marc Garneau",
+            "date_of_birth": "1949-02-23",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2000-12-01T03:06:00Z",
+            "first_flight": "1984-10-05T11:03:00Z"
+        },
+        {
+            "id": 125,
+            "name": "Jeremy Hansen",
+            "date_of_birth": "1976-01-27",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": null,
+            "first_flight": null
+        },
+        {
+            "id": 6,
+            "name": "David Saint-Jacques",
+            "date_of_birth": "1970-01-06",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2018-12-03T11:31:52Z",
+            "first_flight": "2018-12-03T11:31:52Z"
+        },
+        {
+            "id": 5,
+            "name": "Chris Hadfield",
+            "date_of_birth": "1959-08-29",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2012-12-19T12:12:35Z",
+            "first_flight": "1995-11-12T12:30:43Z"
+        },
+        {
+            "id": 188,
+            "name": "Steve MacLean",
+            "date_of_birth": "1954-12-14",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2006-09-09T15:14:55Z",
+            "first_flight": "1992-10-22T14:05:53Z"
+        },
+        {
+            "id": 220,
+            "name": "Julie Payette",
+            "date_of_birth": "1963-10-20",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-07-15T22:03:00Z",
+            "first_flight": "1999-05-27T10:49:42Z"
+        },
+        {
+            "id": 265,
+            "name": "Robert Thirsk",
+            "date_of_birth": "1953-08-17",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-05-27T10:34:53Z",
+            "first_flight": "1996-06-20T14:49:00Z"
+        }
+    ],
+    "people": [
+        {
+            "craft": "ISS",
+            "name": "Mark Vande Hei"
+        },
+        {
+            "craft": "ISS",
+            "name": "Oleg Novitskiy"
+        },
+        {
+            "craft": "ISS",
+            "name": "Pyotr Dubrov"
+        },
+        {
+            "craft": "ISS",
+            "name": "Thomas Pesquet"
+        },
+        {
+            "craft": "ISS",
+            "name": "Megan McArthur"
+        },
+        {
+            "craft": "ISS",
+            "name": "Shane Kimbrough"
+        },
+        {
+            "craft": "ISS",
+            "name": "Akihiko Hoshide"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="8c59e2d8-8562-48f7-b9ee-118273af2ac9" is="#[MunitTools::equalTo(vars.out)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="spacedevs-astronauts-exploration-request-output-test" doc:id="c4b9f069-a75a-4026-9eeb-c3aef9c663be" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="8242ed04-2640-4af3-827e-b7cddac6b320" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="request" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "results": [
+        {
+            "id": 276,
+            "name": "Franz Viehböck",
+            "date_of_birth": "1960-08-24",
+            "nationality": "Austrian",
+            "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+            "agency": {
+                "name": "Austrian Space Agency"
+            },
+            "last_flight": "1991-10-02T05:59:38Z",
+            "first_flight": "1991-10-02T05:59:38Z"
+        },
+        {
+            "id": 225,
+            "name": "Marcos Pontes",
+            "date_of_birth": "1963-03-11",
+            "nationality": "Brazilian",
+            "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+            "agency": {
+                "name": "Brazilian Space Agency"
+            },
+            "last_flight": "2006-03-30T02:30:00Z",
+            "first_flight": "2006-03-30T02:30:00Z"
+        },
+        {
+            "id": 59,
+            "name": "Aleksandr Panayotov Aleksandrov",
+            "date_of_birth": "1951-12-01",
+            "nationality": "Bulgarian",
+            "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+            "agency": {
+                "name": "Bulgarian Space Agency"
+            },
+            "last_flight": "1988-06-07T14:03:13Z",
+            "first_flight": "1988-06-07T14:03:13Z"
+        },
+        {
+            "id": 112,
+            "name": "Marc Garneau",
+            "date_of_birth": "1949-02-23",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2000-12-01T03:06:00Z",
+            "first_flight": "1984-10-05T11:03:00Z"
+        },
+        {
+            "id": 125,
+            "name": "Jeremy Hansen",
+            "date_of_birth": "1976-01-27",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": null,
+            "first_flight": null
+        },
+        {
+            "id": 6,
+            "name": "David Saint-Jacques",
+            "date_of_birth": "1970-01-06",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2018-12-03T11:31:52Z",
+            "first_flight": "2018-12-03T11:31:52Z"
+        },
+        {
+            "id": 5,
+            "name": "Chris Hadfield",
+            "date_of_birth": "1959-08-29",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2012-12-19T12:12:35Z",
+            "first_flight": "1995-11-12T12:30:43Z"
+        },
+        {
+            "id": 188,
+            "name": "Steve MacLean",
+            "date_of_birth": "1954-12-14",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2006-09-09T15:14:55Z",
+            "first_flight": "1992-10-22T14:05:53Z"
+        },
+        {
+            "id": 220,
+            "name": "Julie Payette",
+            "date_of_birth": "1963-10-20",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-07-15T22:03:00Z",
+            "first_flight": "1999-05-27T10:49:42Z"
+        },
+        {
+            "id": 265,
+            "name": "Robert Thirsk",
+            "date_of_birth": "1953-08-17",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-05-27T10:34:53Z",
+            "first_flight": "1996-06-20T14:49:00Z"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="90a5ba90-39bd-4a9c-a6be-7685bcfab479" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3842ddc9-84db-4d7b-b988-2b1883340be5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.request]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="670b0db3-cb2f-41c0-9e76-47303246dbf9" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{astronauts:"spacedevs"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to astronauts-exploration" doc:id="4f056c1f-7c6d-4d1c-bef3-5f1b0fb72671" name="astronauts-exploration"/>
+			<ee:transform doc:name="Transform Message" doc:id="ed521637-391f-4c49-8634-d858e3e60998" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="out" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "results": [
+        {
+            "id": 276,
+            "name": "Franz Viehböck",
+            "date_of_birth": "1960-08-24",
+            "nationality": "Austrian",
+            "wiki": "https://en.wikipedia.org/wiki/Franz_Viehb%C3%B6ck",
+            "agency": {
+                "name": "Austrian Space Agency"
+            },
+            "last_flight": "1991-10-02T05:59:38Z",
+            "first_flight": "1991-10-02T05:59:38Z"
+        },
+        {
+            "id": 225,
+            "name": "Marcos Pontes",
+            "date_of_birth": "1963-03-11",
+            "nationality": "Brazilian",
+            "wiki": "https://en.wikipedia.org/wiki/Marcos_Pontes",
+            "agency": {
+                "name": "Brazilian Space Agency"
+            },
+            "last_flight": "2006-03-30T02:30:00Z",
+            "first_flight": "2006-03-30T02:30:00Z"
+        },
+        {
+            "id": 59,
+            "name": "Aleksandr Panayotov Aleksandrov",
+            "date_of_birth": "1951-12-01",
+            "nationality": "Bulgarian",
+            "wiki": "https://en.wikipedia.org/wiki/Aleksandr_Panayotov_Aleksandrov",
+            "agency": {
+                "name": "Bulgarian Space Agency"
+            },
+            "last_flight": "1988-06-07T14:03:13Z",
+            "first_flight": "1988-06-07T14:03:13Z"
+        },
+        {
+            "id": 112,
+            "name": "Marc Garneau",
+            "date_of_birth": "1949-02-23",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2000-12-01T03:06:00Z",
+            "first_flight": "1984-10-05T11:03:00Z"
+        },
+        {
+            "id": 125,
+            "name": "Jeremy Hansen",
+            "date_of_birth": "1976-01-27",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Jeremy_Hansen",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": null,
+            "first_flight": null
+        },
+        {
+            "id": 6,
+            "name": "David Saint-Jacques",
+            "date_of_birth": "1970-01-06",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/David_Saint-Jacques",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2018-12-03T11:31:52Z",
+            "first_flight": "2018-12-03T11:31:52Z"
+        },
+        {
+            "id": 5,
+            "name": "Chris Hadfield",
+            "date_of_birth": "1959-08-29",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Chris_Hadfield",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2012-12-19T12:12:35Z",
+            "first_flight": "1995-11-12T12:30:43Z"
+        },
+        {
+            "id": 188,
+            "name": "Steve MacLean",
+            "date_of_birth": "1954-12-14",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Steve_MacLean_(astronaut)",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2006-09-09T15:14:55Z",
+            "first_flight": "1992-10-22T14:05:53Z"
+        },
+        {
+            "id": 220,
+            "name": "Julie Payette",
+            "date_of_birth": "1963-10-20",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Julie_Payette",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-07-15T22:03:00Z",
+            "first_flight": "1999-05-27T10:49:42Z"
+        },
+        {
+            "id": 265,
+            "name": "Robert Thirsk",
+            "date_of_birth": "1953-08-17",
+            "nationality": "Canadian",
+            "wiki": "https://en.wikipedia.org/wiki/Robert_Thirsk",
+            "agency": {
+                "name": "Canadian Space Agency"
+            },
+            "last_flight": "2009-05-27T10:34:53Z",
+            "first_flight": "1996-06-20T14:49:00Z"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="3d5dcce8-0bd4-4372-9d40-f102f5f003d1" is="#[MunitTools::equalTo(vars.out)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="iss-astronauts-exploration-request-output-test" doc:id="801c8512-0670-463b-8ff1-326992469bbf" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="08561c75-9f1c-4c13-9423-0ca5076ad87d" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="request" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "people": [
+        {
+            "name": "Mark Vande Hei",
+            "craft": "ISS"
+        },
+        {
+            "name": "Oleg Novitskiy",
+            "craft": "ISS"
+        },
+        {
+            "name": "Pyotr Dubrov",
+            "craft": "ISS"
+        },
+        {
+            "name": "Thomas Pesquet",
+            "craft": "ISS"
+        },
+        {
+            "name": "Megan McArthur",
+            "craft": "ISS"
+        },
+        {
+            "name": "Shane Kimbrough",
+            "craft": "ISS"
+        },
+        {
+            "name": "Akihiko Hoshide",
+            "craft": "ISS"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="be63f10f-f3a3-49c0-98d5-c500fdd309d7" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="9a55248c-c7f9-4d96-bcc7-958d51521986" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.request]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="f9c1d700-23b4-4dff-890e-92264d3d63ad" cloneOriginalEvent="true">
+				<munit:attributes value='#[queryParams:{astronauts:"iss"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to astronauts-exploration" doc:id="1583a1b7-6565-48b7-90f9-41557fa89170" name="astronauts-exploration"/>
+			<ee:transform doc:name="Transform Message" doc:id="c61944b4-949d-4f8a-9e42-8765d5055c14" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="out" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "people": [
+        {
+            "name": "Mark Vande Hei",
+            "craft": "ISS"
+        },
+        {
+            "name": "Oleg Novitskiy",
+            "craft": "ISS"
+        },
+        {
+            "name": "Pyotr Dubrov",
+            "craft": "ISS"
+        },
+        {
+            "name": "Thomas Pesquet",
+            "craft": "ISS"
+        },
+        {
+            "name": "Megan McArthur",
+            "craft": "ISS"
+        },
+        {
+            "name": "Shane Kimbrough",
+            "craft": "ISS"
+        },
+        {
+            "name": "Akihiko Hoshide",
+            "craft": "ISS"
+        }
+    ]
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="aebd8fc2-c78e-43c8-9dbd-fc46b9137b14" is="#[MunitTools::equalTo(vars.out)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
 
 </mule>
