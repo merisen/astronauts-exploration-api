@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 	<sub-flow name="exped-vars" doc:id="33d1cf56-364c-490e-a5a1-7270bc5b5901">
 		<set-variable value='#[message.attributes.queryParams.astronautStatus]' doc:name="astronautStatus" doc:id="2e059498-2d08-4dc6-a14e-0d9aadbc09dd" variableName="astronautStatus" />
 		<set-variable value='#[message.attributes.queryParams.limit]' doc:name="limit" doc:id="2655973f-041c-4c86-a400-dc20d9fab24a" variableName="limit" />
-		<set-variable value='#[message.attributes.queryParams.image]' doc:name="image-query" doc:id="912ade31-8a0e-47c4-957a-ab97745ab01a" variableName="limit" />
+		<set-variable value='#[message.attributes.queryParams.image]' doc:name="image-query" doc:id="912ade31-8a0e-47c4-957a-ab97745ab01a" variableName="image_query" />
 		<set-variable value='#[message.attributes.queryParams.offset]' doc:name="offset" doc:id="2c48e907-ff0c-46a1-bf02-49a07f3bfc68" variableName="offset" />
 		<set-variable value='#[message.attributes.queryParams.mode]' doc:name="mode" doc:id="3d53a32e-cf4d-4d9a-94e2-e215b6d11818" variableName="mode" />
 		<set-variable value='#[message.attributes.queryParams.status]' doc:name="status" doc:id="e677e8fe-8c61-4997-8651-bfcd994e9a73" variableName="status" />
