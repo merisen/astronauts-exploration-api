@@ -235,9 +235,14 @@ people: payload.people map ( person , indexOfPerson ) -> {
 				</validation:is-not-null>
 			</when>
 			<when expression='#[vars.astronauts == "spacedevs"]'>
-				<ee:transform doc:name="spacedevs-astronauts" doc:id="7ba44d6e-d0e6-4e2e-9de3-8d1a2b2587d8" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+				<choice doc:name="Choice" doc:id="3a2bf325-a07e-4ece-a82a-ac91f6b9d55f">
+					<when expression='#[vars.mode != null]'>
+						<logger level="INFO" doc:name="log-detailed-mode" doc:id="1a036c59-fcf7-4048-bf46-ef6ee4aee16c" message='#["Detailed mode: use"]'/>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="spacedevs-astronauts" doc:id="7ba44d6e-d0e6-4e2e-9de3-8d1a2b2587d8">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -256,6 +261,8 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+					</otherwise>
+				</choice>
 				<validation:is-not-null doc:name="Is not null" doc:id="7f8d80f4-719c-47b1-8fe0-ad0a3db10a50" value="#[payload]" message="${validation.collectionEmpty}">
 					<error-mapping sourceType="VALIDATION:NULL" targetType="APP:EMPTY_SPACEDEVS_COLLECTION" />
 				</validation:is-not-null>
@@ -360,9 +367,14 @@ output application/json
 				<mongo:insert-document collectionName="astronauts" doc:name="add-data-to-the-database" doc:id="4e130673-134c-4e88-899c-caaa3a0dd448" config-ref="ASTRONAUTS_TABLE_CONNECTION">
 					<mongo:document><![CDATA[#[vars."output"]]]></mongo:document>
 				</mongo:insert-document>
-				<ee:transform doc:name="transform-output" doc:id="1e34278f-d706-487a-9253-063db58c5448" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+				<choice doc:name="Choice" doc:id="bdcab424-5451-40a5-92dc-135e23cf8f4c">
+					<when expression="#[vars.mode != null]">
+						<logger level="INFO" doc:name="log-at-mode" doc:id="42f8c401-35ed-475e-ae6a-efdb4510453f" message='#["Mode query != null"]'/>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="transform-output" doc:id="1e34278f-d706-487a-9253-063db58c5448">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
@@ -381,6 +393,8 @@ output application/json
 }]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+					</otherwise>
+				</choice>
 			</when>
 			<when expression='#[vars.astronauts == "iss"]'>
 				<flow-ref doc:name="astronauts-request-transform-message" doc:id="9a55248c-c7f9-4d96-bcc7-958d51521986" name="astronauts-request-transform-message"/>
