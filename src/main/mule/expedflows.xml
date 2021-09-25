@@ -1,6 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<sub-flow name="expedflow" doc:id="1f56fccd-1822-469d-a860-92ac333b584a" >
+		<flow-ref doc:name="log-at-start" doc:id="f73ed353-9e7f-4c5f-af1b-efac275995a3" name="log-at-start"/>
+		<flow-ref doc:name="expedition-api-request" doc:id="6919d421-a7aa-480e-9c64-0ce83060e162" name="expedition-api-request"/>
+		<choice doc:name="Choice" doc:id="4b66d050-428f-45d3-9dbb-8806de37b91c" >
+			<when expression='#[vars.mode == "detailed" and vars.stationName != "" and vars.image_query == "true"]'>
+				<set-variable doc:name="image" doc:id="9b5b558c-da20-4cec-9f4d-1980d57dd6cf" variableName="image" value="#[payload[0].spacestation.image_url]"/>
+				<scatter-gather doc:name="Scatter-Gather" doc:id="0c2481b1-cb8a-48f8-a598-6eedda56d781" >
+					<route >
+						<parse-template doc:name="Parse Template" doc:id="253b578e-cd96-4d04-9b64-32afb45c84ea" location="split-opl.webflow.css" />
+						<ftp:write doc:name="Write" doc:id="cff2cf0e-e653-4a27-886b-9fd6a54f535f" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.html_path}"/>
+					</route>
+					<route >
+						<parse-template doc:name="Parse Template" doc:id="1debbd37-cadc-4350-91f3-34d36f7715ac" location="index.html">
+				</parse-template>
+						<ftp:write doc:name="Write" doc:id="8b6977da-8917-49fd-aa8e-b701ab36c741" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.css_path}"/>
+					</route>
+				</scatter-gather>
+				<set-payload value="#[&quot;Go to 'file:///C:/Users/matsu/Documents/split/index.html' for a result&quot;]" doc:name="Set Payload" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
+			</when>
+		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="c52d85bd-51e5-41f3-86d9-55b210bfc35d" name="log-at-exit" />
+	</sub-flow>
+	<sub-flow name="expedition-api-request" doc:id="942a6e79-d56e-442e-ae96-60d3d1eceb9e" >
+		<flow-ref doc:name="exped-vars" doc:id="89a458ce-2eeb-479e-a4ca-4ee3bb48d6b1" name="exped-vars" />
+		<http:request method="GET" doc:name="expedition-api-request" doc:id="89476726-8289-4fdb-9dac-fc99973471b6" url="${expeditions.host}">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"astronautStatus" : vars.astronautStatus,
+	"mode" : vars.mode,
+	"status" : vars.status,
+	"limit" : vars.limit,
+	"offset" : vars.offset,
+	"stationName" : vars.stationName 
+}]]]></http:query-params>
+		</http:request>
+	</sub-flow>
 </mule>

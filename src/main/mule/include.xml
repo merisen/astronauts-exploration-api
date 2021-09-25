@@ -28,6 +28,15 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 		<set-variable value="#[message.attributes.queryParams.email]" doc:name="email-list" doc:id="393b6107-7066-4b06-b65c-35eb08df7ae6" variableName="email" />
 		<set-variable value="#[message.attributes.queryParams.file]" doc:name="file-name" doc:id="4322627f-414f-45cb-9054-1fb67c72d119" variableName="file"/>
 	</sub-flow>
+	<sub-flow name="exped-vars" doc:id="33d1cf56-364c-490e-a5a1-7270bc5b5901">
+		<set-variable value='#[message.attributes.queryParams.astronautStatus]' doc:name="astronautStatus" doc:id="2e059498-2d08-4dc6-a14e-0d9aadbc09dd" variableName="astronautStatus" />
+		<set-variable value='#[message.attributes.queryParams.limit]' doc:name="limit" doc:id="2655973f-041c-4c86-a400-dc20d9fab24a" variableName="limit" />
+		<set-variable value='#[message.attributes.queryParams.image]' doc:name="image-query" doc:id="912ade31-8a0e-47c4-957a-ab97745ab01a" variableName="limit" />
+		<set-variable value='#[message.attributes.queryParams.offset]' doc:name="offset" doc:id="2c48e907-ff0c-46a1-bf02-49a07f3bfc68" variableName="offset" />
+		<set-variable value='#[message.attributes.queryParams.mode]' doc:name="mode" doc:id="3d53a32e-cf4d-4d9a-94e2-e215b6d11818" variableName="mode" />
+		<set-variable value='#[message.attributes.queryParams.status]' doc:name="status" doc:id="e677e8fe-8c61-4997-8651-bfcd994e9a73" variableName="status" />
+		<set-variable value='#[message.attributes.queryParams.stationName]' doc:name="stationName" doc:id="42d2c3a5-d349-4a89-b3e6-facb36cacd92" variableName="stationName" />
+	</sub-flow>
 	<sub-flow name="help-var" doc:id="63af6c1d-1f57-4567-a7a9-56590d313fb4" >
 		<ee:transform doc:name="help-message" doc:id="aef02c94-ff42-4c5f-bbfe-6834ad16a1ea" >
 			<ee:message >

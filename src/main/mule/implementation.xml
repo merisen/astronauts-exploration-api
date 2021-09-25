@@ -10,10 +10,15 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<sub-flow name="exploration-get" doc:id="976fd441-b4ce-4a12-b56a-21dc9dbd74bd" >
 		<flow-ref doc:name="log-at-start" doc:id="6e56d153-0407-4535-9879-a0f91db3c9c2" name="log-at-start"/>
+		<flow-ref doc:name="exped-vars" doc:id="c719b6c3-1761-445b-bbbc-9b194af34646" name="exped-vars" />
 		<flow-ref doc:name="exploration-vars" doc:id="85281843-e7a8-4f68-a506-8360db880c71" name="exploration-vars" />
+		<flow-ref doc:name="vars.help != null or " doc:id="c90d4ae3-f757-4b9e-aab0-ae7e90b5e37a" name="exped-vars"/>
 		<choice doc:name="Choice" doc:id="635f36ba-02bb-4714-aa10-5d3ab2bc305d" >
-			<when expression='#[vars.help != null or &#10;vars.astronauts != null or &#10;vars.data_count != null or&#10;vars.iss != null]'>
+			<when expression='#[vars.help != null or &#10;vars.astronaunts != null or &#10;vars.data_count != null or&#10;vars.iss != null]'>
 				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
+			</when>
+			<when expression="#[vars.mode != null or vars.stationName != null]">
+				<flow-ref doc:name="expedflow-reference" doc:id="ff5bf8d3-b91e-4906-a7fa-ebbada947783" name="expedflow"/>
 			</when>
 			<otherwise>
 				<flow-ref doc:name="info-help-output" doc:id="770c8009-4fe7-4df3-a4f5-b75e4409f108" name="help-var"/>
