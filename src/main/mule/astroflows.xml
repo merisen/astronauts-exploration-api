@@ -213,6 +213,7 @@ output application/json
 		<http:request method="GET" doc:name="request-to-astronauts-research-api" doc:id="4015cea4-b186-4187-ad17-9ee3f345293d" url="${astronauts-research.host}">
 			<http:query-params ><![CDATA[#[{
 	limit: vars.data_count,
+	mode: vars.mode,
 	astronauts: vars.astronauts
 }]]]></http:query-params>
 		</http:request>
