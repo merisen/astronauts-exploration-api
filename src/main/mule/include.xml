@@ -17,6 +17,7 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 		<set-variable value='#[message.attributes.queryParams."output-type"]' doc:name="output-type" doc:id="e1fe27cd-d71a-4504-9582-d1d4ea431106" variableName="output_type"/>
 		<set-variable value="#[message.attributes.queryParams.help]" doc:name="help" doc:id="96d884d0-9fa4-4cc0-8476-614e0de63dcc" variableName="help"/>
 		<set-variable value="#[message.attributes.queryParams.astronauts]" doc:name="astronauts" doc:id="d6a3d30c-bc8e-4af4-a384-c68dccf33e55" variableName="astronauts"/>
+		<set-variable value="#[message.attributes.queryParams.mode]" doc:name="mode" doc:id="935eba60-6c12-455f-bc61-ffa5df3113cb" variableName="mode" />
 		<set-variable value="#[message.attributes.queryParams.iss]" doc:name="iss" doc:id="421f5637-b3b7-4c37-8026-e87cbc0b1df8" variableName="iss"/>
 		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="fed38e09-4b81-4bc0-867e-bf594d45a6e1" variableName="expedition"/>
 		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="231328ef-a6ea-4764-a797-cb567d7bfa22" variableName="dump_request" />
@@ -31,7 +32,7 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 	<sub-flow name="exped-vars" doc:id="33d1cf56-364c-490e-a5a1-7270bc5b5901">
 		<set-variable value='#[message.attributes.queryParams.astronautStatus]' doc:name="astronautStatus" doc:id="2e059498-2d08-4dc6-a14e-0d9aadbc09dd" variableName="astronautStatus" />
 		<set-variable value='#[message.attributes.queryParams.limit]' doc:name="limit" doc:id="2655973f-041c-4c86-a400-dc20d9fab24a" variableName="limit" />
-		<set-variable value='#[message.attributes.queryParams.image]' doc:name="image-query" doc:id="912ade31-8a0e-47c4-957a-ab97745ab01a" variableName="image_query" />
+		<set-variable value='#[message.attributes.queryParams.image]' doc:name="image" doc:id="912ade31-8a0e-47c4-957a-ab97745ab01a" variableName="image" />
 		<set-variable value='#[message.attributes.queryParams.offset]' doc:name="offset" doc:id="2c48e907-ff0c-46a1-bf02-49a07f3bfc68" variableName="offset" />
 		<set-variable value='#[message.attributes.queryParams.mode]' doc:name="mode" doc:id="3d53a32e-cf4d-4d9a-94e2-e215b6d11818" variableName="mode" />
 		<set-variable value='#[message.attributes.queryParams.status]' doc:name="status" doc:id="e677e8fe-8c61-4997-8651-bfcd994e9a73" variableName="status" />

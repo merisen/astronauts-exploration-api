@@ -17,8 +17,11 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<when expression='#[vars.help != null or &#10;vars.astronaunts != null or &#10;vars.data_count != null or&#10;vars.iss != null]'>
 				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
 			</when>
-			<when expression="#[vars.mode != null or vars.stationName != null]">
-				<flow-ref doc:name="expedflow-reference" doc:id="ff5bf8d3-b91e-4906-a7fa-ebbada947783" name="expedflow"/>
+			<when expression="#[vars.stationName != null]">
+				<flow-ref doc:name="get-station-resource" doc:id="ff5bf8d3-b91e-4906-a7fa-ebbada947783" name="get-station-resource"/>
+			</when>
+			<when expression='#[vars.astronauts != "" and vars.mode == "detailed" and vars.image == "true"]'>
+				<flow-ref doc:name="get-astronaut-resource" doc:id="d17a9f91-6158-414e-bd76-3d6655d6b694" name="get-astronaut-resource"/>
 			</when>
 			<otherwise>
 				<flow-ref doc:name="info-help-output" doc:id="770c8009-4fe7-4df3-a4f5-b75e4409f108" name="help-var"/>
