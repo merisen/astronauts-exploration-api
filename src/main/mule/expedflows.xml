@@ -9,37 +9,37 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
-	<sub-flow name="get-station-resource" doc:id="1f56fccd-1822-469d-a860-92ac333b584a" >
+	<sub-flow name="get-resource" doc:id="1f56fccd-1822-469d-a860-92ac333b584a" >
 		<flow-ref doc:name="log-at-start" doc:id="f73ed353-9e7f-4c5f-af1b-efac275995a3" name="log-at-start"/>
-		<flow-ref doc:name="expedition-api-request" doc:id="6919d421-a7aa-480e-9c64-0ce83060e162" name="expedition-api-request"/>
-		<choice doc:name="Choice" doc:id="4b66d050-428f-45d3-9dbb-8806de37b91c" >
-			<when expression='#[vars.mode == "detailed" and vars.stationName != "" and vars.image_query == "true"]'>
-				<flow-ref doc:name="ftp-write" doc:id="88e277cc-4a71-467c-b976-ce869c7a6260" name="ftp-spacestation-resource-write"/>
+		<flow-ref doc:name="api-request" doc:id="98cb39b5-164a-4012-ae06-f7f66bf2f534" name="api-request"/>
+		<choice doc:name="Choice" doc:id="4b66d050-428f-45d3-9dbb-8806de37b91c">
+			<when expression='#[vars.mode == "detailed" and vars.image == "true"&#10;and&#10;(vars.stationName != ""&#10;or&#10;vars.astronauts == "spacedevs")]'>
+				<flow-ref doc:name="ftp-write" doc:id="88e277cc-4a71-467c-b976-ce869c7a6260" name="ftp-resource-write" />
 				<set-payload value='#["Go to  for a result"]' doc:name="Set Payload" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
 			</when>
-			<otherwise >
+			<otherwise>
 				<logger level="INFO" doc:name="Default Behaviour" doc:id="3ff8ba01-4e58-42ce-9ba1-6b50400a2833" />
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="c52d85bd-51e5-41f3-86d9-55b210bfc35d" name="log-at-exit" />
 	</sub-flow>
-	<sub-flow name="get-astronaut-resource" doc:id="c00fb84c-c7db-446a-9d46-475032e23aff" >
+	<sub-flow name="ftp-resource-write" doc:id="c8cc4257-61f9-4ca3-a80b-25467d50fb0f" >
 		<flow-ref doc:name="log-at-start" doc:id="e7d5203d-1762-43ca-9ca3-5576ab02c024" name="log-at-start" />
-		<flow-ref doc:name="astronauts-api-request" doc:id="f492b38c-3bae-4da2-9436-b81b11aa32a3" name="astronauts-api-request"/>
-		<choice doc:name="Choice" doc:id="5121f558-6f11-43c8-b25f-9fac3267f87b" >
-			<when expression='#[vars.astronauts == "spacedevs" and vars.mode == "detailed"]'>
-				<flow-ref doc:name="ftp-write" doc:id="a2d900f9-2f93-4f0c-aeab-29a9e6a60181" name="ftp-astronaut-resource-write" />
-				<set-payload value='#["Go to  for a result"]' doc:name="Set Payload" doc:id="5a7e8d7c-066b-4515-b3af-7d87c985a6a3" />
+		<choice doc:name="Choice" doc:id="dcaeb672-565d-4ce7-b40e-b073d1393176">
+			<when expression='#[vars.astronauts == "spacedevs"]'>
+				<scatter-gather doc:name="Scatter-Gather" doc:id="9b483c6f-110f-4dea-bb97-ee573569f387">
+			<route>
+				<parse-template doc:name="Parse Template" doc:id="f07811c5-2f4c-498e-950a-92f4d7eaf7ae" location="astronaut.html" />
+				<ftp:write doc:name="Write" doc:id="2a796817-3075-4ab6-816e-885889691648" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.html_path}" />
+			</route>
+			<route>
+				<parse-template doc:name="Parse Template" doc:id="6b9e85c7-9d82-40da-9d37-49bced096985" location="astronaut.css" />
+				<ftp:write doc:name="Write" doc:id="7a308ecb-3d48-4565-9f8c-266d8c684fda" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.css_path}" />
+			</route>
+		</scatter-gather>
 			</when>
-			<otherwise >
-				<logger level="INFO" doc:name="Default Behaviour" doc:id="7c3eaf37-b8cc-400b-be67-9546634e9e32" />
-			</otherwise>
-		</choice>
-		<flow-ref doc:name="log-at-exit" doc:id="4676aaf0-d9d6-4401-aed0-78a0450e6884" name="log-at-exit" />
-	</sub-flow>
-	<sub-flow name="ftp-spacestation-resource-write" doc:id="4482fbd1-ce38-448b-b579-30442ee38e1f">
-		<flow-ref doc:name="log-at-start" doc:id="513bd8f4-c0d7-4d75-b653-b7f206d2d5fe" name="log-at-start" />
-		<scatter-gather doc:name="Scatter-Gather" doc:id="0c2481b1-cb8a-48f8-a598-6eedda56d781">
+			<when expression='#[vars.stationName != ""]'>
+				<scatter-gather doc:name="Scatter-Gather" doc:id="0c2481b1-cb8a-48f8-a598-6eedda56d781">
 					<route>
 						<parse-template doc:name="Parse Template" doc:id="253b578e-cd96-4d04-9b64-32afb45c84ea" location="split-opl.webflow.css" />
 						<ftp:write doc:name="Write" doc:id="cff2cf0e-e653-4a27-886b-9fd6a54f535f" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.html_path}" />
@@ -50,25 +50,18 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 						<ftp:write doc:name="Write" doc:id="8b6977da-8917-49fd-aa8e-b701ab36c741" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.css_path}" />
 					</route>
 				</scatter-gather>
-		<flow-ref doc:name="log-at-exit" doc:id="13096ee3-f003-4ea3-9836-b5dd2e99a73a" name="log-at-exit" />
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Default Behaviour" doc:id="2fd6b125-6508-40b4-956b-eefde1fd34e1" />
+			</otherwise>
+		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="4676aaf0-d9d6-4401-aed0-78a0450e6884" name="log-at-exit" />
 	</sub-flow>
-	<sub-flow name="ftp-astronaut-resource-write" doc:id="97974241-2b3c-4bbe-b7ee-125e50a703d8" >
-		<flow-ref doc:name="log-at-start" doc:id="18c31ff2-9e12-4414-83ca-2530399fc261" name="log-at-start" />
-		<scatter-gather doc:name="Scatter-Gather" doc:id="9b483c6f-110f-4dea-bb97-ee573569f387" >
-			<route >
-				<parse-template doc:name="Parse Template" doc:id="f07811c5-2f4c-498e-950a-92f4d7eaf7ae" location="astronaut.html" />
-				<ftp:write doc:name="Write" doc:id="2a796817-3075-4ab6-816e-885889691648" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.html_path}" />
-			</route>
-			<route >
-				<parse-template doc:name="Parse Template" doc:id="6b9e85c7-9d82-40da-9d37-49bced096985" location="astronaut.css" />
-				<ftp:write doc:name="Write" doc:id="7a308ecb-3d48-4565-9f8c-266d8c684fda" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.css_path}" />
-			</route>
-		</scatter-gather>
-		<flow-ref doc:name="log-at-exit" doc:id="3618dbf6-c580-4b72-bfc2-1a2c7e1eceed" name="log-at-exit" />
-	</sub-flow>
-	<sub-flow name="expedition-api-request" doc:id="942a6e79-d56e-442e-ae96-60d3d1eceb9e" >
-		<flow-ref doc:name="exped-vars" doc:id="89a458ce-2eeb-479e-a4ca-4ee3bb48d6b1" name="exped-vars" />
-		<http:request method="GET" doc:name="expedition-api-request" doc:id="89476726-8289-4fdb-9dac-fc99973471b6" url="${expeditions.host}">
+	<sub-flow name="api-request" doc:id="9152d328-2025-41a2-b61a-a461bace85bd" >
+		<choice doc:name="Choice" doc:id="54868fef-ea24-4681-81c9-881ab075d021" >
+			<when expression='#[vars.stationName != ""]'>
+				<flow-ref doc:name="exped-vars" doc:id="89a458ce-2eeb-479e-a4ca-4ee3bb48d6b1" name="exped-vars" />
+				<http:request method="GET" doc:name="expedition-api-request" doc:id="89476726-8289-4fdb-9dac-fc99973471b6" url="${expeditions.host}">
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
@@ -80,16 +73,21 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 	"stationName" : vars.stationName 
 }]]]></http:query-params>
 		</http:request>
-	</sub-flow>
-	<sub-flow name="astronauts-api-request" doc:id="91f49af5-9cd5-401e-a9b3-e8525e7608c1" >
-		<flow-ref doc:name="exploration-vars" doc:id="0d708074-3453-4341-9e5c-f25cdebaf169" name="exploration-vars"/>
-		<http:request method="GET" doc:name="astronauts-api-request" doc:id="9be7bc49-2141-445c-abe6-404edd152903" url="${astronauts-research.host}">
-			<http:query-params ><![CDATA[#[output application/java
+			</when>
+			<when expression='#[vars.astronauts != ""]'>
+				<flow-ref doc:name="exploration-vars" doc:id="0d708074-3453-4341-9e5c-f25cdebaf169" name="exploration-vars" />
+				<http:request method="GET" doc:name="astronauts-api-request" doc:id="9be7bc49-2141-445c-abe6-404edd152903" url="${astronauts-research.host}">
+			<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"astronauts" : vars.astronauts,
 	"mode" : vars.mode
 }]]]></http:query-params>
 		</http:request>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Default Behaviour" doc:id="75394629-887d-49a0-8c76-96af16819edc" />
+			</otherwise>
+		</choice>
 	</sub-flow>
 </mule>
