@@ -16,9 +16,10 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			<when expression='#[vars.mode == "detailed" and vars.image == "true"&#10;and&#10;(vars.stationName != ""&#10;or&#10;vars.astronauts == "spacedevs")]'>
 				<flow-ref doc:name="ftp-write" doc:id="88e277cc-4a71-467c-b976-ce869c7a6260" name="ftp-resource-write" />
 				<set-payload value='#["Go to http://merisen.online/aeapi/astronauts/spacestations/ for a result"]' doc:name="Set Payload" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
+				<set-payload value="#[&quot;Go to 'http://merisen.online/aeapi/astronauts/spacestations/' for a result&quot;]" doc:name="aoutput-text" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
 			</when>
 			<otherwise>
-				<logger level="INFO" doc:name="Default Behaviour" doc:id="3ff8ba01-4e58-42ce-9ba1-6b50400a2833" />
+				<logger level="INFO" doc:name="Default Behaviour" doc:id="3ff8ba01-4e58-42ce-9ba1-6b50400a2833" message='#["Default"]'/>
 			</otherwise>
 		</choice>
 		<flow-ref doc:name="log-at-exit" doc:id="c52d85bd-51e5-41f3-86d9-55b210bfc35d" name="log-at-exit" />
@@ -62,9 +63,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			<when expression='#[vars.stationName != ""]'>
 				<flow-ref doc:name="exped-vars" doc:id="89a458ce-2eeb-479e-a4ca-4ee3bb48d6b1" name="exped-vars" />
 				<http:request method="GET" doc:name="expedition-api-request" doc:id="89476726-8289-4fdb-9dac-fc99973471b6" url="${expeditions.host}">
-			<http:query-params><![CDATA[#[output application/java
----
-{
+			<http:query-params><![CDATA[#[{
 	"astronautStatus" : vars.astronautStatus,
 	"mode" : vars.mode,
 	"status" : vars.status,
@@ -86,7 +85,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 		</http:request>
 			</when>
 			<otherwise >
-				<logger level="INFO" doc:name="Default Behaviour" doc:id="75394629-887d-49a0-8c76-96af16819edc" />
+				<logger level="INFO" doc:name="Default Behaviour" doc:id="75394629-887d-49a0-8c76-96af16819edc" message='#["Default"]'/>
 			</otherwise>
 		</choice>
 	</sub-flow>
