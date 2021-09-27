@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 		<choice doc:name="Choice" doc:id="4b66d050-428f-45d3-9dbb-8806de37b91c">
 			<when expression='#[vars.mode == "detailed" and vars.image == "true"&#10;and&#10;(vars.stationName != ""&#10;or&#10;vars.astronauts == "spacedevs")]'>
 				<flow-ref doc:name="ftp-write" doc:id="88e277cc-4a71-467c-b976-ce869c7a6260" name="ftp-resource-write" />
-				<set-payload value='#["Go to  for a result"]' doc:name="Set Payload" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
+				<set-payload value='#["Go to http://merisen.online/aeapi/astronauts/spacestations/ for a result"]' doc:name="Set Payload" doc:id="59c98862-ee2d-4cd4-9df3-7d47becd4506" />
 			</when>
 			<otherwise>
 				<logger level="INFO" doc:name="Default Behaviour" doc:id="3ff8ba01-4e58-42ce-9ba1-6b50400a2833" />
@@ -41,11 +41,11 @@ http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/
 			<when expression='#[vars.stationName != ""]'>
 				<scatter-gather doc:name="Scatter-Gather" doc:id="0c2481b1-cb8a-48f8-a598-6eedda56d781">
 					<route>
-						<parse-template doc:name="Parse Template" doc:id="253b578e-cd96-4d04-9b64-32afb45c84ea" location="split-opl.webflow.css" />
+						<parse-template doc:name="Parse Template" doc:id="253b578e-cd96-4d04-9b64-32afb45c84ea" location="spacestation.html" />
 						<ftp:write doc:name="Write" doc:id="cff2cf0e-e653-4a27-886b-9fd6a54f535f" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.html_path}" />
 					</route>
 					<route>
-						<parse-template doc:name="Parse Template" doc:id="1debbd37-cadc-4350-91f3-34d36f7715ac" location="index.html">
+						<parse-template doc:name="Parse Template" doc:id="1debbd37-cadc-4350-91f3-34d36f7715ac" location="spacestation.css">
 				</parse-template>
 						<ftp:write doc:name="Write" doc:id="8b6977da-8917-49fd-aa8e-b701ab36c741" config-ref="ASTRONAUTS_PATH_FTP_CONNECTOR" path="${ftp.css_path}" />
 					</route>
