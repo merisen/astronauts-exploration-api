@@ -206,5 +206,41 @@
 			<munit-tools:assert-that doc:name="Assert that" doc:id="ffea8e4b-f910-4bee-9a8a-812e0f68e1d9" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]'/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="expedition-request-data-error-test" doc:id="def3245a-108e-4e6c-b2f7-3753df929a98" expectedErrorType="APP:EXPEDITION_REQUEST_NULL_PAYLOAD">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Mock when" doc:id="6dd09898-cb52-48e0-8281-88b3c2b370e8" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:EXPEDITION_REQUEST_NULL_PAYLOAD" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow Reference" doc:id="d80fce7e-414f-440a-84e8-88c360147bd1" name="get:\exploration:exploration-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="d60d71ce-ea03-46ac-8aee-eb251a649a33" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]' />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="astronauts-request-data-error-test" doc:id="dbf6784c-62b8-4179-b4bf-8f7fa7b23918" expectedErrorType="APP:ASTRONAUTS_REQUEST_NULL_PAYLOAD">
+			<munit:behavior>
+				<munit-tools:mock-when doc:name="Mock when" doc:id="577355fa-3204-47d2-84f7-abd7bc5f436f" processor="flow-ref">
+					<munit-tools:with-attributes>
+						<munit-tools:with-attribute whereValue="8a9968b4-dfef-4af4-8705-898c9e67d7b5" attributeName="doc:id" />
+					</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APP:ASTRONAUTS_REQUEST_NULL_PAYLOAD" />
+				</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<flow-ref doc:name="Flow Reference" doc:id="d72c5a3e-c51c-4f63-aeae-686b30a896fd" name="get:\exploration:exploration-config" />
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="8ad1dd20-18f0-4dc3-bdb4-583b4f80b847" expression="#[vars.httpStatus]" is='#[MunitTools::equalTo("404")]' />
+			</munit:validation>
+		</munit:test>
 
 </mule>

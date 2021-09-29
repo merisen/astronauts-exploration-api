@@ -16,7 +16,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 			<when expression='#[vars.help != null or &#10;vars.astronaunts != null or &#10;vars.data_count != null or&#10;vars.iss != null]'>
 				<flow-ref doc:name="astronauts-exploration" doc:id="82c7d5a2-7880-4be5-afac-dcf709914447" name="astronauts-exploration" />
 			</when>
-			<when expression='#[(vars.stationName != ""&#10;or&#10;vars.astronauts == "spacedevs")]'>
+			<when expression='#[vars.stationName != null&#10;or&#10;vars.astronautName != null]'>
 				<flow-ref doc:name="get-resource" doc:id="ff5bf8d3-b91e-4906-a7fa-ebbada947783" name="get-resource"/>
 			</when>
 			<otherwise>

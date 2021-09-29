@@ -22,6 +22,7 @@ http://www.mulesoft.org/schema/mule/gmail http://www.mulesoft.org/schema/mule/gm
 		<set-variable value="#[message.attributes.queryParams.expedition]" doc:name="expedition" doc:id="fed38e09-4b81-4bc0-867e-bf594d45a6e1" variableName="expedition"/>
 		<set-variable value="#[message.attributes.queryParams.dump]" doc:name="query-dump-request" doc:id="231328ef-a6ea-4764-a797-cb567d7bfa22" variableName="dump_request" />
 		<set-variable value="#[message.attributes.queryParams.data_count]" doc:name="data-count" doc:id="27fbf036-1ab6-479e-bfe5-fda20f3b02a5" variableName="data_count"/>
+		<set-variable value="#[message.attributes.queryParams.astronautName]" doc:name="astronaut-name" doc:id="2a9cf0e9-42b8-40d4-818a-f26306a343a6" variableName="astronautName"/>
 	</sub-flow>
 	<sub-flow name="exploration-post-vars" doc:id="0fefc300-2d36-45a0-b247-c888c91df6fc" >
 		<set-variable value="#[message.attributes.queryParams.drop]" doc:name="query-drop-request" doc:id="cae3acfd-6783-4cbc-a684-3340741df879" variableName="drop_request"/>

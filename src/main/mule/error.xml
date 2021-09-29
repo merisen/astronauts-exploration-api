@@ -148,5 +148,31 @@ output application/json
 			</ee:transform>
 			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="1944d554-eeef-4e7b-aed8-cc3994c7ffc7" variableName="httpStatus" />
 		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="71cba6af-f08c-478d-a16a-2457b669c946" type="APP:ASTRONAUTS_REQUEST_NULL_PAYLOAD" >
+			<ee:transform doc:name="error-desc" doc:id="3321d697-a616-43e4-acc2-7a292a57caa9" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="41be9d2d-d849-4142-8565-cd32f960be04" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="452d5706-1058-45fe-8f16-2b23b66c2cb8" type="APP:EXPEDITION_REQUEST_NULL_PAYLOAD">
+			<ee:transform doc:name="error-desc" doc:id="8a444754-6618-494f-aa1e-f0331533605c">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: error.description
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="${httpStatus.notFound}" doc:name="httpStatus" doc:id="c03123c8-65e5-4d51-a944-bc99668f74bc" variableName="httpStatus" />
+		</on-error-propagate>
 	</error-handler>
 </mule>

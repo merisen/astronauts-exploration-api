@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="expedflows-test-suite.xml" />
+	<munit:test name="expedflows-test-suite-get-resourceTest" doc:id="3dc8dc51-e754-4107-8f3b-c5e781566a3e" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="306df2a5-797d-4432-a752-4071eba92677" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="mockData" ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": 2,
+        "url": "https://lldev.thespacedevs.com/2.2.0/expedition/2/",
+        "name": "Skylab 2",
+        "start": "1973-05-25T13:00:00Z",
+        "end": "1973-06-22T13:49:48Z",
+        "spacestation": {
+            "id": 6,
+            "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "orbit": "Low Earth Orbit",
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        }
+    },
+    {
+        "id": 3,
+        "url": "https://lldev.thespacedevs.com/2.2.0/expedition/3/",
+        "name": "Skylab 3",
+        "start": "1973-07-28T11:10:50Z",
+        "end": "1973-09-25T22:19:51Z",
+        "spacestation": {
+            "id": 6,
+            "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "orbit": "Low Earth Orbit",
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        }
+    }
+]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="100df43c-21b2-4e4e-96af-8cd14ff12434" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="89476726-8289-4fdb-9dac-fc99973471b6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[vars.mockData]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="a5d63664-5fa6-4041-9b98-31aafe76fce7" >
+				<munit:attributes value='#[queryParams:{stationName:"Skylab"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get-resource" doc:id="6f3639f7-7170-4f64-bec9-2def14cc4a44" name="get-resource"/>
+			<ee:transform doc:name="Transform Message" doc:id="a91d1cd9-0a98-49a4-bcd6-fc57a3dc7cb0" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="expectedResponse" ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": 2,
+        "url": "https://lldev.thespacedevs.com/2.2.0/expedition/2/",
+        "name": "Skylab 2",
+        "start": "1973-05-25T13:00:00Z",
+        "end": "1973-06-22T13:49:48Z",
+        "spacestation": {
+            "id": 6,
+            "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "orbit": "Low Earth Orbit",
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        }
+    },
+    {
+        "id": 3,
+        "url": "https://lldev.thespacedevs.com/2.2.0/expedition/3/",
+        "name": "Skylab 3",
+        "start": "1973-07-28T11:10:50Z",
+        "end": "1973-09-25T22:19:51Z",
+        "spacestation": {
+            "id": 6,
+            "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+            "name": "Skylab",
+            "status": {
+                "id": 2,
+                "name": "De-Orbited"
+            },
+            "orbit": "Low Earth Orbit",
+            "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg"
+        }
+    }
+]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="78bade94-f502-4927-8581-c9b008ca79c9" is="#[MunitTools::equalTo(vars.expectedResponse)]" expression="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="Copy_of_expedflows-test-suite-get-resourceTest" doc:id="e68021ee-2b73-4fd8-b993-70c423271633" description="Test">
+			<munit:behavior>
+				<ee:transform doc:name="Transform Message" doc:id="9f7e214d-0f73-4884-b8dc-c21bb1bf6409">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="mockData"><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "id": 112,
+        "url": "https://lldev.thespacedevs.com/2.2.0/astronaut/112/",
+        "name": "Marc Garneau",
+        "status": {
+            "id": 2,
+            "name": "Retired"
+        },
+        "type": {
+            "id": 2,
+            "name": "Government"
+        },
+        "agency": {
+            "id": 16,
+            "url": "https://lldev.thespacedevs.com/2.2.0/agencies/16/",
+            "name": "Canadian Space Agency",
+            "type": "Government"
+        },
+        "date_of_birth": "1949-02-23",
+        "date_of_death": null,
+        "nationality": "Canadian",
+        "twitter": null,
+        "instagram": null,
+        "bio": "Garneau was one of the first Canadian Astronauts and he became the first Canadian in outer space in October 1984. In 1984, he was seconded to the new Canadian Astronaut Program (CAP), one of six chosen from over 4,000 applicants. He flew on the shuttle Challenger, STS-41-G from October 5 to 13, 1984, as payload specialist. He was promoted to Captain in 1986, and left the Navy in 1989, to become deputy director of the CAP. In 1992–93, he underwent further training to become a mission specialist. He worked as CAPCOM for a number of shuttle flights and was on two further flights himself: STS-77 (May 19 to 29, 1996) and STS-97 (to the ISS, November 30 to December 11, 2000). He has logged over 677 hours in space.\r\n\r\nIn February 2001, he was appointed executive vice-president of the Canadian Space Agency, and became its president on November 22, 2001.",
+        "profile_image": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/astronaut_images/marc2520garneau_image_20181128232810.jpg",
+        "profile_image_thumbnail": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/default/cache/ad/a7/ada7ace540c124ddb9d1756e2cf418da.jpg",
+        "wiki": "https://en.wikipedia.org/wiki/Marc_Garneau"
+	}
+]]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<munit-tools:mock-when doc:name="Mock when" doc:id="78bd67c5-3578-42d7-a7f6-23f90a8771d0" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="9be7bc49-2141-445c-abe6-404edd152903" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+						<munit-tools:payload value="#[vars.mockData]" mediaType="application/json" />
+					</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<munit:set-event doc:name="Set Event" doc:id="dc4f3663-893c-4721-b662-853061519ed2">
+				<munit:attributes value='#[queryParams:{astronautName:"Marc+Garneau", mode:"detailed", image:"true"}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to get-resource" doc:id="28b4f899-a966-48aa-a96c-e90e5ea0d432" name="get-resource" />
+				<ee:transform doc:name="Transform Message" doc:id="4da706cb-1fb2-46c2-ae1c-aaa6fdc8329e">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="expectedResponse"><![CDATA["Visit http://merisen.online/aeapi/astronauts/spacestations/ for a result"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="2df07757-b266-4d12-b0e2-cc92c3f384b4" expression="#[payload]" is="#[MunitTools::equalTo(vars.expectedResponse)]" />
+			</munit:validation>
+		</munit:test>
+	<munit:test name="Copy_of_Copy_of_expedflows-test-suite-get-resourceTest" doc:id="e3bdda4c-b1d7-426e-a999-60421bf7e089" description="Test">
+			<munit:behavior>
+				<ee:transform doc:name="Transform Message" doc:id="b98859b5-2e67-469f-9efd-edfbf2c32472">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="mockData"><![CDATA[%dw 2.0
+output application/json
+---
+[
+        {
+            "id": 2,
+            "url": "https://lldev.thespacedevs.com/2.2.0/expedition/2/",
+            "name": "Skylab 2",
+            "start": "1973-05-25T13:00:00Z",
+            "end": "1973-06-22T13:49:48Z",
+            "spacestation": {
+                "id": 6,
+                "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+                "name": "Skylab",
+                "status": {
+                    "id": 2,
+                    "name": "De-Orbited"
+                },
+                "founded": "1973-05-14",
+                "description": "Skylab was a United States space station launched and operated by NASA, and occupied for about 24 weeks between May 1973 and February 1974 – the only space station the U.S. has operated exclusively. In 1979 it fell back to Earth amid huge worldwide media attention. Skylab included a workshop, a solar observatory, and other systems necessary for crew survival and scientific experiments. It was launched unmanned by a modified Saturn V rocket, with a weight of 170,000 pounds (77,000 kg). Lifting Skylab into low earth orbit was the final mission and launch of a Saturn V rocket (famous for carrying the manned Moon landing missions). Three missions delivered three-astronaut crews in the Apollo command and service module (Apollo CSM), launched by the smaller Saturn IB rocket. For the final two manned missions to Skylab, a backup Apollo CSM/Saturn IB was assembled and made ready in case an in-orbit rescue mission was needed, but this backup vehicle was never flown.",
+                "orbit": "Low Earth Orbit",
+                "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg",
+                "owners": [
+                    {
+                        "id": 44,
+                        "url": "https://lldev.thespacedevs.com/2.2.0/agencies/44/",
+                        "name": "National Aeronautics and Space Administration",
+                        "abbrev": "NASA"
+                    }
+                ]
+            }
+        }
+]]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<munit-tools:mock-when doc:name="Mock when" doc:id="e31c8120-134c-4c7b-a06e-ebc26d55d917" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="89476726-8289-4fdb-9dac-fc99973471b6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+						<munit-tools:payload value="#[vars.mockData]" mediaType="application/json" />
+					</munit-tools:then-return>
+				</munit-tools:mock-when>
+			</munit:behavior>
+			<munit:execution>
+				<munit:set-event doc:name="Set Event" doc:id="c47a428f-b374-4f6b-a32f-d40af62a203d">
+				<munit:attributes value='#[queryParams:{stationName:"Skylab", mode:"detailed",image:"true"}]' />
+				</munit:set-event>
+				<flow-ref doc:name="Flow-ref to get-resource" doc:id="12253d3f-08b8-46c1-a429-fc26aff6244b" name="get-resource" />
+				<ee:transform doc:name="Transform Message" doc:id="e2eaca00-c844-4f18-a0e1-55ba7d4e2ab7">
+					<ee:message />
+					<ee:variables>
+						<ee:set-variable variableName="expectedResponse"><![CDATA["Visit http://merisen.online/aeapi/astronauts/spacestations/ for a result"]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</munit:execution>
+			<munit:validation>
+				<munit-tools:assert-that doc:name="Assert that" doc:id="7acc21a4-6a6a-4c05-974a-13b1bfd4a7e8" expression="#[payload]" is="#[MunitTools::equalTo(vars.expectedResponse)]" />
+			</munit:validation>
+		</munit:test>
+
+
+</mule>

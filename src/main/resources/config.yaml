@@ -18,7 +18,8 @@ ftp:
   username: "aeapi@merisen.online"
   path: "/astronauts"
   html_path: "/astronauts/spacestations/index.html"
-  css_path: "/astronauts/spacestations/split-opl.webflow.css"
+  css_path: "/astronauts/spacestations/css/split-opl.webflow.css"
+  img_path: "/astronauts/spacestations/img.dib"
   spacedevs_path: "/astronauts/actual_spacedevs_astronauts.json"
   iss_path: "/astronauts/actual_iss_astronauts.json"
   all_path: "/astronauts/actual_all_astronauts.json"
@@ -54,3 +55,4 @@ validation:
 
 httpStatus:
   notFound: "404"
+  timeOut: "408"

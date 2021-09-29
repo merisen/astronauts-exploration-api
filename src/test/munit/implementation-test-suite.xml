@@ -436,5 +436,67 @@ output application/json
 			<munit-tools:assert-that doc:name="Assert that" doc:id="08db076a-57cc-4798-9406-af6c11baec56" is="#[MunitTools::equalTo(vars.o)]" expression="#[payload]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="implementation-test-suite-exploration-get-resource-Test" doc:id="0a78704e-fe6f-4ee7-a588-54aa87c311b2" description="Test">
+		<munit:behavior >
+			<ee:transform doc:name="Transform Message" doc:id="15df79e3-f7aa-4ed0-9689-b263daea6d58">
+				<ee:message />
+				<ee:variables>
+					<ee:set-variable variableName="mockData"><![CDATA[%dw 2.0
+output application/json
+---
+[
+        {
+            "id": 2,
+            "url": "https://lldev.thespacedevs.com/2.2.0/expedition/2/",
+            "name": "Skylab 2",
+            "start": "1973-05-25T13:00:00Z",
+            "end": "1973-06-22T13:49:48Z",
+            "spacestation": {
+                "id": 6,
+                "url": "https://lldev.thespacedevs.com/2.2.0/spacestation/6/",
+                "name": "Skylab",
+                "status": {
+                    "id": 2,
+                    "name": "De-Orbited"
+                },
+                "founded": "1973-05-14",
+                "description": "Skylab was a United States space station launched and operated by NASA, and occupied for about 24 weeks between May 1973 and February 1974 – the only space station the U.S. has operated exclusively. In 1979 it fell back to Earth amid huge worldwide media attention. Skylab included a workshop, a solar observatory, and other systems necessary for crew survival and scientific experiments. It was launched unmanned by a modified Saturn V rocket, with a weight of 170,000 pounds (77,000 kg). Lifting Skylab into low earth orbit was the final mission and launch of a Saturn V rocket (famous for carrying the manned Moon landing missions). Three missions delivered three-astronaut crews in the Apollo command and service module (Apollo CSM), launched by the smaller Saturn IB rocket. For the final two manned missions to Skylab, a backup Apollo CSM/Saturn IB was assembled and made ready in case an in-orbit rescue mission was needed, but this backup vehicle was never flown.",
+                "orbit": "Low Earth Orbit",
+                "image_url": "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/spacestation_images/skylab_image_20190215230143.jpeg",
+                "owners": [
+                    {
+                        "id": 44,
+                        "url": "https://lldev.thespacedevs.com/2.2.0/agencies/44/",
+                        "name": "National Aeronautics and Space Administration",
+                        "abbrev": "NASA"
+                    }
+                ]
+            }
+        }
+]]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f8cca697-f8aa-4d3a-8c82-34f548b81a8d" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="ff5bf8d3-b91e-4906-a7fa-ebbada947783" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="04c71b5c-d3ac-440b-90dd-cbd2e87011f9">
+				<munit:attributes value='#[queryParams:{stationName:"Skylab", mode:"detailed",image:"true"}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to exploration-get" doc:id="92c70479-9fb6-4e13-88c4-af383ed194a5" name="exploration-get"/>
+			<ee:transform doc:name="Transform Message" doc:id="c456b294-43ab-45cb-a21f-8f09580a55a8" >
+				<ee:message />
+				<ee:variables >
+					<ee:set-variable variableName="expectedResponse" ><![CDATA["Visit http://merisen.online/aeapi/astronauts/spacestations/ for a result"]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="Assert that" doc:id="08184e8c-ce3c-4680-be20-f30d1133a5e7" expression="#[payload]" is="#[MunitTools::equalTo(null)]" />
+		</munit:validation>
+	</munit:test>
 
 </mule>
