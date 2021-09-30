@@ -1,0 +1,58 @@
+connection:
+  host: "localhost"
+  port: "8083"
+
+mongodb:
+  cluster: "astronauts.vzli9.mongodb.net"
+  user: "astros"
+  password: "F9wTbQ80m9cAsrmG"
+  database: "astronauts"
+  issdb: "iss"
+  astronauts_table: "mongodb+srv://astros:F9wTbQ80m9cAsrmG@astronauts.vzli9.mongodb.net/astronauts"
+  iss_table: "mongodb+srv://astros:F9wTbQ80m9cAsrmG@astronauts.vzli9.mongodb.net/astronauts"
+  dump: "/Volumes/Drive/AstronautsAPI/astronauts-exploration/src/main/resources/api/dump"
+  
+ftp:
+  host: "ftp.wakeyouup.com.ua"
+  port: "21"
+  username: "aeapi@merisen.online"
+  path: "/astronauts"
+  html_path: "/astronauts/spacestations/index.html"
+  css_path: "/astronauts/spacestations/css/split-opl.webflow.css"
+  img_path: "/astronauts/spacestations/img.dib"
+  spacedevs_path: "/astronauts/actual_spacedevs_astronauts.json"
+  iss_path: "/astronauts/actual_iss_astronauts.json"
+  all_path: "/astronauts/actual_all_astronauts.json"
+  
+mail:
+  host: "smtp.gmail.com"
+  port: "465"
+  user: "viktor.duda.it@gmail.com"
+  from: "Astronauts Exploration API - SMTP"
+  subject: "Astronauts Exploration API - SMTP"
+  
+  
+astronauts-research:
+  host: "http://localhost:8081/api/astronauts"
+  iss-host: "http://api.open-notify.org/astros.json"
+  
+astronauts-research-iss:
+  host: "http://localhost:8081/api/iss"
+
+expeditions:
+  host: "http://localhost:8082/api/expedition"
+  
+validation:
+  collectionEmpty: "Collection of data empty, please retry!"
+  contactAdmin: "An error occured! Please contact administrator!"
+  dumpSuccess: "Dump success! Check out dump path in config.yaml."
+  dumpFailed: "Dump failed! Please try again."
+  createCollectionFailed: "Failed to create collection! Please type collection name or contact developers."
+  createCollectionSuccess: "Collection created successful!"
+  dropDatabaseSuccess: "Database 'astronauts' deleted successful!"
+  dropAstronautsCollectionSuccess: "Collection 'astronauts' deleted successful!"
+  dropCollectionSuccess: "Collection was dropped successfully!"
+
+httpStatus:
+  notFound: "404"
+  timeOut: "408"
