@@ -1,8 +1,4 @@
 #Key and value types
-<<<<<<< Updated upstream
-#Fri Sep 24 06:06:05 EEST 2021
-=======
-#Mon Sep 27 11:43:05 EEST 2021
->>>>>>> Stashed changes
+#Fri Oct 01 17:25:53 EEST 2021
 valueType=java.lang.Object
 keyType=java.lang.String

@@ -50,6 +50,7 @@ output application/json
 				<flow-ref doc:name="send-help-variable-name" doc:id="a9fba0e5-3433-45b7-b142-fb849fe3a17b" name="help-var" />
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="dea02bfd-eaa7-4b2c-b34e-ca8ea3af8c6e" name="log-at-exit"/>
 	</sub-flow>
 	<sub-flow name="delete-collection-and-data-from-database" doc:id="335df96e-b34e-47d2-a151-82643bd94ff6" >
 		<flow-ref doc:name="log-at-start" doc:id="ae520b79-d814-42da-adb3-bf2ee2b5b154" name="log-at-start"/>
@@ -181,6 +182,7 @@ output application/json
 				<flow-ref doc:name="help-output-message" doc:id="0c506444-4bdd-4d10-9056-627254482ae0" name="help-var" />
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="bc4076fd-fba4-478b-a4e3-7eae686b69cf" name="log-at-exit"/>
 	</sub-flow>
 	<sub-flow name="dump-collection-from-mongodb" doc:id="f97809fa-bc45-447c-a4b2-9ef9c947bc47" >
 		<flow-ref doc:name="log-at-start" doc:id="229d6087-ab64-474c-b428-4e2ca81cda05" name="log-at-start"/>
@@ -301,6 +303,7 @@ output application/json
 				</ee:transform>
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="4c8b67ba-dd17-428a-8182-1e2913b4ead7" name="log-at-exit"/>
 	</sub-flow>
 	<sub-flow name="astronauts-exploration" doc:id="c50e0df4-7926-4a6b-b703-e5a5bff16d6a" >
 		<flow-ref doc:name="log-at-start" doc:id="4565cddd-b28d-4046-9b14-43ff2ff69e2f" name="log-at-start"/>
@@ -433,5 +436,6 @@ people: payload.people map ( person , indexOfPerson ) -> {
 				<flow-ref doc:name="info-help-output" doc:id="cb1b24bc-4f70-48a3-b29c-0f6380109a50" name="help-var"/>
 			</otherwise>
 		</choice>
+		<flow-ref doc:name="log-at-exit" doc:id="a1a6c3c6-316c-4b66-ae04-bf04b4b264ab" name="log-at-exit"/>
 	</sub-flow>
 </mule>
